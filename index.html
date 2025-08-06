@@ -14,18 +14,18 @@
         }
 
         :root {
-            --klein-blue: #002FA7;
-            --klein-blue-dark: #001C5C;
-            --klein-blue-light: #3A66D9;
-            --accent-color: #00a8ff;
+            --primary-pink: #FF9EB5;
+            --pink-dark: #D8708F;
+            --pink-light: #FFC0CB;
+            --accent-color: #FF6B9C;
             --text-light: #FFFFFF;
-            --text-dark: #333333;
-            --section-bg: #F8FAFF;
+            --text-dark: #5A3A44;
+            --section-bg: #FFF5F7;
         }
 
         body {
-            background: linear-gradient(135deg, #001C5C 0%, #002FA7 100%); /* 调整为与ROM获取部分一致的蓝色 */
-            color: var(--text-light);
+            background: linear-gradient(135deg, #FFC0CB 0%, #FFB6C1 100%); 
+            color: var(--text-dark);
             overflow-x: hidden;
             line-height: 1.6;
             min-height: 100vh;
@@ -43,15 +43,15 @@
             justify-content: space-between;
             align-items: center;
             transition: all 0.3s ease;
-            background: rgba(0, 20, 80, 0.7); /* 半透明背景 */
+            background: rgba(255, 182, 193, 0.7); /* 淡粉色半透明背景 */
             backdrop-filter: blur(10px); /* 高斯模糊效果 */
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
         }
 
         .logo {
             font-size: 1.8rem;
             font-weight: 700;
-            color: var(--text-light);
+            color: var(--text-dark);
             text-decoration: none;
             display: flex;
             align-items: center;
@@ -67,18 +67,19 @@
         }
 
         nav ul li {
-            margin-left: 30px;
+            margin-left: 15px; /* 减少间距以容纳新项 */
         }
 
         nav ul li a {
-            color: var(--text-light);
+            color: var(--text-dark);
             text-decoration: none;
             font-weight: 500;
-            font-size: 1.1rem;
-            padding: 8px 15px;
+            font-size: 1.05rem; /* 稍微减小字体 */
+            padding: 8px 12px; /* 减小内边距 */
             border-radius: 30px;
             transition: all 0.3s ease;
             position: relative;
+            white-space: nowrap; /* 防止文字换行 */
         }
 
         nav ul li a:hover {
@@ -122,18 +123,18 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at center, rgba(0, 47, 167, 0.2) 0%, transparent 70%);
+            background: radial-gradient(circle at center, rgba(255, 182, 193, 0.3) 0%, transparent 70%);
             z-index: -1;
         }
 
         .hero h1 {
             font-size: 4.5rem;
             margin-bottom: 20px;
-            background: linear-gradient(to right, #fff 0%, #a3b8ff 100%);
+            background: linear-gradient(to right, #5A3A44 0%, #D8708F 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             animation: fadeInUp 1s ease;
-            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         }
 
         .hero h2 {
@@ -143,7 +144,7 @@
             max-width: 800px;
             animation: fadeInUp 1s ease 0.2s forwards;
             opacity: 0;
-            color: rgba(255, 255, 255, 0.9);
+            color: var(--text-dark);
         }
 
         .cta-button {
@@ -158,7 +159,7 @@
             transition: all 0.3s ease;
             animation: fadeInUp 1s ease 0.4s forwards;
             opacity: 0;
-            box-shadow: 0 10px 30px rgba(0, 168, 255, 0.4);
+            box-shadow: 0 10px 30px rgba(255, 107, 156, 0.4);
             position: relative;
             overflow: hidden;
             z-index: 1;
@@ -182,7 +183,7 @@
 
         .cta-button:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0, 168, 255, 0.6);
+            box-shadow: 0 15px 40px rgba(255, 107, 156, 0.6);
         }
 
         /* 内容部分 */
@@ -196,12 +197,12 @@
             font-size: 2.8rem;
             margin-bottom: 80px;
             position: relative;
-            color: white; /* 默认白色 */
+            color: var(--text-dark); 
         }
 
-        /* 修改点：ROM介绍部分的标题改为深蓝色 */
+        /* 修改点：ROM介绍部分的标题改为深粉色 */
         .rom-intro .section-title {
-            color: var(--klein-blue-dark); /* 深蓝色标题 */
+            color: var(--pink-dark); 
         }
 
         .section-title::after {
@@ -236,7 +237,7 @@
             background: white;
             border-radius: 20px;
             padding: 40px 30px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
             transition: all 0.4s ease;
             position: relative;
             overflow: hidden;
@@ -245,7 +246,7 @@
 
         .feature-card:hover {
             transform: translateY(-15px);
-            box-shadow: 0 15px 50px rgba(0, 47, 167, 0.15);
+            box-shadow: 0 15px 50px rgba(216, 112, 143, 0.15);
         }
 
         .feature-card::before {
@@ -255,13 +256,13 @@
             left: 0;
             width: 100%;
             height: 5px;
-            background: var(--klein-blue);
+            background: var(--primary-pink);
             z-index: 2;
         }
 
         .feature-icon {
             font-size: 3.5rem;
-            color: var(--klein-blue);
+            color: var(--accent-color);
             margin-bottom: 25px;
             transition: transform 0.3s ease;
         }
@@ -273,12 +274,12 @@
         .feature-card h3 {
             font-size: 1.8rem;
             margin-bottom: 15px;
-            color: var(--klein-blue-dark);
+            color: var(--pink-dark);
         }
 
         /* ROM获取部分 */
         .rom-download {
-            background: linear-gradient(135deg, #001C5C 0%, #002FA7 100%);
+            background: linear-gradient(135deg, #FFB6C1 0%, #FF9EB5 100%);
             padding-bottom: 150px;
         }
 
@@ -289,12 +290,12 @@
         }
 
         .download-card {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.3);
             backdrop-filter: blur(10px);
             border-radius: 20px;
             padding: 40px;
             text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.4);
             transition: all 0.4s ease;
             position: relative;
             overflow: hidden;
@@ -307,14 +308,14 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(45deg, rgba(255,255,255,0.1), transparent);
+            background: linear-gradient(45deg, rgba(255,255,255,0.2), transparent);
             z-index: -1;
         }
 
         .download-card:hover {
             transform: translateY(-10px);
-            background: rgba(255, 255, 255, 0.2);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
         }
 
         .device-icon {
@@ -331,6 +332,7 @@
         .download-card h3 {
             font-size: 1.8rem;
             margin-bottom: 15px;
+            color: var(--text-dark);
         }
 
         .download-button {
@@ -372,10 +374,11 @@
 
         /* 页脚 */
         footer {
-            background: #000915;
+            background: #FFDEE6;
             padding: 50px 10% 30px;
             text-align: center;
             position: relative;
+            color: var(--text-dark);
         }
 
         .footer-content {
@@ -396,22 +399,23 @@
             align-items: center;
             width: 50px;
             height: 50px;
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.5);
             border-radius: 50%;
             margin: 0 10px;
-            color: white;
+            color: var(--text-dark);
             font-size: 1.3rem;
             transition: all 0.3s ease;
         }
 
         .social-icons a:hover {
             background: var(--accent-color);
+            color: white;
             transform: translateY(-5px);
         }
 
         .copyright {
             font-size: 0.9rem;
-            opacity: 0.7;
+            opacity: 0.8;
             margin-top: 10px;
         }
 
@@ -428,6 +432,17 @@
         }
 
         /* 响应式设计 */
+        @media (max-width: 1200px) {
+            nav ul li {
+                margin-left: 10px;
+            }
+            
+            nav ul li a {
+                font-size: 0.95rem;
+                padding: 6px 10px;
+            }
+        }
+
         @media (max-width: 992px) {
             .hero h1 {
                 font-size: 3.5rem;
@@ -435,6 +450,10 @@
             
             .section {
                 padding: 80px 5%;
+            }
+            
+            nav ul li {
+                margin-left: 8px;
             }
         }
 
@@ -445,13 +464,13 @@
             }
             
             nav ul {
-                margin-top: 20px;
+                margin-top: 15px;
                 flex-wrap: wrap;
                 justify-content: center;
             }
             
             nav ul li {
-                margin: 5px 10px;
+                margin: 5px 8px;
             }
             
             .hero h1 {
@@ -473,7 +492,7 @@
             }
             
             nav ul li {
-                margin: 5px;
+                margin: 4px;
             }
             
             .feature-card, .download-card {
@@ -483,12 +502,13 @@
     </style>
 </head>
 <body>
-    <!-- 导航栏 - 固定定位并添加高斯模糊 -->
+    <!-- 导航栏 - 添加了"插件介绍"项 -->
     <header>
         <a href="#" class="logo">LUCKY<span>OS</span></a>
         <nav>
             <ul>
                 <li><a href="#intro">ROM介绍</a></li>
+                <li><a href="#plugin-intro">插件介绍</a></li> <!-- 新增项 -->
                 <li><a href="#download">获取LUCKY OS & DNA-Android插件</a></li>
                 <li><a href="https://qm.qq.com/q/w3GmlwstfG">点击进入QQ群</a></li>
                 <li><a href="http://www.coolapk.com/u/24128753">作者酷安</a></li>
@@ -498,14 +518,15 @@
 
     <!-- 主视觉区域 -->
     <section class="hero">
-        <h1>LUCKY OS</h1>
+        <h1>LUCKY OS & Tools</h1>
         <h2>基于HyperOS深度优化的ROM，让您的设备焕发新生</h2>
+        <h2>用于方便开包的快捷插件，让你不再头疼</h2>
         <a href="#download" class="cta-button">立即体验 <i class="fas fa-arrow-right"></i></a>
     </section>
 
     <!-- ROM介绍部分 -->
     <section id="intro" class="section rom-intro">
-        <h2 class="section-title">ROM 介绍</h2>
+        <h2 class="section-title">ROM介绍</h2>
         <div class="features-container">
             <div class="feature-card">
                 <div class="feature-icon">
@@ -525,8 +546,8 @@
                 <div class="feature-icon">
                     <i class="fas fa-paint-brush"></i>
                 </div>
-                <h3>个性定制</h3>
-                <p>内置仿ColorOS 14我的设备界面，简约美学设计，满足个性化需求</p>
+                <h3>内置多种ROOT方式</h3>
+                <p>内置多种ROOT管理器及权限选择方式，通过刷入时您来选择的ROOT方式，方便您进行搞基</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">
@@ -534,6 +555,41 @@
                 </div>
                 <h3>插件支持</h3>
                 <p>专为LUCKY OS开发的DNA-Android插件，支持自定义ROM制作，完全开源自由二改</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 插件介绍部分 -->
+    <section id="plugin-intro" class="section rom-intro">
+        <h2 class="section-title">插件介绍</h2>
+        <div class="features-container">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <h3>方便快捷</h3>
+                <p>全自动开包，不让您为了开包而头疼</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-battery-full"></i>
+                </div>
+                <h3>Bug少</h3>
+                <p>只要您提出bug，立马进行修改，绝不拖延</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-paint-brush"></i>
+                </div>
+                <h3>适配主流软件</h3>
+                <p>适配DNA-Android软件，是市面上主流做包软件</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-code-branch"></i>
+                </div>
+                <h3>开源化支持</h3>
+                <p>本插件完全开源，您可以自由二改</p>
             </div>
         </div>
     </section>
@@ -555,9 +611,18 @@
                 <div class="device-icon">
                     <i class="fas fa-tools"></i>
                 </div>
-                <h3>DNA-Android插件</h3>
-                <p>针对于LUCKY OS开发的DNA-Android插件，方便您自己制作ROM，完全开源可自由二改</p>
-                <a href="https://www.123865.com/s/FehVVv-uqal" class="download-button">获取DNA-Android插件</a>
+                <h3>LUCKY OS Tools</h3>
+                <p>针对于LUCKY OS开发的DNA-Android插件，方便Redmi K60 Pro用户来自己制作ROM，完全开源可自由二改</p>
+                <a href="https://www.123865.com/s/FehVVv-uqal" class="download-button">获取LUCKY OS Tools</a>
+                <p class="copyright">提取码：FK2e</p>
+            </div>
+                <div class="download-card">
+                <div class="device-icon">
+                <i class="fas fa-tools"></i>
+                </div>
+                <h3>ProjectTreble Tools</h3>
+                <p>针对于其他机型开包锁制作，方便您自己制作ROM，完全开源可自由二改</p>
+                <a href="https://www.123865.com/s/FehVVv-uqal" class="download-button">获取ProjectTreble Tools</a>
                 <p class="copyright">提取码：FK2e</p>
             </div>
         </div>
