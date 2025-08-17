@@ -49,6 +49,11 @@
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
         }
 
+        header.scrolled {
+            padding: 15px 5%;
+            background: rgba(0, 26, 94, 0.95);
+        }
+
         .logo {
             font-size: 1.8rem;
             font-weight: 700;
@@ -56,6 +61,11 @@
             text-decoration: none;
             display: flex;
             align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
         }
 
         .logo span {
@@ -165,6 +175,7 @@
             position: relative;
             overflow: hidden;
             z-index: 1;
+            will-change: transform, box-shadow;
         }
 
         .cta-button::before {
@@ -243,10 +254,11 @@
             position: relative;
             overflow: hidden;
             z-index: 1;
+            will-change: transform, box-shadow;
         }
 
         .feature-card:hover {
-            transform: translateY(-15px);
+            transform: translateY(-15px) scale(1.02);
             box-shadow: 0 15px 50px rgba(0, 26, 94, 0.15);
         }
 
@@ -259,6 +271,12 @@
             height: 5px;
             background: var(--primary-blue);
             z-index: 2;
+            transition: height 0.3s ease;
+        }
+
+        .feature-card:hover::before {
+            height: 100%;
+            opacity: 0.05;
         }
 
         .feature-icon {
@@ -301,6 +319,7 @@
             position: relative;
             overflow: hidden;
             transition: all 0.4s ease;
+            will-change: transform, box-shadow;
         }
         
         .guide-card:hover {
@@ -317,6 +336,12 @@
             height: 100%;
             background: var(--accent-color);
             z-index: 2;
+            transition: width 0.3s ease;
+        }
+        
+        .guide-card:hover::before {
+            width: 100%;
+            opacity: 0.05;
         }
         
         .guide-header {
@@ -336,6 +361,11 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .guide-card:hover .guide-icon {
+            transform: rotate(15deg);
         }
         
         .guide-title {
@@ -353,6 +383,11 @@
             padding-left: 40px;
             position: relative;
             line-height: 1.6;
+            transition: transform 0.3s ease;
+        }
+        
+        .guide-steps li:hover {
+            transform: translateX(5px);
         }
         
         .guide-steps li::before {
@@ -380,6 +415,12 @@
             margin-top: 20px;
             border-radius: 0 8px 8px 0;
             font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        
+        .guide-note:hover {
+            background: rgba(74, 144, 226, 0.2);
+            transform: translateY(-2px);
         }
 
         /* ROM获取部分 */
@@ -404,6 +445,7 @@
             transition: all 0.4s ease;
             position: relative;
             overflow: hidden;
+            will-change: transform, box-shadow;
         }
 
         .download-card::before {
@@ -418,7 +460,7 @@
         }
 
         .download-card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-10px) scale(1.02);
             background: rgba(255, 255, 255, 0.4);
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
         }
@@ -457,6 +499,7 @@
             position: relative;
             overflow: hidden;
             z-index: 1;
+            will-change: transform, background, color;
         }
 
         .download-button::before {
@@ -527,6 +570,39 @@
             opacity: 0.8;
             margin-top: 10px;
         }
+        
+        /* 回到顶部按钮 */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--accent-color);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 999;
+            box-shadow: 0 5px 15px rgba(0, 102, 255, 0.4);
+        }
+        
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .back-to-top:hover {
+            transform: translateY(-5px);
+            background: white;
+            color: var(--accent-color);
+        }
 
         /* 动画效果 */
         @keyframes fadeInUp {
@@ -539,6 +615,18 @@
                 transform: translateY(0);
             }
         }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
+        }
 
         /* 响应式设计 - 优化移动端显示 */
         .menu-toggle {
@@ -547,6 +635,11 @@
             color: white;
             cursor: pointer;
             z-index: 1001;
+            transition: transform 0.3s ease;
+        }
+        
+        .menu-toggle:hover {
+            transform: rotate(90deg);
         }
 
         @media (max-width: 1200px) {
@@ -918,6 +1011,11 @@
             <p class="copyright">作者为在校初中生(10后) 回复可能不及时 望谅解</p>
         </div>
     </footer>
+    
+    <!-- 回到顶部按钮 -->
+    <div class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
 
     <script>
         // 移动端菜单切换
@@ -946,7 +1044,8 @@
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.style.animation = `fadeInUp 1s ease forwards`;
+                    entry.target.style.animation = `fadeInUp 0.8s ease forwards`;
+                    observer.unobserve(entry.target);
                 }
             });
         }, observerOptions);
@@ -956,8 +1055,8 @@
             observer.observe(element);
         });
 
-        // 非线性平滑滚动效果
-        document.querySelectorAll('nav a[href^="#"], .cta-button').forEach(anchor => {
+        // 平滑滚动效果
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function(e) {
                 e.preventDefault();
                 
@@ -970,34 +1069,57 @@
                     const headerHeight = document.querySelector('header').offsetHeight;
                     const targetPosition = targetElement.offsetTop - headerHeight;
                     
-                    // 非线性平滑滚动函数
-                    function smoothScroll(targetPosition, duration = 1000) {
-                        const startPosition = window.pageYOffset;
-                        const distance = targetPosition - startPosition;
-                        let startTime = null;
-                        
-                        function animation(currentTime) {
-                            if (startTime === null) startTime = currentTime;
-                            const timeElapsed = currentTime - startTime;
-                            const run = easeInOutQuad(timeElapsed, startPosition, distance, duration);
-                            window.scrollTo(0, run);
-                            if (timeElapsed < duration) requestAnimationFrame(animation);
-                        }
-                        
-                        // 缓动函数（非线性）
-                        function easeInOutQuad(t, b, c, d) {
-                            t /= d / 2;
-                            if (t < 1) return c / 2 * t * t + b;
-                            t--;
-                            return -c / 2 * (t * (t - 2) - 1) + b;
-                        }
-                        
-                        requestAnimationFrame(animation);
-                    }
-                    
-                    smoothScroll(targetPosition, 800);
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
                 }
             });
+        });
+        
+        // 滚动时更新导航栏样式
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            const backToTop = document.getElementById('backToTop');
+            
+            if (window.scrollY > 100) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+            
+            // 显示/隐藏回到顶部按钮
+            if (window.scrollY > 500) {
+                backToTop.classList.add('visible');
+            } else {
+                backToTop.classList.remove('visible');
+            }
+        });
+        
+        // 回到顶部功能
+        document.getElementById('backToTop').addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // 初始化页面滚动位置
+        window.addEventListener('load', () => {
+            if (window.location.hash) {
+                const targetElement = document.querySelector(window.location.hash);
+                if (targetElement) {
+                    const headerHeight = document.querySelector('header').offsetHeight;
+                    const targetPosition = targetElement.offsetTop - headerHeight;
+                    
+                    setTimeout(() => {
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                    }, 300);
+                }
+            }
         });
     </script>
 </body>
