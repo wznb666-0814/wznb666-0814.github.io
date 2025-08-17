@@ -14,24 +14,25 @@
         }
 
         :root {
-            --primary-pink: #FF9EB5;
-            --pink-dark: #D8708F;
-            --pink-light: #FFC0CB;
-            --accent-color: #FF6B9C;
+            --primary-blue: #002FA7;
+            --blue-dark: #001A5E;
+            --blue-light: #4A90E2;
+            --accent-color: #0066FF;
             --text-light: #FFFFFF;
-            --text-dark: #5A3A44;
-            --section-bg: #FFF5F7;
+            --text-dark: #0A1E4F;
+            --section-bg: #F5F8FF;
+            --guide-bg: #E6F0FF;
         }
 
         body {
-            background: linear-gradient(135deg, #FFC0CB 0%, #FFB6C1 100%); 
+            background: linear-gradient(135deg, #4A90E2 0%, #002FA7 100%); 
             color: var(--text-dark);
             overflow-x: hidden;
             line-height: 1.6;
             min-height: 100vh;
         }
 
-        /* 导航栏样式 - 固定定位并添加高斯模糊 */
+        /* 导航栏样式 */
         header {
             position: fixed;
             top: 0;
@@ -43,22 +44,22 @@
             justify-content: space-between;
             align-items: center;
             transition: all 0.3s ease;
-            background: rgba(255, 182, 193, 0.7); /* 淡粉色半透明背景 */
-            backdrop-filter: blur(10px); /* 高斯模糊效果 */
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            background: rgba(0, 47, 167, 0.85);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
         }
 
         .logo {
             font-size: 1.8rem;
             font-weight: 700;
-            color: var(--text-dark);
+            color: var(--text-light);
             text-decoration: none;
             display: flex;
             align-items: center;
         }
 
         .logo span {
-            color: var(--accent-color);
+            color: #4A90E2;
         }
 
         nav ul {
@@ -67,23 +68,24 @@
         }
 
         nav ul li {
-            margin-left: 15px; /* 减少间距以容纳新项 */
+            margin-left: 15px;
         }
 
         nav ul li a {
-            color: var(--text-dark);
+            color: var(--text-light);
             text-decoration: none;
             font-weight: 500;
-            font-size: 1.05rem; /* 稍微减小字体 */
-            padding: 8px 12px; /* 减小内边距 */
+            font-size: 1.05rem;
+            padding: 8px 12px;
             border-radius: 30px;
             transition: all 0.3s ease;
             position: relative;
-            white-space: nowrap; /* 防止文字换行 */
+            white-space: nowrap;
         }
 
         nav ul li a:hover {
-            color: var(--accent-color);
+            color: #4A90E2;
+            background: rgba(255, 255, 255, 0.15);
         }
 
         nav ul li a::after {
@@ -113,7 +115,7 @@
             padding: 0 20px;
             position: relative;
             overflow: hidden;
-            padding-top: 80px; /* 为固定顶栏留出空间 */
+            padding-top: 80px;
         }
 
         .hero::before {
@@ -123,14 +125,14 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at center, rgba(255, 182, 193, 0.3) 0%, transparent 70%);
+            background: radial-gradient(circle at center, rgba(74, 144, 226, 0.3) 0%, transparent 70%);
             z-index: -1;
         }
 
         .hero h1 {
             font-size: 4.5rem;
             margin-bottom: 20px;
-            background: linear-gradient(to right, #5A3A44 0%, #D8708F 100%);
+            background: linear-gradient(to right, #FFFFFF 0%, #4A90E2 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             animation: fadeInUp 1s ease;
@@ -144,7 +146,7 @@
             max-width: 800px;
             animation: fadeInUp 1s ease 0.2s forwards;
             opacity: 0;
-            color: var(--text-dark);
+            color: var(--text-light);
         }
 
         .cta-button {
@@ -159,7 +161,7 @@
             transition: all 0.3s ease;
             animation: fadeInUp 1s ease 0.4s forwards;
             opacity: 0;
-            box-shadow: 0 10px 30px rgba(255, 107, 156, 0.4);
+            box-shadow: 0 10px 30px rgba(0, 102, 255, 0.4);
             position: relative;
             overflow: hidden;
             z-index: 1;
@@ -183,7 +185,7 @@
 
         .cta-button:hover {
             transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(255, 107, 156, 0.6);
+            box-shadow: 0 15px 40px rgba(0, 102, 255, 0.6);
         }
 
         /* 内容部分 */
@@ -200,9 +202,8 @@
             color: var(--text-dark); 
         }
 
-        /* 修改点：ROM介绍部分的标题改为深粉色 */
         .rom-intro .section-title {
-            color: var(--pink-dark); 
+            color: var(--blue-dark); 
         }
 
         .section-title::after {
@@ -246,7 +247,7 @@
 
         .feature-card:hover {
             transform: translateY(-15px);
-            box-shadow: 0 15px 50px rgba(216, 112, 143, 0.15);
+            box-shadow: 0 15px 50px rgba(0, 26, 94, 0.15);
         }
 
         .feature-card::before {
@@ -256,7 +257,7 @@
             left: 0;
             width: 100%;
             height: 5px;
-            background: var(--primary-pink);
+            background: var(--primary-blue);
             z-index: 2;
         }
 
@@ -274,12 +275,116 @@
         .feature-card h3 {
             font-size: 1.8rem;
             margin-bottom: 15px;
-            color: var(--pink-dark);
+            color: var(--blue-dark);
+        }
+
+        /* 使用指南部分 */
+        .usage-guide {
+            background: var(--guide-bg);
+            padding: 100px 10% 150px;
+            clip-path: polygon(0 0, 100% 5%, 100% 100%, 0% 100%);
+            margin-top: -50px;
+        }
+        
+        .guide-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 40px;
+            margin-top: 50px;
+        }
+        
+        .guide-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+        
+        .guide-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 50px rgba(0, 26, 94, 0.15);
+        }
+        
+        .guide-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: var(--accent-color);
+            z-index: 2;
+        }
+        
+        .guide-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+        
+        .guide-icon {
+            font-size: 2.5rem;
+            color: var(--accent-color);
+            margin-right: 20px;
+            width: 70px;
+            height: 70px;
+            background: rgba(0, 102, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .guide-title {
+            font-size: 1.8rem;
+            color: var(--blue-dark);
+        }
+        
+        .guide-steps {
+            list-style: none;
+            counter-reset: step-counter;
+        }
+        
+        .guide-steps li {
+            margin-bottom: 20px;
+            padding-left: 40px;
+            position: relative;
+            line-height: 1.6;
+        }
+        
+        .guide-steps li::before {
+            counter-increment: step-counter;
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 30px;
+            height: 30px;
+            background: var(--primary-blue);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        
+        .guide-note {
+            background: rgba(74, 144, 226, 0.1);
+            border-left: 3px solid var(--accent-color);
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.9rem;
         }
 
         /* ROM获取部分 */
         .rom-download {
-            background: linear-gradient(135deg, #FFB6C1 0%, #FF9EB5 100%);
+            background: linear-gradient(135deg, #4A90E2 0%, #002FA7 100%);
             padding-bottom: 150px;
         }
 
@@ -332,7 +437,11 @@
         .download-card h3 {
             font-size: 1.8rem;
             margin-bottom: 15px;
-            color: var(--text-dark);
+            color: var(--text-light);
+        }
+
+        .download-card p {
+            color: var(--text-light);
         }
 
         .download-button {
@@ -374,7 +483,7 @@
 
         /* 页脚 */
         footer {
-            background: #FFDEE6;
+            background: #E6F0FF;
             padding: 50px 10% 30px;
             text-align: center;
             position: relative;
@@ -431,7 +540,15 @@
             }
         }
 
-        /* 响应式设计 */
+        /* 响应式设计 - 优化移动端显示 */
+        .menu-toggle {
+            display: none;
+            font-size: 1.8rem;
+            color: white;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
         @media (max-width: 1200px) {
             nav ul li {
                 margin-left: 10px;
@@ -455,34 +572,110 @@
             nav ul li {
                 margin-left: 8px;
             }
+            
+            .guide-container {
+                grid-template-columns: 1fr;
+            }
+
+            .features-container, .download-container {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            }
         }
 
         @media (max-width: 768px) {
-            header {
-                padding: 15px 5%;
-                flex-direction: column;
+            .menu-toggle {
+                display: block;
             }
-            
+
+            nav {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 70%;
+                height: 100vh;
+                background: rgba(0, 47, 167, 0.95);
+                backdrop-filter: blur(10px);
+                transition: all 0.5s ease;
+                padding-top: 80px;
+            }
+
+            nav.active {
+                right: 0;
+            }
+
             nav ul {
-                margin-top: 15px;
-                flex-wrap: wrap;
-                justify-content: center;
+                flex-direction: column;
+                padding: 20px;
             }
-            
+
             nav ul li {
-                margin: 5px 8px;
+                margin: 15px 0;
             }
-            
+
+            nav ul li a {
+                display: block;
+                padding: 12px 20px;
+                text-align: center;
+                font-size: 1.1rem;
+            }
+
             .hero h1 {
                 font-size: 2.8rem;
             }
             
             .hero h2 {
                 font-size: 1.4rem;
+                padding: 0 15px;
             }
             
             .section-title {
                 font-size: 2.2rem;
+                margin-bottom: 50px;
+            }
+
+            .feature-card, .download-card, .guide-card {
+                padding: 25px 20px;
+            }
+
+            .feature-icon {
+                font-size: 2.8rem;
+            }
+
+            .feature-card h3, .guide-title, .download-card h3 {
+                font-size: 1.6rem;
+            }
+
+            .guide-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .guide-icon {
+                margin-bottom: 15px;
+            }
+
+            .guide-steps li {
+                padding-left: 35px;
+            }
+            
+            .guide-steps li::before {
+                width: 25px;
+                height: 25px;
+                font-size: 0.8rem;
+            }
+
+            .rom-intro {
+                clip-path: polygon(0 0, 100% 3%, 100% 100%, 0% 100%);
+                padding-top: 120px;
+            }
+
+            .usage-guide {
+                clip-path: polygon(0 0, 100% 3%, 100% 100%, 0% 100%);
+            }
+
+            .cta-button {
+                padding: 12px 30px;
+                font-size: 1.1rem;
             }
         }
 
@@ -490,25 +683,54 @@
             .hero h1 {
                 font-size: 2.2rem;
             }
-            
-            nav ul li {
-                margin: 4px;
+
+            .hero h2 {
+                font-size: 1.2rem;
             }
             
-            .feature-card, .download-card {
-                padding: 30px 20px;
+            nav ul li {
+                margin: 10px 0;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+
+            .feature-card, .download-card, .guide-card {
+                padding: 20px 15px;
+            }
+
+            .feature-icon {
+                font-size: 2.5rem;
+                margin-bottom: 15px;
+            }
+
+            .device-icon {
+                font-size: 2.5rem;
+            }
+
+            .download-button {
+                padding: 10px 25px;
+            }
+
+            .section {
+                padding: 70px 5%;
             }
         }
     </style>
 </head>
 <body>
-    <!-- 导航栏 - 添加了"插件介绍"项 -->
+    <!-- 导航栏 -->
     <header>
         <a href="#" class="logo">LUCKY<span>OS</span></a>
-        <nav>
+        <div class="menu-toggle" id="menuToggle">
+            <i class="fas fa-bars"></i>
+        </div>
+        <nav id="navMenu">
             <ul>
                 <li><a href="#intro">ROM介绍</a></li>
-                <li><a href="#plugin-intro">插件介绍</a></li> <!-- 新增项 -->
+                <li><a href="#plugin-intro">插件介绍</a></li>
+                <li><a href="#usage">使用教程</a></li>
                 <li><a href="#download">获取LUCKY OS & DNA-Android插件</a></li>
                 <li><a href="https://qm.qq.com/q/w3GmlwstfG">点击进入QQ群</a></li>
                 <li><a href="http://www.coolapk.com/u/24128753">作者酷安</a></li>
@@ -533,7 +755,7 @@
                     <i class="fas fa-bolt"></i>
                 </div>
                 <h3>日用完美</h3>
-                <p>LUCKY OS经过深度优化，提供流畅的系统体验，极致精简，降低设备运行时的压力</p>
+                <p>LUCKY OS经过深度优化，提供流畅的系统体验，降低设备运行时的压力</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">
@@ -546,15 +768,15 @@
                 <div class="feature-icon">
                     <i class="fas fa-paint-brush"></i>
                 </div>
-                <h3>内置多种ROOT方式</h3>
-                <p>内置多种ROOT管理器及权限选择方式，通过刷入时您来选择的ROOT方式，方便您进行搞基</p>
+                <h3>内置更多功能</h3>
+                <p>通过在build.prop&xml中添加特性代码，开启官方包未启用的系统特性</p>
             </div>
             <div class="feature-card">
                 <div class="feature-icon">
                     <i class="fas fa-code-branch"></i>
                 </div>
-                <h3>插件支持</h3>
-                <p>专为LUCKY OS开发的DNA-Android插件，支持自定义ROM制作，完全开源自由二改</p>
+                <h3>极致精简</h3>
+                <p>通过删除product&system中的系统内置臃肿apk实现精简，降低设备运行时的压力，降低设备运行时的内存占用</p>
             </div>
         </div>
     </section>
@@ -574,7 +796,7 @@
                 <div class="feature-icon">
                     <i class="fas fa-battery-full"></i>
                 </div>
-                <h3>Bug少</h3>
+                <h3>更新迭代完善</h3>
                 <p>只要您提出bug，立马进行修改，绝不拖延</p>
             </div>
             <div class="feature-card">
@@ -590,6 +812,64 @@
                 </div>
                 <h3>开源化支持</h3>
                 <p>本插件完全开源，您可以自由二改</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 使用指南部分 -->
+    <section id="usage" class="section usage-guide">
+        <h2 class="section-title">使用教程</h2>
+        <div class="guide-container">
+            <div class="guide-card">
+                <div class="guide-header">
+                    <div class="guide-icon">
+                        <i class="fas fa-mobile-alt"></i>
+                    </div>
+                    <h3 class="guide-title">LUCKY OS 刷入方式</h3>
+                </div>
+                <ol class="guide-steps">
+                    <li>在“获取LUCKY OS”云盘中，下载LUCKY OS，推荐下载最新版本，然后，请确保您的设备已解锁Bootloader，不解Bootloader的滚</li>
+                    <li>将下载的ROM包解压到电脑任意位置，要保证所在位置的剩余存储空间 > 20GB</li>
+                    <li>重启手机进入Fastboot模式（电源键+音量减键）</li>
+                    <li>运行ROM包文件夹内的“线刷点我.exe”</li>
+                    <li>根据自己需要个性化选择选项</li>
+                    <li>刷入完成后重启设备，首次启动可能需要5-10分钟，请耐心等待</li>
+                </ol>
+                <div class="guide-note">
+                    <strong>注意：</strong>首次刷入本ROM要格式化Data！刷机前请务必备份重要数据！
+                </div>
+            </div>
+            
+            <div class="guide-card">
+                <div class="guide-header">
+                    <div class="guide-icon">
+                        <i class="fas fa-plug"></i>
+                    </div>
+                    <h3 class="guide-title">DNA-Android插件使用方式</h3>
+                </div>
+                <ol class="guide-steps">
+                    <li>在“获取方式”中选择需要的版本进行下载插件</li>
+                    <li>打开手机上的DNA-Android</li>
+                    <li>新建一个工程</li>
+                    <li>点击进入插件页面</li>
+                    <li>点击屏幕右下角的文件夹图标</li>
+                    <li>找到你下载的插件，安装</li>
+                    <li>本插件使用时要用到super分区内的镜像：</li>
+                    <li>mi-ext（你要移植的机型里的）</li>
+                    <li>product（你要移植的机型里的）</li>
+                    <li>system（你要移植的机型里的）</li>
+                    <li>system_ext（你要移植的机型里的）</li>
+                    <li>system_dlkm（官方）</li>
+                    <li>vendor（官方）</li>
+                    <li>vendor_dlkm（官方）</li>
+                    <li>odm（官方）</li>
+                    <li>全部分解这些镜像到data/DNA/你的工程名字</li>
+                    <li>点击插件，根据插件提示输入参数，运行就好了</li>
+                    <li>到data/DNA/你的工程名字中找到各个分区的文件夹，也可以自己添加修改，也可以直接用DNA-Android打包成镜像</li>
+                </ol>
+                <div class="guide-note">
+                    <strong>提示：</strong>插件支持自定义模块添加，详细配置请参考QQ群公告上的文档说明。
+                </div>
             </div>
         </div>
     </section>
@@ -632,6 +912,12 @@
     <footer>
         <div class="footer-content">
             <a href="#" class="logo">LUCKY<span>OS</span></a>
+            <div class="social-icons">
+                <a href="#"><i class="fab fa-qq"></i></a>
+                <a href="#"><i class="fab fa-weixin"></i></a>
+                <a href="#"><i class="fab fa-github"></i></a>
+                <a href="#"><i class="fab fa-android"></i></a>
+            </div>
             <p class="copyright">上文所有内容均由酷安@在摆烂中沉沦制作</p>
             <p class="copyright">任何技术问题请联系作者酷安或进QQ群：1053736212</p>
             <p class="copyright">作者马上升初三了 可能会蒸发一段时间 有更新QQ群里@我就行</p>
@@ -640,6 +926,22 @@
     </footer>
 
     <script>
+        // 移动端菜单切换
+        const menuToggle = document.getElementById('menuToggle');
+        const navMenu = document.getElementById('navMenu');
+        
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+        
+        // 点击菜单项后关闭菜单
+        const navLinks = document.querySelectorAll('nav ul li a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+            });
+        });
+
         // 滚动动画效果
         const observerOptions = {
             root: null,
@@ -655,7 +957,7 @@
             });
         }, observerOptions);
 
-        document.querySelectorAll('.feature-card, .download-card, .section-title').forEach(element => {
+        document.querySelectorAll('.feature-card, .download-card, .section-title, .guide-card').forEach(element => {
             element.style.opacity = '0';
             observer.observe(element);
         });
