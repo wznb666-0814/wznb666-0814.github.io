@@ -33,8 +33,9 @@
             line-height: 1.6;
             min-height: 100vh;
             padding-top: 80px;
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
+            /* 移动端减少模糊效果 */
+            backdrop-filter: blur(3px);
+            -webkit-backdrop-filter: blur(3px);
         }
 
         /* 顶部顶栏：常驻固定顶部 - 增加z-index确保在最上层 */
@@ -49,8 +50,9 @@
             justify-content: space-between;
             align-items: center;
             background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
+            /* 移动端减少模糊效果 */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             border-bottom: 1px solid var(--glass-border);
             box-shadow: var(--glass-shadow);
         }
@@ -191,7 +193,7 @@
             position: relative;
             overflow: hidden;
             z-index: 1;
-            will-change: transform, box-shadow;
+            /* 移除will-change，移动端优化 */
             transform-origin: center center;
         }
 
@@ -223,8 +225,9 @@
             position: relative;
             margin-bottom: 60px;
             background: var(--glass-bg);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
+            /* 移动端减少模糊效果 */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             border: 1px solid var(--glass-border);
             border-radius: 24px;
             box-shadow: var(--glass-shadow);
@@ -268,8 +271,9 @@
         /* ROM/插件介绍板块：整体缩放 + 图标不缩放 */
         .feature-card {
             background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            /* 移动端减少模糊效果 */
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
             border: 1px solid var(--glass-border);
             border-radius: 16px;
             padding: 35px 25px;
@@ -278,7 +282,7 @@
             position: relative;
             overflow: hidden;
             z-index: 1;
-            will-change: transform, box-shadow;
+            /* 移除will-change，移动端优化 */
             transform-origin: center center;
         }
 
@@ -313,14 +317,15 @@
 
         .guide-card {
             background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            /* 移动端减少模糊效果 */
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
             border: 1px solid var(--glass-border);
             border-radius: 16px;
             padding: 35px 25px;
             box-shadow: var(--glass-shadow);
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            will-change: transform, box-shadow;
+            /* 移除will-change，移动端优化 */
             transform-origin: center center;
         }
 
@@ -461,8 +466,9 @@
 
         .download-card {
             background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            /* 移动端减少模糊效果 */
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
             border: 1px solid var(--glass-border);
             border-radius: 16px;
             padding: 35px 25px;
@@ -471,7 +477,7 @@
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             overflow: hidden;
-            will-change: transform, box-shadow;
+            /* 移除will-change，移动端优化 */
             transform-origin: center center;
         }
 
@@ -517,8 +523,9 @@
         /* 页脚 - 改为非板块式 */
         footer {
             background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
+            /* 移动端减少模糊效果 */
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             border-top: 1px solid var(--glass-border);
             padding: 40px 10% 20px;
             text-align: center;
@@ -546,8 +553,9 @@
             width: 45px;
             height: 45px;
             background: rgba(255, 255, 255, 0.7);
-            backdrop-filter: blur(5px);
-            -webkit-backdrop-filter: blur(5px);
+            /* 移动端减少模糊效果 */
+            backdrop-filter: blur(3px);
+            -webkit-backdrop-filter: blur(3px);
             border-radius: 50%;
             margin: 0 8px;
             color: var(--text-dark);
@@ -578,8 +586,9 @@
             width: 50px;
             height: 50px;
             background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            /* 移动端减少模糊效果 */
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
             color: var(--accent-color);
             border: 1px solid var(--glass-border);
             border-radius: 50%;
@@ -633,6 +642,7 @@
             transform: rotate(90deg) scale(1.1);
         }
 
+        /* 移动端优化 - 减少动画和模糊效果 */
         @media (max-width: 1200px) {
             nav ul li {
                 margin-left: 10px;
@@ -668,6 +678,32 @@
         }
 
         @media (max-width: 768px) {
+            /* 移动端优化 - 减少模糊效果 */
+            body {
+                backdrop-filter: none;
+                -webkit-backdrop-filter: none;
+            }
+            
+            header, .section, .feature-card, .download-card, .guide-card, footer, .social-icons a, .back-to-top {
+                backdrop-filter: none !important;
+                -webkit-backdrop-filter: none !important;
+            }
+            
+            /* 移动端优化 - 简化动画 */
+            .hero h1, .hero h2, .cta-button, .download-button, .section-title,
+            .feature-card, .download-card, .guide-card {
+                animation: none !important;
+                opacity: 1 !important;
+                transform: none !important;
+            }
+            
+            /* 移动端优化 - 简化悬停效果 */
+            .feature-card:hover, .download-card:hover, .guide-card:hover,
+            .cta-button:hover, .download-button:hover, .social-icons a:hover,
+            .back-to-top:hover, .logo:hover, .guide-note:hover, .consolidated-note:hover {
+                transform: none !important;
+            }
+            
             .menu-toggle {
                 display: block;
             }
@@ -994,6 +1030,9 @@
     </div>
 
     <script>
+        // 检测是否为移动设备
+        const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        
         // 移动端菜单切换
         const menuToggle = document.getElementById('menuToggle');
         const navMenu = document.getElementById('navMenu');
@@ -1015,26 +1054,28 @@
             });
         });
 
-        // 滚动动画效果
-        const observerOptions = {
-            root: null,
-            rootMargin: '0px',
-            threshold: 0.1
-        };
-        
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.animation = `fadeInUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards`;
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, observerOptions);
+        // 滚动动画效果 - 移动端禁用
+        if (!isMobile) {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.animation = `fadeInUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards`;
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
 
-        document.querySelectorAll('.feature-card, .download-card, .section-title, .guide-card').forEach(element => {
-            element.style.opacity = '0';
-            observer.observe(element);
-        });
+            document.querySelectorAll('.feature-card, .download-card, .section-title, .guide-card').forEach(element => {
+                element.style.opacity = '0';
+                observer.observe(element);
+            });
+        }
 
         // 平滑滚动效果
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -1094,50 +1135,52 @@
             });
         });
 
-        // 立即体验按钮光韵跟随鼠标位置
-        const ctaButton = document.querySelector('.cta-button');
-        if (ctaButton) {
-            ctaButton.addEventListener('mousemove', (e) => {
-                const btnRect = ctaButton.getBoundingClientRect();
-                const xRatio = (e.clientX - btnRect.left) / btnRect.width;
-                const glowPos = (xRatio - 0.5) * 200;
-                document.documentElement.style.setProperty('--btn-glow-pos', `${glowPos}%`);
-            });
+        // 立即体验按钮光韵跟随鼠标位置 - 移动端禁用
+        if (!isMobile) {
+            const ctaButton = document.querySelector('.cta-button');
+            if (ctaButton) {
+                ctaButton.addEventListener('mousemove', (e) => {
+                    const btnRect = ctaButton.getBoundingClientRect();
+                    const xRatio = (e.clientX - btnRect.left) / btnRect.width;
+                    const glowPos = (xRatio - 0.5) * 200;
+                    document.documentElement.style.setProperty('--btn-glow-pos', `${glowPos}%`);
+                });
 
-            ctaButton.addEventListener('mouseleave', () => {
-                document.documentElement.style.setProperty('--btn-glow-pos', '-100%');
-            });
-        }
+                ctaButton.addEventListener('mouseleave', () => {
+                    document.documentElement.style.setProperty('--btn-glow-pos', '-100%');
+                });
+            }
 
-        // 下载区域按钮光韵效果：每个按钮独立
-        const osButton = document.getElementById('os-button');
-        const toolsButton = document.getElementById('tools-button');
-        
-        // 为每个按钮单独添加鼠标事件
-        if (osButton) {
-            osButton.addEventListener('mousemove', (e) => {
-                const btnRect = osButton.getBoundingClientRect();
-                const xRatio = (e.clientX - btnRect.left) / btnRect.width;
-                const glowPos = (xRatio - 0.5) * 200;
-                osButton.style.setProperty('--btn-glow-pos', `${glowPos}%`);
-            });
+            // 下载区域按钮光韵效果：每个按钮独立
+            const osButton = document.getElementById('os-button');
+            const toolsButton = document.getElementById('tools-button');
             
-            osButton.addEventListener('mouseleave', () => {
-                osButton.style.setProperty('--btn-glow-pos', '-100%');
-            });
-        }
-        
-        if (toolsButton) {
-            toolsButton.addEventListener('mousemove', (e) => {
-                const btnRect = toolsButton.getBoundingClientRect();
-                const xRatio = (e.clientX - btnRect.left) / btnRect.width;
-                const glowPos = (xRatio - 0.5) * 200;
-                toolsButton.style.setProperty('--btn-glow-pos', `${glowPos}%`);
-            });
+            // 为每个按钮单独添加鼠标事件
+            if (osButton) {
+                osButton.addEventListener('mousemove', (e) => {
+                    const btnRect = osButton.getBoundingClientRect();
+                    const xRatio = (e.clientX - btnRect.left) / btnRect.width;
+                    const glowPos = (xRatio - 0.5) * 200;
+                    osButton.style.setProperty('--btn-glow-pos', `${glowPos}%`);
+                });
+                
+                osButton.addEventListener('mouseleave', () => {
+                    osButton.style.setProperty('--btn-glow-pos', '-100%');
+                });
+            }
             
-            toolsButton.addEventListener('mouseleave', () => {
-                toolsButton.style.setProperty('--btn-glow-pos', '-100%');
-            });
+            if (toolsButton) {
+                toolsButton.addEventListener('mousemove', (e) => {
+                    const btnRect = toolsButton.getBoundingClientRect();
+                    const xRatio = (e.clientX - btnRect.left) / btnRect.width;
+                    const glowPos = (xRatio - 0.5) * 200;
+                    toolsButton.style.setProperty('--btn-glow-pos', `${glowPos}%`);
+                });
+                
+                toolsButton.addEventListener('mouseleave', () => {
+                    toolsButton.style.setProperty('--btn-glow-pos', '-100%');
+                });
+            }
         }
     </script>
 </body>
