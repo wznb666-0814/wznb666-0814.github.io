@@ -15,24 +15,29 @@
 
         :root {
             --primary-blue: #002FA7;
-            --blue-dark: #001A5E;
-            --blue-light: #4A90E2;
             --accent-color: #0066FF;
             --text-light: #FFFFFF;
             --text-dark: #0A1E4F;
-            --section-bg: #F5F8FF;
-            --guide-bg: #E6F0FF;
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --glass-bg-hover: rgba(255, 255, 255, 0.95);
+            --glass-border: rgba(255, 255, 255, 0.3);
+            --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            --glass-shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.12);
+            --btn-glow-pos: -100%; /* 按钮光韵位置变量 */
         }
 
         body {
-            background: linear-gradient(135deg, #4A90E2 0%, #002FA7 100%); 
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(245, 248, 255, 0.9) 100%); 
             color: var(--text-dark);
             overflow-x: hidden;
             line-height: 1.6;
             min-height: 100vh;
+            padding-top: 80px;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
         }
 
-        /* 导航栏样式 */
+        /* 顶部顶栏：常驻固定顶部 - 增加z-index确保在最上层 */
         header {
             position: fixed;
             top: 0;
@@ -43,25 +48,21 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            transition: all 0.3s ease;
-            background: rgba(0, 47, 167, 0.85);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        header.scrolled {
-            padding: 15px 5%;
-            background: rgba(0, 26, 94, 0.95);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow);
         }
 
         .logo {
             font-size: 1.8rem;
             font-weight: 700;
-            color: var(--text-light);
+            color: var(--text-dark);
             text-decoration: none;
             display: flex;
             align-items: center;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .logo:hover {
@@ -69,7 +70,7 @@
         }
 
         .logo span {
-            color: #4A90E2;
+            color: var(--accent-color);
         }
 
         nav ul {
@@ -82,20 +83,20 @@
         }
 
         nav ul li a {
-            color: var(--text-light);
+            color: var(--text-dark);
             text-decoration: none;
             font-weight: 500;
             font-size: 1.05rem;
             padding: 8px 12px;
             border-radius: 30px;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             white-space: nowrap;
         }
 
         nav ul li a:hover {
-            color: #4A90E2;
-            background: rgba(255, 255, 255, 0.15);
+            color: var(--accent-color);
+            background: rgba(0, 102, 255, 0.1);
         }
 
         nav ul li a::after {
@@ -107,16 +108,16 @@
             width: 0;
             height: 3px;
             background: var(--accent-color);
-            transition: width 0.3s ease;
+            transition: width 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         nav ul li a:hover::after {
             width: 60%;
         }
 
-        /* 主内容区域 */
+        /* 主视觉区域 - 改为非板块式 */
         .hero {
-            height: 100vh;
+            height: calc(100vh - 80px);
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -125,7 +126,7 @@
             padding: 0 20px;
             position: relative;
             overflow: hidden;
-            padding-top: 80px;
+            margin-bottom: 60px;
         }
 
         .hero::before {
@@ -135,18 +136,31 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at center, rgba(74, 144, 226, 0.3) 0%, transparent 70%);
+            background: radial-gradient(circle at center, rgba(74, 144, 226, 0.15) 0%, transparent 70%);
             z-index: -1;
         }
 
+        /* 修改标题为蓝色动态流光效果 */
         .hero h1 {
             font-size: 4.5rem;
             margin-bottom: 20px;
-            background: linear-gradient(to right, #FFFFFF 0%, #4A90E2 100%);
+            background: linear-gradient(90deg, #0066FF, #00CCFF, #0066FF);
+            background-size: 200% auto;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            animation: fadeInUp 1s ease;
-            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            background-clip: text;
+            animation: fadeInUp 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards, flow 3s linear infinite;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transform-origin: center bottom;
+        }
+
+        @keyframes flow {
+            0% {
+                background-position: 200% center;
+            }
+            100% {
+                background-position: -200% center;
+            }
         }
 
         .hero h2 {
@@ -154,12 +168,14 @@
             font-weight: 300;
             margin-bottom: 40px;
             max-width: 800px;
-            animation: fadeInUp 1s ease 0.2s forwards;
+            animation: fadeInUp 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.2s forwards;
             opacity: 0;
-            color: var(--text-light);
+            color: var(--text-dark);
+            transform-origin: center bottom;
         }
 
-        .cta-button {
+        /* 立即体验按钮：光韵跟随鼠标位置变化（通用按钮样式） */
+        .cta-button, .download-button {
             display: inline-block;
             padding: 15px 40px;
             background: var(--accent-color);
@@ -168,237 +184,202 @@
             font-size: 1.2rem;
             font-weight: 600;
             border-radius: 50px;
-            transition: all 0.3s ease;
-            animation: fadeInUp 1s ease 0.4s forwards;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: fadeInUp 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.4s forwards;
             opacity: 0;
-            box-shadow: 0 10px 30px rgba(0, 102, 255, 0.4);
+            box-shadow: var(--glass-shadow-hover);
             position: relative;
             overflow: hidden;
             z-index: 1;
             will-change: transform, box-shadow;
+            transform-origin: center center;
         }
 
-        .cta-button::before {
+        .cta-button::before, .download-button::before {
             content: '';
             position: absolute;
             top: 0;
-            left: -100%;
+            left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: 0.5s;
+            /* 光韵渐变：宽度200%实现跟随效果 */
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            background-size: 200% 100%;
+            background-position: var(--btn-glow-pos) 0; /* 动态控制光韵位置 */
+            transition: background-position 0.2s ease; /* 平滑过渡 */
             z-index: -1;
         }
 
-        .cta-button:hover::before {
-            left: 100%;
+        .cta-button:hover, .download-button:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(0, 102, 255, 0.3);
+            background: var(--accent-color); /* 保持原背景色，与立即体验按钮一致 */
+            color: white; /* 保持原文字色 */
         }
 
-        .cta-button:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0, 102, 255, 0.6);
-        }
-
-        /* 内容部分 */
+        /* 统一板块样式（ROM介绍、插件介绍、使用教程、资源获取共用） */
         .section {
-            padding: 100px 10%;
+            padding: 80px 10%;
             position: relative;
+            margin-bottom: 60px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            box-shadow: var(--glass-shadow);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            margin: 40px 5%;
+        }
+
+        .section:hover {
+            background: var(--glass-bg-hover);
+            box-shadow: var(--glass-shadow-hover);
         }
 
         .section-title {
             text-align: center;
             font-size: 2.8rem;
-            margin-bottom: 80px;
+            margin-bottom: 60px;
             position: relative;
-            color: var(--text-dark); 
-        }
-
-        .rom-intro .section-title {
-            color: var(--blue-dark); 
+            color: var(--text-dark);
+            transform-origin: center bottom;
         }
 
         .section-title::after {
             content: '';
             position: absolute;
-            bottom: -20px;
+            bottom: -15px;
             left: 50%;
             transform: translateX(-50%);
-            width: 100px;
-            height: 4px;
+            width: 80px;
+            height: 3px;
             background: var(--accent-color);
             border-radius: 2px;
-        }
-
-        /* ROM介绍部分 */
-        .rom-intro {
-            background: var(--section-bg);
-            color: var(--text-dark);
-            clip-path: polygon(0 0, 100% 5%, 100% 100%, 0% 100%);
-            padding-top: 150px;
-            margin-top: -50px;
         }
 
         .features-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-            margin-top: 50px;
+            gap: 30px;
+            margin-top: 20px;
         }
 
+        /* ROM/插件介绍板块：整体缩放 + 图标不缩放 */
         .feature-card {
-            background: white;
-            border-radius: 20px;
-            padding: 40px 30px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
-            transition: all 0.4s ease;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 35px 25px;
+            box-shadow: var(--glass-shadow);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             overflow: hidden;
             z-index: 1;
             will-change: transform, box-shadow;
+            transform-origin: center center;
         }
 
         .feature-card:hover {
-            transform: translateY(-15px) scale(1.02);
-            box-shadow: 0 15px 50px rgba(0, 26, 94, 0.15);
+            transform: scale(1.03); /* 整体缩放 */
+            box-shadow: var(--glass-shadow-hover);
+            background: rgba(255, 255, 255, 0.85);
         }
 
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: var(--primary-blue);
-            z-index: 2;
-            transition: height 0.3s ease;
-        }
-
-        .feature-card:hover::before {
-            height: 100%;
-            opacity: 0.05;
-        }
-
+        /* 图标强制不缩放、不旋转 */
         .feature-icon {
-            font-size: 3.5rem;
+            font-size: 3rem;
             color: var(--accent-color);
-            margin-bottom: 25px;
-            transition: transform 0.3s ease;
-        }
-
-        .feature-card:hover .feature-icon {
-            transform: scale(1.1);
+            margin-bottom: 20px;
+            transition: none !important; /* 取消所有过渡 */
+            transform: scale(1) !important; /* 强制保持原比例 */
         }
 
         .feature-card h3 {
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-            color: var(--blue-dark);
+            font-size: 1.6rem;
+            margin-bottom: 12px;
+            color: var(--text-dark);
         }
 
-        /* 使用指南部分 */
-        .usage-guide {
-            background: var(--guide-bg);
-            padding: 100px 10% 150px;
-            clip-path: polygon(0 0, 100% 5%, 100% 100%, 0% 100%);
-            margin-top: -50px;
-        }
-        
+        /* 使用教程容器 - 移除缩放动画 */
         .guide-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
-            gap: 40px;
-            margin-top: 50px;
+            gap: 30px;
+            margin-top: 20px;
         }
-        
+
         .guide-card {
-            background: white;
-            border-radius: 20px;
-            padding: 40px 30px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
-            position: relative;
-            overflow: hidden;
-            transition: all 0.4s ease;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 35px 25px;
+            box-shadow: var(--glass-shadow);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             will-change: transform, box-shadow;
+            transform-origin: center center;
         }
-        
+
+        /* 移除缩放效果，只保留背景和阴影变化 */
         .guide-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 50px rgba(0, 26, 94, 0.15);
+            transform: none; /* 移除缩放 */
+            box-shadow: var(--glass-shadow-hover);
+            background: rgba(255, 255, 255, 0.85);
         }
-        
-        .guide-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 5px;
-            height: 100%;
-            background: var(--accent-color);
-            z-index: 2;
-            transition: width 0.3s ease;
-        }
-        
-        .guide-card:hover::before {
-            width: 100%;
-            opacity: 0.05;
-        }
-        
+
         .guide-header {
             display: flex;
             align-items: center;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
-        
+
         .guide-icon {
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             color: var(--accent-color);
-            margin-right: 20px;
-            width: 70px;
-            height: 70px;
+            margin-right: 18px;
+            width: 60px;
+            height: 60px;
             background: rgba(0, 102, 255, 0.1);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: transform 0.3s ease;
+            transition: none !important; /* 取消图标旋转 */
+            transform: scale(1) !important; /* 图标不缩放 */
         }
-        
-        .guide-card:hover .guide-icon {
-            transform: rotate(15deg);
-        }
-        
+
         .guide-title {
-            font-size: 1.8rem;
-            color: var(--blue-dark);
+            font-size: 1.6rem;
+            color: var(--text-dark);
         }
-        
+
+        /* 取消文字单独平移动画 */
         .guide-steps {
             list-style: none;
             counter-reset: step-counter;
         }
-        
+
         .guide-steps li {
-            margin-bottom: 20px;
-            padding-left: 40px;
+            margin-bottom: 18px;
+            padding-left: 35px;
             position: relative;
             line-height: 1.6;
-            transition: transform 0.3s ease;
+            transition: none !important; /* 取消文字平移 */
         }
-        
-        .guide-steps li:hover {
-            transform: translateX(5px);
-        }
-        
+
         .guide-steps li::before {
             counter-increment: step-counter;
             content: counter(step-counter);
             position: absolute;
             left: 0;
             top: 0;
-            width: 30px;
-            height: 30px;
-            background: var(--primary-blue);
+            width: 28px;
+            height: 28px;
+            background: var(--accent-color);
             color: white;
             border-radius: 50%;
             display: flex;
@@ -406,131 +387,144 @@
             justify-content: center;
             font-weight: bold;
             font-size: 0.9rem;
+            /* 移除缩放动画 */
+            transition: none !important;
         }
-        
+
+        /* 移除数字缩放效果 */
+        .guide-steps li:hover::before {
+            transform: none;
+        }
+
         .guide-note {
             background: rgba(74, 144, 226, 0.1);
             border-left: 3px solid var(--accent-color);
-            padding: 15px;
-            margin-top: 20px;
+            padding: 12px;
+            margin-top: 18px;
             border-radius: 0 8px 8px 0;
             font-size: 0.9rem;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        
+
         .guide-note:hover {
-            background: rgba(74, 144, 226, 0.2);
+            background: rgba(74, 144, 226, 0.15);
             transform: translateY(-2px);
         }
 
-        /* ROM获取部分 */
-        .rom-download {
-            background: linear-gradient(135deg, #4A90E2 0%, #002FA7 100%);
-            padding-bottom: 150px;
+        /* 合并后的注意项样式 */
+        .consolidated-note {
+            background: rgba(74, 144, 226, 0.1);
+            border-left: 3px solid var(--accent-color);
+            padding: 18px;
+            margin-top: 18px;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.9rem;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
+        .consolidated-note:hover {
+            background: rgba(74, 144, 226, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .consolidated-note strong {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .consolidated-note ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .consolidated-note li {
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .consolidated-note li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+
+        /* 下载区域容器 */
         .download-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
+            gap: 30px;
         }
 
         .download-card {
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(10px);
-            border-radius: 20px;
-            padding: 40px;
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 35px 25px;
             text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            transition: all 0.4s ease;
+            box-shadow: var(--glass-shadow);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
             overflow: hidden;
             will-change: transform, box-shadow;
-        }
-
-        .download-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(45deg, rgba(255,255,255,0.2), transparent);
-            z-index: -1;
+            transform-origin: center center;
         }
 
         .download-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            background: rgba(255, 255, 255, 0.4);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            transform: scale(1.03);
+            box-shadow: var(--glass-shadow-hover);
+            background: rgba(255, 255, 255, 0.85);
         }
 
         .device-icon {
-            font-size: 3rem;
-            margin-bottom: 25px;
+            font-size: 2.8rem;
+            margin-bottom: 20px;
             color: var(--accent-color);
-            transition: transform 0.3s ease;
+            /* 移除旋转动画 */
+            transition: none !important;
+            transform-origin: center center;
         }
 
+        /* 移除图标旋转效果 */
         .download-card:hover .device-icon {
-            transform: rotate(10deg);
+            transform: none;
         }
 
         .download-card h3 {
-            font-size: 1.8rem;
-            margin-bottom: 15px;
-            color: var(--text-light);
+            font-size: 1.6rem;
+            margin-bottom: 12px;
+            color: var(--text-dark);
         }
 
         .download-card p {
-            color: var(--text-light);
+            color: var(--text-dark);
+            margin-bottom: 10px;
         }
 
-        .download-button {
-            display: inline-block;
-            margin-top: 25px;
-            padding: 12px 30px;
-            background: var(--accent-color);
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 600;
+        /* 移除原下载按钮独有样式，统一使用cta-button样式 */
+        .download-card .copyright {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-top: 15px;
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            z-index: 1;
-            will-change: transform, background, color;
         }
 
-        .download-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: 0.5s;
-            z-index: -1;
-        }
-
-        .download-button:hover::before {
-            left: 100%;
-        }
-
-        .download-button:hover {
-            background: white;
-            color: var(--accent-color);
-            transform: scale(1.05);
-        }
-
-        /* 页脚 */
+        /* 页脚 - 改为非板块式 */
         footer {
-            background: #E6F0FF;
-            padding: 50px 10% 30px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-top: 1px solid var(--glass-border);
+            padding: 40px 10% 20px;
             text-align: center;
             position: relative;
             color: var(--text-dark);
+            margin-top: 60px;
         }
 
         .footer-content {
@@ -542,44 +536,52 @@
         }
 
         .social-icons {
-            margin: 30px 0;
+            margin: 25px 0;
         }
 
         .social-icons a {
             display: inline-flex;
             justify-content: center;
             align-items: center;
-            width: 50px;
-            height: 50px;
-            background: rgba(255, 255, 255, 0.5);
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
             border-radius: 50%;
-            margin: 0 10px;
+            margin: 0 8px;
             color: var(--text-dark);
-            font-size: 1.3rem;
-            transition: all 0.3s ease;
+            font-size: 1.2rem;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-origin: center center;
+            border: 1px solid var(--glass-border);
         }
 
         .social-icons a:hover {
             background: var(--accent-color);
             color: white;
-            transform: translateY(-5px);
+            transform: translateY(-5px) scale(1.1);
+            box-shadow: var(--glass-shadow);
         }
 
         .copyright {
             font-size: 0.9rem;
-            opacity: 0.8;
-            margin-top: 10px;
+            opacity: 0.9;
+            margin-top: 8px;
+            transition: all 0.3s ease;
         }
-        
-        /* 回到顶部按钮 */
+
         .back-to-top {
             position: fixed;
             bottom: 30px;
             right: 30px;
             width: 50px;
             height: 50px;
-            background: var(--accent-color);
-            color: white;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: var(--accent-color);
+            border: 1px solid var(--glass-border);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -588,65 +590,54 @@
             cursor: pointer;
             opacity: 0;
             visibility: hidden;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             z-index: 999;
-            box-shadow: 0 5px 15px rgba(0, 102, 255, 0.4);
+            box-shadow: var(--glass-shadow);
+            transform-origin: center center;
         }
-        
+
         .back-to-top.visible {
             opacity: 1;
             visibility: visible;
         }
-        
+
         .back-to-top:hover {
-            transform: translateY(-5px);
-            background: white;
-            color: var(--accent-color);
+            transform: translateY(-5px) scale(1.1);
+            background: var(--accent-color);
+            color: white;
+            box-shadow: var(--glass-shadow-hover);
         }
 
-        /* 动画效果 */
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(30px) scale(0.95);
             }
             to {
                 opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        @keyframes float {
-            0% {
-                transform: translateY(0px);
-            }
-            50% {
-                transform: translateY(-10px);
-            }
-            100% {
-                transform: translateY(0px);
+                transform: translateY(0) scale(1);
             }
         }
 
-        /* 响应式设计 - 优化移动端显示 */
         .menu-toggle {
             display: none;
             font-size: 1.8rem;
-            color: white;
+            color: var(--text-dark);
             cursor: pointer;
             z-index: 1001;
-            transition: transform 0.3s ease;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform-origin: center center;
         }
-        
+
         .menu-toggle:hover {
-            transform: rotate(90deg);
+            transform: rotate(90deg) scale(1.1);
         }
 
         @media (max-width: 1200px) {
             nav ul li {
                 margin-left: 10px;
             }
-            
+
             nav ul li a {
                 font-size: 0.95rem;
                 padding: 6px 10px;
@@ -657,15 +648,16 @@
             .hero h1 {
                 font-size: 3.5rem;
             }
-            
+
             .section {
                 padding: 80px 5%;
+                margin-bottom: 50px;
             }
-            
+
             nav ul li {
                 margin-left: 8px;
             }
-            
+
             .guide-container {
                 grid-template-columns: 1fr;
             }
@@ -684,12 +676,15 @@
                 position: fixed;
                 top: 0;
                 right: -100%;
-                width: 70%;
+                width: 75%;
                 height: 100vh;
-                background: rgba(0, 47, 167, 0.95);
-                backdrop-filter: blur(10px);
-                transition: all 0.5s ease;
-                padding-top: 80px;
+                background: rgba(255, 255, 255, 0.9);
+                backdrop-filter: blur(15px);
+                -webkit-backdrop-filter: blur(15px);
+                transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                padding-top: 90px;
+                border-left: 1px solid var(--glass-border);
+                box-shadow: -8px 0 24px rgba(0, 0, 0, 0.05);
             }
 
             nav.active {
@@ -710,32 +705,33 @@
                 padding: 12px 20px;
                 text-align: center;
                 font-size: 1.1rem;
+                color: var(--text-dark);
             }
 
             .hero h1 {
                 font-size: 2.8rem;
             }
-            
+
             .hero h2 {
                 font-size: 1.4rem;
                 padding: 0 15px;
             }
-            
+
             .section-title {
                 font-size: 2.2rem;
-                margin-bottom: 50px;
+                margin-bottom: 40px;
             }
 
             .feature-card, .download-card, .guide-card {
                 padding: 25px 20px;
             }
 
-            .feature-icon {
-                font-size: 2.8rem;
+            .feature-icon, .device-icon {
+                font-size: 2.5rem;
             }
 
             .feature-card h3, .guide-title, .download-card h3 {
-                font-size: 1.6rem;
+                font-size: 1.5rem;
             }
 
             .guide-header {
@@ -744,29 +740,20 @@
             }
 
             .guide-icon {
-                margin-bottom: 15px;
+                margin-bottom: 12px;
             }
 
             .guide-steps li {
                 padding-left: 35px;
             }
-            
+
             .guide-steps li::before {
                 width: 25px;
                 height: 25px;
                 font-size: 0.8rem;
             }
 
-            .rom-intro {
-                clip-path: polygon(0 0, 100% 3%, 100% 100%, 0% 100%);
-                padding-top: 120px;
-            }
-
-            .usage-guide {
-                clip-path: polygon(0 0, 100% 3%, 100% 100%, 0% 100%);
-            }
-
-            .cta-button {
+            .cta-button, .download-button {
                 padding: 12px 30px;
                 font-size: 1.1rem;
             }
@@ -780,11 +767,11 @@
             .hero h2 {
                 font-size: 1.2rem;
             }
-            
+
             nav ul li {
-                margin: 10px 0;
+                margin: 12px 0;
             }
-            
+
             .section-title {
                 font-size: 1.8rem;
             }
@@ -793,21 +780,20 @@
                 padding: 20px 15px;
             }
 
-            .feature-icon {
-                font-size: 2.5rem;
+            .feature-icon, .device-icon {
+                font-size: 2.2rem;
                 margin-bottom: 15px;
-            }
-
-            .device-icon {
-                font-size: 2.5rem;
-            }
-
-            .download-button {
-                padding: 10px 25px;
             }
 
             .section {
                 padding: 70px 5%;
+                margin-bottom: 40px;
+            }
+
+            .social-icons a {
+                width: 40px;
+                height: 40px;
+                font-size: 1.1rem;
             }
         }
     </style>
@@ -824,8 +810,8 @@
                 <li><a href="#intro">ROM介绍</a></li>
                 <li><a href="#plugin-intro">插件介绍</a></li>
                 <li><a href="#usage">使用教程</a></li>
-                <li><a href="#download">获取LUCKY OS & DNA-Android插件</a></li>
-                <li><a href="https://qm.qq.com/q/w3GmlwstfG">点击进入QQ群</a></li>
+                <li><a href="#download">获取资源</a></li>
+                <li><a href="https://qm.qq.com/q/w3GmlwstfG">QQ群</a></li>
                 <li><a href="http://www.coolapk.com/u/24128753">作者酷安</a></li>
             </ul>
         </nav>
@@ -833,14 +819,13 @@
 
     <!-- 主视觉区域 -->
     <section class="hero">
-        <h1>LUCKY OS & Tools</h1>
+        <h1>HyperOS For LUCKY OS</h1>
         <h2>基于HyperOS深度优化的ROM，让您的设备焕发新生</h2>
-        <h2>用于方便开包的快捷插件，让你不再头疼</h2>
         <a href="#download" class="cta-button">立即体验 <i class="fas fa-arrow-right"></i></a>
     </section>
 
-    <!-- ROM介绍部分 -->
-    <section id="intro" class="section rom-intro">
+    <!-- ROM介绍部分 - 保留板块式 -->
+    <section id="intro" class="section">
         <h2 class="section-title">ROM介绍</h2>
         <div class="features-container">
             <div class="feature-card">
@@ -874,8 +859,8 @@
         </div>
     </section>
 
-    <!-- 插件介绍部分 -->
-    <section id="plugin-intro" class="section rom-intro">
+    <!-- 插件介绍部分 - 保留板块式 -->
+    <section id="plugin-intro" class="section">
         <h2 class="section-title">插件介绍</h2>
         <div class="features-container">
             <div class="feature-card">
@@ -909,8 +894,8 @@
         </div>
     </section>
     
-    <!-- 使用指南部分 -->
-    <section id="usage" class="section usage-guide">
+    <!-- 使用指南部分 - 改为与上方统一的.section类 -->
+    <section id="usage" class="section">
         <h2 class="section-title">使用教程</h2>
         <div class="guide-container">
             <div class="guide-card">
@@ -921,15 +906,21 @@
                     <h3 class="guide-title">LUCKY OS 刷入方式</h3>
                 </div>
                 <ol class="guide-steps">
-                    <li>在“获取LUCKY OS”云盘中，下载LUCKY OS，推荐下载最新版本，然后，请确保您的设备已解锁Bootloader，不解Bootloader的滚</li>
+                    <li>在"获取LUCKY OS"云盘中，下载LUCKY OS，推荐下载最新版本，然后，请确保您的设备已解锁Bootloader，不解Bootloader的滚</li>
                     <li>将下载的ROM包解压到电脑任意位置，要保证所在位置的剩余存储空间 > 20GB</li>
                     <li>重启手机进入Fastboot模式（电源键+音量减键）</li>
-                    <li>运行ROM包文件夹内的“线刷点我.exe”</li>
+                    <li>运行ROM包文件夹内的"线刷点我.exe"</li>
                     <li>根据自己需要个性化选择选项</li>
                     <li>刷入完成后重启设备，首次启动可能需要5-10分钟，请耐心等待</li>
                 </ol>
-                <div class="guide-note">
-                    <strong>注意：</strong>首次刷入本ROM要格式化Data！刷机前请务必备份重要数据！
+                <div class="consolidated-note">
+                    <strong>注意：</strong>
+                    <ul>
+                        <li>首次刷入本ROM要格式化Data！刷机前请务必备份重要数据！</li>
+                        <li>如果安卓底层版本有变化 强烈建议格式化data刷入 可以避免一些抽象的bug</li>
+                        <li>不同机型移植的互刷要格式化data刷入 可以减免一些抽象的bug</li>
+                        <li>BUG反馈请到QQ群内进行反馈 在本帖评论区将不会采纳</li>
+                    </ul>
                 </div>
             </div>
             
@@ -941,52 +932,46 @@
                     <h3 class="guide-title">DNA-Android插件使用方式</h3>
                 </div>
                 <ol class="guide-steps">
-                    <li>在“获取方式”中选择需要的版本进行下载插件</li>
+                    <li>在"获取方式"中选择需要的版本进行下载插件</li>
                     <li>打开手机上的DNA-Android</li>
                     <li>新建一个工程</li>
                     <li>点击进入插件页面</li>
                     <li>点击屏幕右下角的文件夹图标</li>
                     <li>找到你下载的插件，安装</li>
-                    <li>本插件使用时要用到super分区内的镜像：</li>
-                    <li>mi-ext（你要移植的机型里的）</li>
-                    <li>product（你要移植的机型里的）</li>
-                    <li>system（你要移植的机型里的）</li>
-                    <li>system_ext（你要移植的机型里的）</li>
-                    <li>system_dlkm（官方）</li>
-                    <li>vendor（官方）</li>
-                    <li>vendor_dlkm（官方）</li>
-                    <li>odm（官方）</li>
+                    <li>本插件使用时要用到super分区内的镜像：mi-ext（移植机型）、product（移植机型）、system（移植机型）、system_ext（移植机型）、system_dlkm（官方）、vendor（官方）、vendor_dlkm（官方）、odm（官方）</li>
                     <li>全部分解这些镜像到data/DNA/你的工程名字</li>
-                    <li>点击插件，根据插件提示输入参数，运行就好了</li>
-                    <li>到data/DNA/你的工程名字中找到各个分区的文件夹，也可以自己添加修改，也可以直接用DNA-Android打包成镜像</li>
+                    <li>点击插件，根据插件提示输入参数，运行即可</li>
+                    <li>到data/DNA/你的工程名字中找到各个分区的文件夹，可自定义修改或直接用DNA-Android打包成镜像</li>
                 </ol>
                 <div class="guide-note">
-                    <strong>提示：</strong>插件支持自定义二次更改 ，详细更改教程请参考QQ群公告上的文档说明。
+                    <strong>提示：</strong>插件支持自定义二次更改，详细修改教程请参考QQ群公告文档。
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ROM获取部分 -->
-    <section id="download" class="section rom-download">
+    <!-- 资源获取部分 - 改为与上方统一的.section类 -->
+    <section id="download" class="section">
         <h2 class="section-title">获取LUCKY OS & DNA-Android插件</h2>
         <div class="download-container">
-            <div class="download-card">
+            <div class="download-card" id="os-card">
                 <div class="device-icon">
                     <i class="fas fa-mobile-alt"></i>
                 </div>
                 <h3>LUCKY OS</h3>
                 <p>日常使用完美，经过全面测试，稳定性高，日用流畅，游戏稳帧</p>
-                <a href="https://www.123865.com/s/FehVVv-0qal" class="download-button">获取LUCKY OS</a>
+                <!-- 修改为与立即体验一致的按钮样式，添加图标 -->
+                <a href="https://www.123865.com/s/FehVVv-0qal" class="download-button" id="os-button">获取LUCKY OS <i class="fas fa-arrow-right"></i></a>
                 <p class="copyright">提取码：Reps</p>
             </div>
-            <div class="download-card">
+            <div class="download-card" id="tools-card">
                 <div class="device-icon">
                     <i class="fas fa-tools"></i>
                 </div>
                 <h3>LUCKY OS Tools</h3>
-                <p>针对于LUCKY OS开发的DNA-Android插件，方便Redmi K60 Pro用户来自己制作ROM，完全开源可自由二改</p>
-                <a href="https://www.123865.com/s/FehVVv-uqal" class="download-button">获取LUCKY OS Tools</a>
+                <p>针对于LUCKY OS开发的DNA-Android插件，方便Redmi K60 Pro用户自制ROM，完全开源可二改</p>
+                <!-- 修改为与立即体验一致的按钮样式，添加图标 -->
+                <a href="https://www.123865.com/s/FehVVv-uqal" class="download-button" id="tools-button">获取LUCKY OS Tools <i class="fas fa-arrow-right"></i></a>
                 <p class="copyright">提取码：FK2e</p>
             </div>
         </div>
@@ -1012,16 +997,21 @@
         // 移动端菜单切换
         const menuToggle = document.getElementById('menuToggle');
         const navMenu = document.getElementById('navMenu');
+        const navLinks = document.querySelectorAll('nav ul li a'); // 补充navLinks定义
         
         menuToggle.addEventListener('click', () => {
             navMenu.classList.toggle('active');
+            const icon = menuToggle.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
         });
         
-        // 点击菜单项后关闭菜单
-        const navLinks = document.querySelectorAll('nav ul li a');
         navLinks.forEach(link => {
             link.addEventListener('click', () => {
                 navMenu.classList.remove('active');
+                const icon = menuToggle.querySelector('i');
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
             });
         });
 
@@ -1035,7 +1025,7 @@
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
-                    entry.target.style.animation = `fadeInUp 0.8s ease forwards`;
+                    entry.target.style.animation = `fadeInUp 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards`;
                     observer.unobserve(entry.target);
                 }
             });
@@ -1056,7 +1046,6 @@
                 
                 const targetElement = document.querySelector(targetId);
                 if (targetElement) {
-                    // 计算目标位置（考虑固定顶栏高度）
                     const headerHeight = document.querySelector('header').offsetHeight;
                     const targetPosition = targetElement.offsetTop - headerHeight;
                     
@@ -1068,31 +1057,15 @@
             });
         });
         
-        // 滚动时更新导航栏样式
+        // 滚动时仅保留回到顶部按钮显示逻辑
         window.addEventListener('scroll', () => {
-            const header = document.querySelector('header');
             const backToTop = document.getElementById('backToTop');
             
-            if (window.scrollY > 100) {
-                header.classList.add('scrolled');
-            } else {
-                header.classList.remove('scrolled');
-            }
-            
-            // 显示/隐藏回到顶部按钮
             if (window.scrollY > 500) {
                 backToTop.classList.add('visible');
             } else {
                 backToTop.classList.remove('visible');
             }
-        });
-        
-        // 回到顶部功能
-        document.getElementById('backToTop').addEventListener('click', () => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
         });
         
         // 初始化页面滚动位置
@@ -1112,6 +1085,60 @@
                 }
             }
         });
+
+        // 回到顶部功能
+        document.getElementById('backToTop').addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // 立即体验按钮光韵跟随鼠标位置
+        const ctaButton = document.querySelector('.cta-button');
+        if (ctaButton) {
+            ctaButton.addEventListener('mousemove', (e) => {
+                const btnRect = ctaButton.getBoundingClientRect();
+                const xRatio = (e.clientX - btnRect.left) / btnRect.width;
+                const glowPos = (xRatio - 0.5) * 200;
+                document.documentElement.style.setProperty('--btn-glow-pos', `${glowPos}%`);
+            });
+
+            ctaButton.addEventListener('mouseleave', () => {
+                document.documentElement.style.setProperty('--btn-glow-pos', '-100%');
+            });
+        }
+
+        // 下载区域按钮光韵效果：每个按钮独立
+        const osButton = document.getElementById('os-button');
+        const toolsButton = document.getElementById('tools-button');
+        
+        // 为每个按钮单独添加鼠标事件
+        if (osButton) {
+            osButton.addEventListener('mousemove', (e) => {
+                const btnRect = osButton.getBoundingClientRect();
+                const xRatio = (e.clientX - btnRect.left) / btnRect.width;
+                const glowPos = (xRatio - 0.5) * 200;
+                osButton.style.setProperty('--btn-glow-pos', `${glowPos}%`);
+            });
+            
+            osButton.addEventListener('mouseleave', () => {
+                osButton.style.setProperty('--btn-glow-pos', '-100%');
+            });
+        }
+        
+        if (toolsButton) {
+            toolsButton.addEventListener('mousemove', (e) => {
+                const btnRect = toolsButton.getBoundingClientRect();
+                const xRatio = (e.clientX - btnRect.left) / btnRect.width;
+                const glowPos = (xRatio - 0.5) * 200;
+                toolsButton.style.setProperty('--btn-glow-pos', `${glowPos}%`);
+            });
+            
+            toolsButton.addEventListener('mouseleave', () => {
+                toolsButton.style.setProperty('--btn-glow-pos', '-100%');
+            });
+        }
     </script>
 </body>
 </html>
