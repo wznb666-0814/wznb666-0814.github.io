@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xiaomi HyperOS 3移植思路</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: white;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #ff6700, #ff3366);
+            color: white;
+            padding: 30px 40px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 30px 40px;
+        }
+        
+        h2 {
+            color: #ff6700;
+            margin: 30px 0 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        
+        h3 {
+            color: #ff3366;
+            margin: 25px 0 12px;
+        }
+        
+        p {
+            margin-bottom: 15px;
+        }
+        
+        .warning {
+            background-color: #fff8e1;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .warning-title {
+            font-weight: bold;
+            color: #ff9800;
+            margin-bottom: 8px;
+        }
+        
+        .code-block {
+            background-color: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        .step {
+            background-color: #f0f7ff;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #2196f3;
+        }
+        
+        .step-title {
+            font-weight: bold;
+            color: #1976d2;
+            margin-bottom: 10px;
+        }
+        
+        ol, ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        .highlight {
+            background-color: #fff9c4;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        
+        .note {
+            background-color: #e8f5e9;
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        
+        .note-title {
+            font-weight: bold;
+            color: #2e7d32;
+            margin-bottom: 8px;
+        }
+        
+        .page-break {
+            height: 1px;
+            background: linear-gradient(to right, transparent, #ff6700, transparent);
+            margin: 30px 0;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9rem;
+            border-top: 1px solid #eee;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                border-radius: 8px;
+            }
+            
+            header {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Xiaomi HyperOS 3移植思路</h1>
+            <p class="subtitle">详细教程与操作指南</p>
+        </header>
+        
+        <div class="content">
+            <div class="warning">
+                <div class="warning-title">免责声明</div>
+                <p>本教程所有步骤和操作均由作者实践过后予以发布，不存在损害你的设备的操作，如果你未按照本文教程操作导致的任何损失均于作者无关。</p>
+                <p>作者只是一个初三在校生，技术不是最突出的，玩机和制作ROM & 插件纯属本人爱好，如果你不喜欢请不要哦我。</p>
+            </div>
+            
+            <h2>正片开始</h2>
+            <p>本教程分为两个部分：</p>
+            <ol>
+                <li>使用LUCKY OS Tools开包的教程</li>
+                <li>不使用LUCKY OS Tools开包（纯手搓）的教程</li>
+            </ol>
+            
+            <h3>教程1：使用LUCKY OS Tools开包的教程</h3>
+            <p>此教程分为两个分支：</p>
+            <ul>
+                <li>1.1 你给Redmi K60 Pro移植ROM</li>
+                <li>1.2 你给其他机型移植ROM</li>
+            </ul>
+            
+            <h3>教程1.1：你给Redmi K60 Pro移植ROM</h3>
+            <div class="step">
+                <div class="step-title">步骤1：下载并安装LUCKY OS Tools插件</div>
+                <p>在链接：<a href="https://wznb666-0814.github.io/">https://wznb666-0814.github.io/</a> 中下载LUCKY OS Tools插件（优先选择最新版本），下载好后不要解压！进入你的DNA-Android软件，新建一个工程项目，名字随便起，完成后点击工程菜单，点击最上面的插件功能，右下角有一个"文件夹"的图标，点击它，找到你下载好的插件，直接导入，导入完成后你会看到上面新增了一个入口，那个就是插件入口，先不要动，我们还要准备其他东西。</p>
+            </div>
+            
+            <div class="step">
+                <div class="step-title">步骤2：准备刷机包</div>
+                <p>我们要准备两个刷机包，最好是卡刷包，一个为Redmi K60 Pro的最新版本卡刷包，另一个为你要移植的机型的刷机包（我这里用最新的Xiaomi 17 Pro Max的卡刷包代替）。</p>
+            </div>
+            
+            <div class="page-break"></div>
+            
+            <div class="step">
+                <div class="step-title">步骤3：提取镜像文件</div>
+                <p>进入Xiaomi 17 Pro Max的卡刷包（用MT管理器可以不解压预览），进入payload.bin，提取mi-ext、product、system、system_ext 四个img镜像；进入Redmi K60 Pro的卡刷包（用MT管理器可以不解压预览），进入payload.bin，提取odm、system_dikm、vendor、vendor_dikm 四个img镜像。</p>
+            </div>
+            
+            <div class="step">
+                <div class="step-title">步骤4：移动并分解镜像</div>
+                <p>将这8个镜像全部移动到正常用户目录下的DNA/你的工程名字/路径下，打开DNA-Android，进入工程菜单一分解img—选择这8个img镜像，勾选删除源文件，点击确定。</p>
+            </div>
+            
+            <div class="step">
+                <div class="step-title">步骤5：验证文件</div>
+                <p>进入根目录的/data/DNA/你的工程名字/路径下，有8个对应名字的文件来就对了。</p>
+            </div>
+            
+            <div class="step">
+                <div class="step-title">步骤6：运行插件</div>
+                <p>这时候再打开DNA-Android，进入工程菜单一插件功能—点击"LUCKY OS Tools"，第一个填写你要的系统版本号（如OS3.0.16.0.LUCKY），第二个框填写Xiaomi 17 Pro Max（你要移植机型）的系统版本号，第三个框填写Redmi K60 Pro的底包系统版本号，第四个框填写Xiaomi 17 Pro Max（你要移植机型）的设备代号（如popsicle）（其余机型自行百度），第四个框填写Redmi K60 Pro的设备代号（socrates），点击确定运行插件。</p>
+            </div>
+            
+            <div class="step">
+                <div class="step-title">步骤7：合成img镜像</div>
+                <p>在工程菜单一合成img-dat-br里合成img镜像文件，选择这个8个镜像文件名，打包方式选择erofs，其余非必要不用动，点击确定等待合成。</p>
+            </div>
+            
+            <div class="step">
+                <div class="step-title">步骤8：打包super.img</div>
+                <p>完成后进入根目录的/data/DNA/你的工程名字/路径下，删除8个对应镜像的文件夹，再进入正常用户目录下的DNA/你的工程名字/out/路径下，可以看到有8个修改后的img镜像，将这8个img镜像移动到正常用户目录下的DNA/你的工程名字/路径下进入DNA-Android—工程菜单一合成super.img，打包类型选择virtual_ab，打包格式选择raw，下面两个按需求动，不懂的默认就行，最下面选择修改后的8个img文件，点击确定开始打包。</p>
+            </div>
+            
+            <div class="step">
+                <div class="step-title">步骤9：最终打包</div>
+                <p>进入正常用户目录下的DNA/你的工程名字/out/路径下，你会看到有一个super.img文件，接下来就可以压成zst格式，补全分区，打包就行了。</p>
+            </div>
+            
+            <h3>教程1.2：你给其他机型移植ROM</h3>
+            <p>由于是使用LUCKY OS Tools给其他机型开包，我们先要对LUCKY OS Tools进行修改才可以使用。</p>
+            
+            <div class="note">
+                <div class="note-title">注意</div>
+                <p>我没让改的，不要改！！！</p>
+            </div>
+            
+            <p>用MT管理器用压缩包的方式打开插件，进入LUCKY_OS_Tools/Action.sh</p>
+            
+            <div class="step">
+                <div class="step-title">修改1：作者声明</div>
+                <p>映入眼帘的是这几行代码，它是声明作者是用的，你可以把你的名字也加上。</p>
+                <div class="code-block">
+#声明作者
+echo "=============================="
+echo "本插由酷安@在摆烂中沉沦制作"
+echo "本插件开源可以拆开二改"
+echo "本插件并不是全能的 作者也只是在校初中生 没实力 不喜欢请退出谢谢！"
+echo "=============================="
+echo "请仔细阅读声明"
+echo "2秒后继续ing..."
+sleep 2
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-title">修改2：设备验证</div>
+                <p>这几行是用于输出设备各数据用的，需要改的地方为下面的机型验证部分。将你的设备代号替换到标黄色的地方，"if [ "$device" = "socrates"]; then"</p>
+                <div class="code-block">
+#输出机型信息
+echo "=============================="
+echo "当前设备型号: $(getprop ro.product.odm.marketname)"
+echo "当前设备代号: $(getprop ro.product.odm.model)"
+echo "当前机型代号: $(getprop ro.product.device)"
+echo "当前系统版本: $(getprop ro.product.build.version.incremental)"
+echo "正在验证..."
+marketname=$(getprop ro.product.odm.marketname)
+device=$(getprop ro.product.device)
+if [ "$device" = "socrates"]; then
+    echo "机型验证通过！！！"
+else
+    echo "机型验证出错！！！"
+    exit 1
+fi
+echo "=============================="
+sleep 1
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-title">修改3：镜像文件检查</div>
+                <p>重点来优先看看你的设备有没有这8个镜像，如果有缺失的，请删除对应的变量设置，如果你都全，不用动。</p>
+                <div class="code-block">
+#修改os名称&设备代号
+#找到mi_ext、product、system、system_ext、vendor、odm、symi_ext_build_prop="./mi_ext/etc/build.prop"
+product_build_prop="./product/etc/build.prop"
+system_build_prop="./system/system/build.prop"
+system_ext_build_prop="./system_ext/etc/build.prop"
+vendor_build_prop="./vendor/build.prop"
+odm_build_prop="./odm/etc/build.prop"
+system_dlmk_build_prop="./system_dlkm/etc/build.prop"
+vendor_dlmk_build_prop="./vendor_dlkm/etc/build.prop"
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-title">修改4：缺失镜像处理</div>
+                <p>如果你第3步有缺失的镜像，请把这个代码的最上面的i中对应的变量也删除，如果你都全，不用动。</p>
+                <div class="code-block">
+if [ -f "$mi_ext_build_prop" ] && [ -f "$product_build_prop" ] && [ -f "$system_build_prop"
+    echo "检查完成 文件是空的"
+    echo "开始修改OS名称或设备代码"
+    echo "正在修改/mi_ext/etc/build.prop文件"
+    sed -i "$/$[Primeval_OSName]/$[OSName]/g" "$mi_ext_build_prop"
+    sed -i "$/$[PhoneName]/$old_PhoneName/g" "$mi_ext_build_prop"
+    echo "正在修改/product/etc/build.prop文件"
+    sed -i "$/$[Primeval_OSName]/$[OSName]/g" "$product_build_prop"
+    sed -i "$/$[PhoneName]/$old_PhoneName/g" "$product_build_prop"
+    echo "正在修改/system/system/build.prop文件"
+    sed -i "$/$[Primeval_OSName]/$[OSName]/g" "$system_build_prop"
+    echo "正在修改/system_ext/etc/build.prop文件"
+    sed -i "$/$[Primeval_OSName]/$[OSName]/g" "$system_ext_build_prop"
+    echo "正在修改/vendor/build.prop文件"
+    sed -i "$/$[old_OSName]/$[OSName]/g" "$vendor_build_prop"
+    echo "正在修改/dom/etc/build.prop文件"
+    sed -i "$/$[old_OSName]/$[OSName]/g" "$odn_build_prop"
+    echo "正在修改/system_dllm/etc/build.prop文件"
+    sed -i "$/$[old_OSName]/$[OSName]/g" "$system_dlmk_build_prop"
+    echo "正在修改/vendor_dllm/etc/build.prop文件"
+    sed -i "$/$[old_OSName]/$[OSName]/g" "$vendor_dlmk_build_prop"
+else
+    echo "8个镜像内的build.prop文件不全 请检查文件"
+    exit 1
+fi
+echo "修改完成"
+echo ""
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-title">修改5：处理器核心分配</div>
+                <p>往下你会看到有这么一大块代码，你只需要改下面的</p>
+                <div class="code-block">
+#8Gen2核心分配 \
+persist.sys.miui_animator_sched.bigcores=3-6 \
+persist.sys.miui_animator_sched.sched_threads=2 \
+persist.sys.miui_animator_sched.big_prime_cores=3-7 \
+persist.vendor.display.miui.composer_boost=4-7 \
+persist.sys.dexpreload.cpu_cores=0-7 \
+persist.sys.dexpreload.big_prime_cores=7 \
+persist.sys.dexpreload.other_cores=0-6 \
+                </div>
+                <p>这个部分，自己去找你对处理器的核心分配代码，如果没有也可以不写，但请记得，增减代码的每行后面必须有"\"。</p>
+            </div>
+            
+            <div class="step">
+                <div class="step-title">修改6：Vulkan代码</div>
+                <p>这是添加Vulkan的代码，如果你的设备开启Vulkan有bug，请整段删除</p>
+                <div class="code-block">
+#添加vendor/build.prop代码
+echo "开始添加vendor/build.prop代码"
+sed -i '/ro.cameras.extensions.enabled=true/a \
+ro.hwui.use_vulkan=true \
+debug.hwui.renderer=skiavk \
+debug.renderengine.backend=skiavkthreaded \
+debug.renderengine.vulkan=true \
+debug.stagefright.renderengine.backend=threaded \
+debug.hwui.early_preload_g1_context=false \
+debug.hwui.level=0 \
+debug.renderengine.skia_atrace_enabled=false \
+debug.sf.enable_adpf_cpu_hint=false \
+debug.hwui.target_cpu_time_percent=70 \
+debug.hwui.initialize_g1_always=true \
+debug.hwui.drawing_enabled=true \
+ro.surface_flinger.max_frame_buffer_acquired_buffers=3 \
+ro.surface_flinger.min_acquired_buffers=1' "$vendor_build_prop"
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-title">修改7：屏幕密度适配</div>
+                <p>这些代码你要到你设备的根目录/product/etc/build.prop里和你要移植的机型的包的product/etc/build.prop找这两个</p>
+                <div class="code-block">
+persist.miul.density_v2=
+ro.sf.lcd_density=
+                </div>
+                <p>将等于号后面的数字分别填入（对应颜色）</p>
+                <div class="code-block">
+s/*persist.miul.density_v2=480/persist.miul.density_v2=560/;
+s/*ro.sf.lcd_density=480/ro.sf.lcd_density=560/;
+                </div>
+                <div class="code-block">
+echo "正在适配K60 Pro的各种参数"
+sed -i '
+    s//persist\..miul\..density_v2=480/persist.miul.density_v2=560/;
+    s//ro\..sf\..lcd_density=480/ro.sf.lcd_density=560/;
+    s//persist\..sys\..prestart\..proc=true/persist.sys.prestart.proc=false/;
+' "$product_build_prop"
+sed -i '
+    s//ro\..vendor\..nfc\..dispatch_optim=1/ro.vendor.nfc.dispatch_optim=2/;
+' "$odm_build_prop"
+echo "适配K60 Pro的各种参数成功"
+echo ""
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-title">修改8：设备代号替换</div>
+                <p>把（黄色的）换成你的设备代号</p>
+                <div class="code-block">
+/toolsocrates.xml
+                </div>
+                <div class="code-block">
+./product/etc/device_features/socrates.xml
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-title">修改9：删除和替换文件</div>
+                <p>rm -rf是删除你要移植的机型的包的product/etc/displayconfig/display_id_XXXXX.xml，找对应的替换就好了（懒得赘述了，如果你连这个都不会，我建议你用别人改好的包）。后面的</p>
+                <div class="code-block">
+/tool/display_id_XXXXX.xml
+./product/etc/displayconfig/display_id_XXXXX.xml
+                </div>
+                <p>替换成你机型对应的名字（懒得赘述了，如果你连这个都不会，我建议你用别人改好的包）。</p>
+            </div>
+            
+            <div class="step">
+                <div class="step-title">修改10-13：其他调整</div>
+                <p>10.看你实际情况，你机型要补哪就补哪个。</p>
+                <p>11.和下面的添加6Hz（全局120Hz）同理，将换色部分替换成你的设备代号：</p>
+                <div class="code-block">
+gfFile="./product/etc/device_features/socrates.xml"
+                </div>
+                <p>12.这个是替换仿coloros14设置的，如果你开的是A16的HyperOS3就不用动，如果不是就把代码删除。</p>
+                <p>13.开的是否为HyperOS3 如果不是把这些都注释或者删除。</p>
+            </div>
+            
+            <h3>目录修改部分</h3>
+            <p>代码部分改好了，接下来进入目录部分。进入LUCKY_OS_Tools/tool</p>
+            
+            <ol>
+                <li>apex文件夹里替换成你的机型的system_ext/apex里跟上面第10步要补的文件</li>
+                <li>overlay文件夹里替换成你机型的各个文件（文件名参考我的），在product/overlay/</li>
+                <li>display_id_XXXX.xml替换成你机型的，在product/etc/displayconfig/</li>
+                <li>manifest.xml替换成你机型的，在system_ext/etc/vintf/</li>
+                <li>XXXX.xml替换成你机型的，在product/etc/device_features/</li>
+                <li>MluiCamera.apk替换成你机型的（就是相机.apk）</li>
+                <li>Settings.apk如果你开的是A16的HyperOS3就不用动，如果不是就删除Settings.apk</li>
+            </ol>
+            
+            <p>到这里对于LUCKY OS Tools的二改已经完成，接下来把LUCKY_OS_Tools整个文件夹压缩成.zip2的格式（先压成.zip，再改后缀为.zip2）。在DNA里面导入二改好的LUCKY OS Tools，按照1.1的数据来就行了。</p>
+            
+            <h3>教程2：不使用LUCKY OS Tools开包（纯手搓）</h3>
+            <div class="warning">
+                <div class="warning-title">注意</div>
+                <p>此教程我只保证能开机，因为改个性化设置还有修改部分太多啦，写不完。</p>
+            </div>
+            
+            <div class="step">
+                <div class="step-title">步骤1：准备刷机包</div>
+                <p>准备两个刷机包，最好是卡刷包，一个为你机型的最新版本卡刷包，另一个为你要移植的机型的刷机包（我这里用最新的Xiaomi 17 Pro Max的卡刷包代替）。</p>
+            </div>
+            
+            <div class="step">
+                <div class="step-title">步骤2：提取镜像文件</div>
+                <p>进入Xiaomi 17 Pro Max的卡刷包（用MT管理器可以不解压预览），进入payload.bin，提取mi-ext、product、system、system_ext 四个img镜像；进入Redmi K60 Pro的卡刷包（用MT管理器可以不解压预览），进入payload.bin，提取odm、system_dikm、vendor、vendor_dikm 四个img镜像。</p>
+            </div>
+            
+            <div class="step">
+                <div class="step-title">步骤3-4：移动并分解镜像</div>
+                <p>将这8个镜像全部移动到正常用户目录下的DNA/你的工程名字/路径下，打开DNA-Android，进入工程菜单—分解img—选择这8个img镜像，勾选删除源文件，点击确定。</p>
+                <p>进入根目录的/data/DNA/你的工程名字/路径下，有8个对应名字的文件夹就对了。</p>
+            </div>
+            
+            <div class="step">
+                <div class="step-title">步骤5：修改build.prop文件</div>
+                <p>我们依次进入</p>
+                <div class="code-block">
+mi_ext/etc/build.prop
+product/etc/build.prop
+system/system/build.prop
+system_ext/etc/build.prop
+vendor/build.prop
+odm/etc/build.prop
+system_dlkm/etc/build.prop
+vendor_dlkm/etc/build.prop
+                </div>
+                <p>依次修改它们的代码。</p>
+            </div>
+            
+            <div class="step">
+                <div class="step-title">步骤6-9：补充和替换文件</div>
+                <p>6.补全system_ext/apex/里的文件</p>
+                <p>7.替换system_ext/etc/vintf的文件（从底包机替换）</p>
+                <p>8.开HyperOS3卡一的_在product/etc/build.prop，找到persist.sys.enhance_vkpipelinecache.enable=true，改为false或删除</p>
+                <p>9.替换product/etc/device_features/</p>
+            </div>
+            
+            <p>结束！剩下的修bug部分自行搜索或者尽情期待...</p>
+            
+            <div class="note">
+                <p>本教程到此结束，共2362个字。</p>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2023 HyperOS移植教程 | 仅供学习交流使用</p>
+        </footer>
+    </div>
+</body>
+</html>
