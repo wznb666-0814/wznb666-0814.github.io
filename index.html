@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>没有天赋那就反复の博客</title>
+    <!-- 添加网站图标 -->
+    <link rel="icon" href="https://p3-pc-sign.douyinpic.com/aweme-avatar/tos-cn-i-0813c001_ogI9YNoAe1xTyTR3BAEbLeiD4AACFgPwimAAZE~tplv-8yspqt5zfm-300x300.webp?lk3s=93de098e&x-expires=1762088400&x-signature=zN2jNtlCzcxC0pQA3SGsIG%2BV6SI%3D&from=2480802190&s=profile&se=false&sc=avatar&l=20251031213253B5C000FD4B6A96BB711B" type="image/webp">
     <link href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -474,6 +476,46 @@
             font-weight: bold;
         }
         
+        /* 进度条样式 */
+        .project-progress {
+            margin-top: 20px;
+        }
+        
+        .progress-item {
+            margin-bottom: 15px;
+        }
+        
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        
+        .progress-title {
+            font-weight: bold;
+            color: #6666cc;
+        }
+        
+        .progress-percent {
+            color: #ff66a3;
+            font-weight: bold;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background-color: #f0f0ff;
+            border-radius: 5px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff66a3, #6666cc);
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
+        
         /* 响应式设计 */
         @media (max-width: 768px) {
             .main-content {
@@ -568,19 +610,19 @@
                 <div class="sidebar-widget about-me">
                     <h3 class="widget-title">关于我</h3>
                     <!-- 使用SVG作为头像占位 -->
-                    <img src="https://p3-pc-sign.douyinpic.com/aweme-avatar/tos-cn-i-0813c001_ogI9YNoAe1xTyTR3BAEbLeiD4AACFgPwimAAZE~tplv-8yspqt5zfm-300x300.webp?lk3s=93de098e&x-expires=1762088400&x-signature=zN2jNtlCzcxC0pQA3SGsIG%2BV6SI%3D&from=2480802190&s=profile&se=false&sc=avatar&l=20251031213253B5C000FD4A6A96BB711B" alt="头像" class="avatar">
+                    <img src="https://p3-pc-sign.douyinpic.com/aweme-avatar/tos-cn-i-0813c001_ogI9YNoAe1xTyTR3BAEbLeiD4AACFgPwimAAZE~tplv-8yspqt5zfm-300x300.webp?lk3s=93de098e&x-expires=1762088400&x-signature=zN2jNtlCzcxC0pQA3SGsIG%2BV6SI%3D&from=2480802190&s=profile&se=false&sc=avatar&l=20251031213253B5C000FD4B6A96BB711B" alt="头像" class="avatar">
                     <p>2011年14岁初三生</p>
                     <p>My hobbys：音乐、C++、Shell、Python、HTML、ROM制作、瓦罗兰特、原神、吉他（目前不咋会...）</p>
                 </div> 
                 <div class="sidebar-widget">
-                    <h3 class="widget-title">热门标签</h3>
+                    <h3 class="widget-title">我的标签</h3>
                     <div class="tags">
-                        <a href="#" class="tag">二次元</a>
                         <a href="#" class="tag">GalGame</a>
                         <a href="#" class="tag">瓦</a>
                         <a href="#" class="tag">原批</a>
                         <a href="#" class="tag">游戏</a>
                         <a href="#" class="tag">科技</a>
+                        <a href="#" class="tag">暖男</a>
                     </div>
                 </div>
             </div>
@@ -705,16 +747,15 @@
             <div class="blog-posts">
                 <div class="page-header">
                     <h1 class="page-title">关于我</h1>
-                    <p class="page-description">了解更多关于我的信息，包括我的兴趣爱好、技能和学习经历</p>
+                    <p class="page-description">更多关于我的信息</p>
                 </div>
                 
                 <div class="about-content">
                     <div class="about-text">
                         <h2>个人简介</h2>
-                        <p>你好！我是没有天赋那就反复，一名14岁的初三学生。我对编程和技术充满热情，喜欢探索各种新奇的技术和工具。</p>
+                        <p>你好！我是没有天赋那就反复，一名14岁的初三学生。我对编程和技术充满热情，喜欢各种新奇的技术和工具。</p>
                         
                         <h2>我的兴趣爱好</h2>
-                        <p>我的兴趣爱好非常广泛，主要包括：</p>
                         <ul>
                             <li><strong>编程</strong>：目前主要学习C++、Python、HTML和Shell脚本</li>
                             <li><strong>ROM制作</strong>：对Android系统充满好奇，喜欢研究和制作ROM</li>
@@ -723,7 +764,6 @@
                         </ul>
                         
                         <h2>我的项目</h2>
-                        <p>目前我正在开发的一些项目：</p>
                         <ul>
                             <li><strong>LUCKY OS</strong>：基于HyperOS深度优化的ROM</li>
                             <li><strong>LUCKY OS Tools</strong>：为LUCKY OS开发的DNA-Android插件</li>
@@ -746,15 +786,35 @@
                     </div>
                 </div>
             </div>
-            
-            <div class="sidebar">
-                <div class="sidebar-widget">
-                    <h3 class="widget-title">我的项目</h3>
-                    <ul>
-                        <li><a href="#">LUCKY OS <span>进行中 99%?</span></a></li>
-                        <li><a href="#">LUCKY OS Tools <span>进行中 99%?</span></a></li>
-                        <li><a href="#">个人博客 <span>只有进行时没有完成时</span></a></li>
-                    </ul>
+            <!-- 项目进度条 -->
+            <div class="project-progress">
+                <h3>项目进度</h3>
+                <div class="progress-item">
+                    <div class="progress-header">
+                        <span class="progress-title">LUCKY OS</span>
+                        <span class="progress-percent">99%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 99%"></div>
+                    </div>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-header">
+                        <span class="progress-title">LUCKY OS Tools</span>
+                        <span class="progress-percent">99%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 99%"></div>
+                    </div>
+                </div>
+                <div class="progress-item">
+                    <div class="progress-header">
+                        <span class="progress-title">个人博客</span>
+                        <span class="progress-percent">持续更新</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 50%"></div>
+                    </div>
                 </div>
             </div>
         </div>
