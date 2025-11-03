@@ -87,6 +87,7 @@
             color: #6666cc;
         }
         
+        /* 导航菜单样式 */
         nav ul {
             display: flex;
             list-style: none;
@@ -115,6 +116,18 @@
             background-color: white;
             color: #ff66a3;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* 汉堡菜单按钮 */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #6666cc;
+            cursor: pointer;
+            padding: 5px;
+            z-index: 1001;
         }
         
         /* 主要内容区域 */
@@ -162,14 +175,16 @@
         .post-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-start;
             margin-bottom: 15px;
+            flex-wrap: wrap;
         }
         
         .post-title {
             font-family: 'Mochiy Pop One', sans-serif;
             color: #6666cc;
             font-size: 22px;
+            margin-bottom: 10px;
         }
         
         .post-date {
@@ -178,6 +193,7 @@
             background: #f0f0ff;
             padding: 5px 10px;
             border-radius: 15px;
+            white-space: nowrap;
         }
         
         .post-excerpt {
@@ -189,11 +205,13 @@
             display: inline-block;
             background: linear-gradient(135deg, #ff66a3, #6666cc);
             color: white;
-            padding: 8px 20px;
+            padding: 10px 20px;
             border-radius: 20px;
             text-decoration: none;
             font-weight: bold;
             transition: all 0.3s ease;
+            min-width: 140px;
+            text-align: center;
         }
         
         .read-more:hover {
@@ -273,10 +291,11 @@
         .tag {
             background: #e6f0ff;
             color: #6666cc;
-            padding: 5px 15px;
+            padding: 8px 15px;
             border-radius: 15px;
             font-size: 14px;
             transition: all 0.3s ease;
+            text-decoration: none;
         }
         
         .tag:hover {
@@ -425,12 +444,13 @@
             display: inline-block;
             background: linear-gradient(135deg, #ff66a3, #6666cc);
             color: white;
-            padding: 8px 20px;
+            padding: 10px 20px;
             border-radius: 20px;
             text-decoration: none;
             font-weight: bold;
             transition: all 0.3s ease;
             text-align: center;
+            min-width: 140px;
         }
         
         .website-link:hover {
@@ -517,6 +537,16 @@
         }
         
         /* 响应式设计 */
+        @media (max-width: 1024px) {
+            .logo-text h1 {
+                font-size: 24px;
+            }
+            
+            .main-content {
+                gap: 20px;
+            }
+        }
+        
         @media (max-width: 768px) {
             .main-content {
                 flex-direction: column;
@@ -532,12 +562,62 @@
                 margin-bottom: 20px;
             }
             
+            .logo-text {
+                margin-left: 0;
+                margin-top: 15px;
+            }
+            
+            /* 移动端导航菜单 */
+            .menu-toggle {
+                display: block;
+                position: absolute;
+                top: 30px;
+                right: 20px;
+            }
+            
+            nav {
+                width: 100%;
+                margin-top: 20px;
+                display: none;
+            }
+            
+            nav.active {
+                display: block;
+            }
+            
             nav ul {
-                justify-content: center;
+                flex-direction: column;
+                align-items: center;
             }
             
             nav li {
-                margin: 0 10px;
+                margin: 10px 0;
+                width: 100%;
+                text-align: center;
+            }
+            
+            nav a {
+                display: block;
+                padding: 12px 15px;
+                font-size: 18px;
+            }
+            
+            .post-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .post-title {
+                font-size: 20px;
+            }
+            
+            .post-date {
+                margin-top: 10px;
+            }
+            
+            .read-more {
+                width: 100%;
+                padding: 12px;
             }
             
             .about-content {
@@ -547,6 +627,89 @@
             .about-image {
                 order: -1;
             }
+            
+            .websites-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .website-link {
+                width: 100%;
+                padding: 12px;
+            }
+            
+            .footer-content {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .footer-section {
+                margin-bottom: 30px;
+            }
+            
+            .page-title {
+                font-size: 26px;
+            }
+            
+            .page-header {
+                padding: 20px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 15px;
+            }
+            
+            header {
+                padding: 20px 0;
+            }
+            
+            .logo img {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .logo-text h1 {
+                font-size: 20px;
+            }
+            
+            .logo-text p {
+                font-size: 12px;
+            }
+            
+            .post-card {
+                padding: 20px;
+            }
+            
+            .sidebar-widget {
+                padding: 20px;
+            }
+            
+            .page-title {
+                font-size: 22px;
+            }
+            
+            .page-description {
+                font-size: 16px;
+            }
+            
+            .widget-title {
+                font-size: 18px;
+            }
+            
+            .post-title {
+                font-size: 18px;
+            }
+            
+            .tag {
+                padding: 6px 12px;
+                font-size: 13px;
+            }
+            
+            .skill {
+                padding: 6px 15px;
+                font-size: 14px;
+            }
         }
     </style>
 </head>
@@ -554,15 +717,15 @@
     <header>
         <div class="container">
             <div class="header-content">
+                <button class="menu-toggle" id="menuToggle">☰</button>
                 <div class="logo">
-                    <!-- 使用SVG作为头像占位 -->
                     <img src="https://p3-pc-sign.douyinpic.com/aweme-avatar/tos-cn-i-0813c001_ogI9YNoAe1xTyTR3BAEbLeiD4AACFgPwimAAZE~tplv-8yspqt5zfm-300x300.webp?lk3s=93de098e&x-expires=1762088400&x-signature=zN2jNtlCzcxC0pQA3SGsIG%2BV6SI%3D&from=2480802190&s=profile&se=false&sc=avatar&l=20251031213253B5C000FD4B6A96BB711B" alt="头像" class="avatar">
                     <div class="logo-text">
                         <h1>没有天赋那就反复の小窝</h1>
                         <p>欢迎来到我的个人博客</p>
                     </div>
                 </div>
-                <nav>
+                <nav id="mainNav">
                     <ul>
                         <li><a href="#home" class="active">首页</a></li>
                         <li><a href="#my-content">我的内容</a></li>
@@ -609,7 +772,6 @@
             <div class="sidebar">
                 <div class="sidebar-widget about-me">
                     <h3 class="widget-title">关于我</h3>
-                    <!-- 使用SVG作为头像占位 -->
                     <img src="https://p3-pc-sign.douyinpic.com/aweme-avatar/tos-cn-i-0813c001_ogI9YNoAe1xTyTR3BAEbLeiD4AACFgPwimAAZE~tplv-8yspqt5zfm-300x300.webp?lk3s=93de098e&x-expires=1762088400&x-signature=zN2jNtlCzcxC0pQA3SGsIG%2BV6SI%3D&from=2480802190&s=profile&se=false&sc=avatar&l=20251031213253B5C000FD4B6A96BB711B" alt="头像" class="avatar">
                     <p>2011年14岁初三生</p>
                     <p>My hobbys：音乐、C++、Shell、Python、HTML、ROM制作、瓦罗兰特、原神、吉他（目前不咋会...）</p>
@@ -853,6 +1015,10 @@
             const navLinks = document.querySelectorAll('nav a');
             // 获取所有内容区域
             const contentSections = document.querySelectorAll('.main-content');
+            // 获取菜单切换按钮
+            const menuToggle = document.getElementById('menuToggle');
+            // 获取主导航
+            const mainNav = document.getElementById('mainNav');
             
             // 默认显示首页
             showSection('home');
@@ -872,7 +1038,17 @@
                     
                     // 显示对应的内容区域
                     showSection(targetId);
+                    
+                    // 在移动设备上关闭菜单
+                    if (window.innerWidth <= 768) {
+                        mainNav.classList.remove('active');
+                    }
                 });
+            });
+            
+            // 菜单切换按钮点击事件
+            menuToggle.addEventListener('click', function() {
+                mainNav.classList.toggle('active');
             });
             
             function showSection(sectionId) {
@@ -890,6 +1066,16 @@
                     document.getElementById('home').style.display = 'flex';
                 }
             }
+            
+            // 点击页面其他区域关闭菜单
+            document.addEventListener('click', function(e) {
+                if (window.innerWidth <= 768 && 
+                    !mainNav.contains(e.target) && 
+                    !menuToggle.contains(e.target) &&
+                    mainNav.classList.contains('active')) {
+                    mainNav.classList.remove('active');
+                }
+            });
         });
     </script>
 </body>
