@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>没有天赋那就反复の博客</title>
     <!-- 添加网站图标 -->
-    <link rel="icon" href="https://p3-pc-sign.douyinpic.com/aweme-avatar/tos-cn-i-0813c001_ogI9YNoAe1xTyTR3BAEbLeiD4AACFgPwimAAZE~tplv-8yspqt5zfm-300x300.webp?lk3s=93de098e&x-expires=1762088400&x-signature=zN2jNtlCzcxC0pQA3SGsIG%2BV6SI%3D&from=2480802190&s=profile&se=false&sc=avatar&l=20251031213253B5C000FD4B6A96BB711B" type="image/webp">
+    <link rel="icon" href="头像.jpg" type="image/jpeg">
     <link href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -24,6 +24,9 @@
             background-attachment: fixed;
             background-position: center;
             position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
         
         body::before {
@@ -41,6 +44,7 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
+            flex: 1;
         }
         
         /* 头部样式 */
@@ -145,7 +149,7 @@
         
         /* 主要内容区域 */
         .main-content {
-            display: flex;
+            display: none;
             margin: 40px 0;
             gap: 30px;
             opacity: 0;
@@ -156,6 +160,11 @@
         .main-content.active {
             opacity: 1;
             transform: translateY(0);
+        }
+        
+        /* 默认显示首页 */
+        #home {
+            display: flex;
         }
         
         .blog-posts {
@@ -575,6 +584,7 @@
         @media (max-width: 768px) {
             .main-content {
                 flex-direction: column;
+                margin: 20px 0; /* 减少移动端的上下边距 */
             }
             
             .header-content {
@@ -592,7 +602,7 @@
                 margin-top: 15px;
             }
             
-            /* 移动端导航菜单 */
+            /* 移动端导航菜单 - 添加动画 */
             .menu-toggle {
                 display: block;
                 position: absolute;
@@ -603,11 +613,16 @@
             nav {
                 width: 100%;
                 margin-top: 20px;
-                display: none;
+                max-height: 0;
+                opacity: 0;
+                overflow: hidden;
+                transition: max-height 0.5s ease, opacity 0.5s ease;
+                transform-origin: top;
             }
             
             nav.active {
-                display: block;
+                max-height: 500px;
+                opacity: 1;
             }
             
             nav ul {
@@ -619,7 +634,20 @@
                 margin: 10px 0;
                 width: 100%;
                 text-align: center;
+                opacity: 0;
+                transform: translateY(-10px);
+                transition: opacity 0.3s ease, transform 0.3s ease;
             }
+            
+            nav.active li {
+                opacity: 1;
+                transform: translateY(0);
+            }
+            
+            nav li:nth-child(1) { transition-delay: 0.1s; }
+            nav li:nth-child(2) { transition-delay: 0.2s; }
+            nav li:nth-child(3) { transition-delay: 0.3s; }
+            nav li:nth-child(4) { transition-delay: 0.4s; }
             
             nav a {
                 display: block;
@@ -677,6 +705,10 @@
             
             .page-header {
                 padding: 20px;
+            }
+            
+            footer {
+                margin-top: 30px; /* 减少移动端页脚上边距 */
             }
         }
         
@@ -744,7 +776,7 @@
             <div class="header-content">
                 <button class="menu-toggle" id="menuToggle">☰</button>
                 <div class="logo">
-                    <img src="https://p3-pc-sign.douyinpic.com/aweme-avatar/tos-cn-i-0813c001_ogI9YNoAe1xTyTR3BAEbLeiD4AACFgPwimAAZE~tplv-8yspqt5zfm-300x300.webp?lk3s=93de098e&x-expires=1762088400&x-signature=zN2jNtlCzcxC0pQA3SGsIG%2BV6SI%3D&from=2480802190&s=profile&se=false&sc=avatar&l=20251031213253B5C000FD4B6A96BB711B" alt="头像" class="avatar">
+                    <img src="头像.jpg" alt="头像" class="avatar">
                     <div class="logo-text">
                         <h1>没有天赋那就反复の小窝</h1>
                         <p>欢迎来到我的个人博客</p>
@@ -792,12 +824,21 @@
                     <p class="post-excerpt">手把手教你移植Xiaomi HyperOS 定制专属你的专属ROM系统</p>
                     <a href="HyperOS移植思路.html" class="read-more">查看教程</a>
                 </article>
+
+                <article class="post-card">
+                    <div class="post-header">
+                        <h2 class="post-title">LUCKY OS & Tools 旧版官网</h2>
+                        <span class="post-date">2025-07-30</span>
+                    </div>
+                    <p class="post-excerpt">之前专门为LUCKY OS & Tools编写的官网，后演变为现在的博客，放着里纪念<</p>
+                    <a href="LUCKY OS&Tools.html" class="read-more">访问网站</a>
+                </article>
             </div>
             
             <div class="sidebar">
                 <div class="sidebar-widget about-me">
                     <h3 class="widget-title">关于我</h3>
-                    <img src="https://p3-pc-sign.douyinpic.com/aweme-avatar/tos-cn-i-0813c001_ogI9YNoAe1xTyTR3BAEbLeiD4AACFgPwimAAZE~tplv-8yspqt5zfm-300x300.webp?lk3s=93de098e&x-expires=1762088400&x-signature=zN2jNtlCzcxC0pQA3SGsIG%2BV6SI%3D&from=2480802190&s=profile&se=false&sc=avatar&l=20251031213253B5C000FD4B6A96BB711B" alt="头像" class="avatar">
+                    <img src="头像.jpg" alt="头像" class="avatar">
                     <p>2011年14岁初三生</p>
                     <p>My hobbys：音乐、C++、Shell、Python、HTML、ROM制作、瓦罗兰特、原神、吉他（目前不咋会...）</p>
                 </div> 
@@ -852,11 +893,11 @@
                 
                 <article class="post-card">
                     <div class="post-header">
-                        <h2 class="post-title">安卓Shell脚本</h2>
-                        <span class="post-date">2025-01-20</span>
+                        <h2 class="post-title">LUCKY OS & Tools 旧版官网</h2>
+                        <span class="post-date">2025-07-30</span>
                     </div>
-                    <p class="post-excerpt">分享一些实用的Shell脚本，包括系统管理、文件操作、自动化部署等，帮助提高Linux使用效率。</p>
-                    <a href="#" class="read-more">查看脚本</a>
+                    <p class="post-excerpt">之前专门为LUCKY OS & Tools编写的官网，后演变为现在的博客，放着里纪念</p>
+                    <a href="LUCKY OS&Tools.html" class="read-more">访问网站</a>
                 </article>
             </div>
         </div>
@@ -959,7 +1000,7 @@
                     </div>
                     
                     <div class="about-image">
-                        <img src="https://p3-pc-sign.douyinpic.com/aweme-avatar/tos-cn-i-0813c001_ogI9YNoAe1xTyTR3BAEbLeiD4AACFgPwimAAZE~tplv-8yspqt5zfm-300x300.webp?lk3s=93de098e&x-expires=1762088400&x-signature=zN2jNtlCzcxC0pQA3SGsIG%2BV6SI%3D&from=2480802190&s=profile&se=false&sc=avatar&l=20251031213253B5C000FD4B6A96BB711B" alt="我的头像">
+                        <img src="头像.jpg" alt="我的头像">
                         <h3>个人标签</h3>
                         <div class="skills">
                             <span class="skill">C++</span>
@@ -979,19 +1020,19 @@
                 <div class="progress-item">
                     <div class="progress-header">
                         <span class="progress-title">LUCKY OS</span>
-                        <span class="progress-percent">99%</span>
+                        <span class="progress-percent">持续更新</span>
                     </div>
                     <div class="progress-bar">
-                        <div class="progress-fill" style="width: 99%"></div>
+                        <div class="progress-fill" style="width: 95%"></div>
                     </div>
                 </div>
                 <div class="progress-item">
                     <div class="progress-header">
                         <span class="progress-title">LUCKY OS Tools</span>
-                        <span class="progress-percent">99%</span>
+                        <span class="progress-percent">持续更新</span>
                     </div>
                     <div class="progress-bar">
-                        <div class="progress-fill" style="width: 99%"></div>
+                        <div class="progress-fill" style="width: 95%"></div>
                     </div>
                 </div>
                 <div class="progress-item">
@@ -1000,7 +1041,7 @@
                         <span class="progress-percent">持续更新</span>
                     </div>
                     <div class="progress-bar">
-                        <div class="progress-fill" style="width: 50%"></div>
+                        <div class="progress-fill" style="width: 80%"></div>
                     </div>
                 </div>
             </div>
@@ -1044,9 +1085,6 @@
             const menuToggle = document.getElementById('menuToggle');
             // 获取主导航
             const mainNav = document.getElementById('mainNav');
-            
-            // 默认显示首页
-            showSection('home');
             
             // 为每个导航链接添加点击事件
             navLinks.forEach(link => {
