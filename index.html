@@ -28,6 +28,43 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            overflow-x: hidden; /* 防止水平滚动条 */
+        }
+        
+        /* 樱花飘落容器 */
+        #sakura-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        
+        /* 樱花样式 */
+        .sakura {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path fill="%23ffcce6" d="M10 0C4.48 0 0 4.48 0 10s4.48 10 10 10 10-4.48 10-10S15.52 0 10 0zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/><path fill="%23ffb3e6" d="M10 2c4.42 0 8 3.58 8 8s-3.58 8-8 8-8-3.58-8-8 3.58-8 8-8z"/><path fill="%23ff99cc" d="M10 4c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6 2.69-6 6-6z"/></svg>');
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.7;
+            z-index: 9999;
+        }
+        
+        /* 樱花拖尾样式 */
+        .sakura-trail {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 15"><path fill="%23ffcce6" d="M7.5 0C3.36 0 0 3.36 0 7.5S3.36 15 7.5 15 15 11.64 15 7.5 11.64 0 7.5 0zm0 13.5c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/><path fill="%23ffb3e6" d="M7.5 1.5c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6 2.69-6 6-6z"/></svg>');
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.8;
+            z-index: 9999;
+            pointer-events: none;
         }
         
         /* 移除body::before遮罩层 */
@@ -37,6 +74,8 @@
             margin: 0 auto;
             padding: 0 20px;
             flex: 1;
+            position: relative;
+            z-index: 1; /* 确保内容在樱花之上 */
         }
         
         /* 头部样式 */
@@ -47,6 +86,7 @@
             box-shadow: 0 4px 15px rgba(255, 150, 200, 0.2);
             position: relative;
             overflow: hidden;
+            z-index: 1; /* 确保头部在樱花之上 */
         }
         
         header::before {
@@ -397,6 +437,7 @@
             text-align: center;
             color: #cc6699;
             margin-top: 50px;
+            z-index: 1; /* 确保页脚在樱花之上 */
         }
         
         .footer-content {
@@ -833,6 +874,9 @@
     </style>
 </head>
 <body>
+    <!-- 樱花飘落容器 -->
+    <div id="sakura-container"></div>
+    
     <header>
         <div class="container">
             <div class="header-content">
@@ -1185,6 +1229,169 @@
         // 初始化时钟并每秒更新
         updateBeijingClock();
         setInterval(updateBeijingClock, 1000);
+
+        // 樱花飘落特效
+        function createSakura() {
+            const container = document.getElementById('sakura-container');
+            const sakura = document.createElement('div');
+            sakura.className = 'sakura';
+            
+            // 随机位置
+            const startX = Math.random() * window.innerWidth;
+            const endX = startX + (Math.random() * 200 - 100); // 随机飘落方向
+            
+            // 随机大小
+            const size = 10 + Math.random() * 20;
+            sakura.style.width = `${size}px`;
+            sakura.style.height = `${size}px`;
+            
+            // 随机透明度
+            const opacity = 0.4 + Math.random() * 0.6;
+            sakura.style.opacity = opacity;
+            
+            // 随机旋转
+            const rotation = Math.random() * 360;
+            sakura.style.transform = `rotate(${rotation}deg)`;
+            
+            // 随机下落速度
+            const duration = 10 + Math.random() * 20; // 10-30秒
+            const delay = Math.random() * 5; // 0-5秒延迟
+            
+            // 设置初始位置
+            sakura.style.left = `${startX}px`;
+            sakura.style.top = `-30px`;
+            
+            // 添加到容器
+            container.appendChild(sakura);
+            
+            // 动画
+            sakura.animate([
+                { 
+                    transform: `translate(0, 0) rotate(${rotation}deg)`,
+                    opacity: opacity
+                },
+                { 
+                    transform: `translate(${endX - startX}px, ${window.innerHeight + 30}px) rotate(${rotation + 360}deg)`,
+                    opacity: 0
+                }
+            ], {
+                duration: duration * 1000,
+                delay: delay * 1000,
+                easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
+            });
+            
+            // 动画结束后移除元素
+            setTimeout(() => {
+                if (sakura.parentNode) {
+                    sakura.parentNode.removeChild(sakura);
+                }
+            }, (duration + delay) * 1000);
+        }
+        
+        // 樱花拖尾特效
+        function createSakuraTrail(x, y, isFast) {
+            const container = document.getElementById('sakura-container');
+            const trailCount = isFast ? 3 : 5; // 快速移动时生成3个，慢速时生成5个
+            
+            for (let i = 0; i < trailCount; i++) {
+                const trail = document.createElement('div');
+                trail.className = 'sakura-trail';
+                
+                // 随机大小
+                const size = 8 + Math.random() * 12;
+                trail.style.width = `${size}px`;
+                trail.style.height = `${size}px`;
+                
+                // 随机透明度
+                const opacity = 0.6 + Math.random() * 0.4;
+                trail.style.opacity = opacity;
+                
+                // 随机旋转
+                const rotation = Math.random() * 360;
+                trail.style.transform = `rotate(${rotation}deg)`;
+                
+                // 设置初始位置
+                trail.style.left = `${x}px`;
+                trail.style.top = `${y}px`;
+                
+                // 添加到容器
+                container.appendChild(trail);
+                
+                // 随机偏移
+                const offsetX = (Math.random() - 0.5) * (isFast ? 100 : 50);
+                const offsetY = (Math.random() - 0.5) * (isFast ? 100 : 50);
+                
+                // 动画持续时间
+                const duration = isFast ? 1000 : 2000;
+                
+                // 动画
+                trail.animate([
+                    { 
+                        transform: `translate(0, 0) rotate(${rotation}deg)`,
+                        opacity: opacity
+                    },
+                    { 
+                        transform: `translate(${offsetX}px, ${offsetY}px) rotate(${rotation + 180}deg)`,
+                        opacity: 0
+                    }
+                ], {
+                    duration: duration,
+                    easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
+                });
+                
+                // 动画结束后移除元素
+                setTimeout(() => {
+                    if (trail.parentNode) {
+                        trail.parentNode.removeChild(trail);
+                    }
+                }, duration);
+            }
+        }
+        
+        // 初始化樱花飘落
+        function initSakura() {
+            // 创建初始樱花
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    createSakura();
+                }, i * 500);
+            }
+            
+            // 持续创建樱花
+            setInterval(() => {
+                if (Math.random() > 0.3) { // 70%的概率创建新樱花
+                    createSakura();
+                }
+            }, 1000);
+            
+            // 鼠标移动事件监听
+            let lastMouseX = 0;
+            let lastMouseY = 0;
+            let lastTime = 0;
+            
+            document.addEventListener('mousemove', (e) => {
+                const currentTime = Date.now();
+                const deltaX = e.clientX - lastMouseX;
+                const deltaY = e.clientY - lastMouseY;
+                const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+                const timeDiff = currentTime - lastTime;
+                
+                // 计算移动速度
+                const speed = timeDiff > 0 ? distance / timeDiff : 0;
+                
+                // 根据速度决定是否生成拖尾
+                if (speed > 0.5) { // 速度阈值
+                    createSakuraTrail(e.clientX, e.clientY, speed > 2);
+                }
+                
+                lastMouseX = e.clientX;
+                lastMouseY = e.clientY;
+                lastTime = currentTime;
+            });
+        }
+        
+        // 页面加载完成后初始化樱花特效
+        window.addEventListener('load', initSakura);
     </script>
 </body>
 </html>
