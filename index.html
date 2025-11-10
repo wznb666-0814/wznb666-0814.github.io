@@ -78,15 +78,17 @@
             z-index: 1; /* 确保内容在樱花之上 */
         }
         
-        /* 头部样式 */
+        /* 头部样式 - 添加毛玻璃效果 */
         header {
-            background: linear-gradient(135deg, #ffcce6 0%, #ffb3e6 100%);
+            background: rgba(255, 204, 230, 0.7); /* 半透明背景 */
             padding: 30px 0;
             border-radius: 0 0 30px 30px;
             box-shadow: 0 4px 15px rgba(255, 150, 200, 0.2);
             position: relative;
             overflow: hidden;
             z-index: 1; /* 确保头部在樱花之上 */
+            backdrop-filter: blur(10px); /* 毛玻璃效果 */
+            -webkit-backdrop-filter: blur(10px); /* Safari 支持 */
         }
         
         header::before {
@@ -154,15 +156,18 @@
             border-radius: 20px;
             transition: all 0.3s ease;
             position: relative;
+            background: rgba(255, 255, 255, 0.3); /* 半透明背景 */
+            backdrop-filter: blur(5px); /* 毛玻璃效果 */
+            -webkit-backdrop-filter: blur(5px); /* Safari 支持 */
         }
         
         nav a:hover {
-            background-color: rgba(255, 255, 255, 0.5);
+            background-color: rgba(255, 255, 255, 0.7);
             color: #ff3399;
         }
         
         nav a.active {
-            background-color: white;
+            background-color: rgba(255, 255, 255, 0.8);
             color: #ff3399;
             box-shadow: 0 4px 8px rgba(255, 150, 200, 0.2);
         }
@@ -170,13 +175,16 @@
         /* 汉堡菜单按钮 */
         .menu-toggle {
             display: none;
-            background: none;
+            background: rgba(255, 255, 255, 0.7); /* 半透明背景 */
             border: none;
             font-size: 24px;
             color: #cc6699;
             cursor: pointer;
             padding: 5px;
             z-index: 1001;
+            border-radius: 5px;
+            backdrop-filter: blur(5px); /* 毛玻璃效果 */
+            -webkit-backdrop-filter: blur(5px); /* Safari 支持 */
         }
         
         /* 主要内容区域 */
@@ -207,9 +215,9 @@
             flex: 1;
         }
         
-        /* 文章卡片样式 */
+        /* 文章卡片样式 - 增强毛玻璃效果 */
         .post-card {
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.7); /* 更透明的背景 */
             border-radius: 20px;
             padding: 25px;
             margin-bottom: 30px;
@@ -217,12 +225,15 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             position: relative;
             overflow: hidden;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(15px); /* 增强毛玻璃效果 */
+            -webkit-backdrop-filter: blur(15px); /* Safari 支持 */
+            border: 1px solid rgba(255, 255, 255, 0.3); /* 添加边框增强效果 */
         }
         
         .post-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 20px rgba(255, 150, 200, 0.2);
+            background: rgba(255, 255, 255, 0.8); /* 悬停时增加不透明度 */
         }
         
         .post-card::before {
@@ -253,10 +264,12 @@
         .post-date {
             color: #cc99aa;
             font-size: 14px;
-            background: #fff0f5;
+            background: rgba(255, 240, 245, 0.7); /* 半透明背景 */
             padding: 5px 10px;
             border-radius: 15px;
             white-space: nowrap;
+            backdrop-filter: blur(5px); /* 毛玻璃效果 */
+            -webkit-backdrop-filter: blur(5px); /* Safari 支持 */
         }
         
         .post-excerpt {
@@ -282,14 +295,16 @@
             box-shadow: 0 5px 10px rgba(255, 102, 163, 0.3);
         }
         
-        /* 侧边栏样式 */
+        /* 侧边栏样式 - 增强毛玻璃效果 */
         .sidebar-widget {
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.7); /* 更透明的背景 */
             border-radius: 20px;
             padding: 25px;
             margin-bottom: 30px;
             box-shadow: 0 5px 15px rgba(255, 150, 200, 0.1);
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(15px); /* 增强毛玻璃效果 */
+            -webkit-backdrop-filter: blur(15px); /* Safari 支持 */
+            border: 1px solid rgba(255, 255, 255, 0.3); /* 添加边框增强效果 */
         }
         
         .widget-title {
@@ -298,7 +313,7 @@
             font-size: 20px;
             margin-bottom: 20px;
             padding-bottom: 10px;
-            border-bottom: 2px dashed #fff0f5;
+            border-bottom: 2px dashed rgba(255, 240, 245, 0.7); /* 半透明边框 */
         }
         
         .about-me {
@@ -321,13 +336,15 @@
         .categories li {
             margin-bottom: 10px;
             padding: 10px 15px;
-            background: #fff5f9;
+            background: rgba(255, 245, 249, 0.7); /* 半透明背景 */
             border-radius: 10px;
             transition: all 0.3s ease;
+            backdrop-filter: blur(5px); /* 毛玻璃效果 */
+            -webkit-backdrop-filter: blur(5px); /* Safari 支持 */
         }
         
         .categories li:hover {
-            background: #ffe6f2;
+            background: rgba(255, 230, 242, 0.8);
             transform: translateX(5px);
         }
         
@@ -339,11 +356,13 @@
         }
         
         .categories span {
-            background: #ffcce6;
+            background: rgba(255, 204, 230, 0.7); /* 半透明背景 */
             color: #ff66a3;
             padding: 2px 8px;
             border-radius: 10px;
             font-size: 12px;
+            backdrop-filter: blur(5px); /* 毛玻璃效果 */
+            -webkit-backdrop-filter: blur(5px); /* Safari 支持 */
         }
         
         .tags {
@@ -353,17 +372,19 @@
         }
         
         .tag {
-            background: #ffe6f2;
+            background: rgba(255, 230, 242, 0.7); /* 半透明背景 */
             color: #cc6699;
             padding: 8px 15px;
             border-radius: 15px;
             font-size: 14px;
             transition: all 0.3s ease;
             text-decoration: none;
+            backdrop-filter: blur(5px); /* 毛玻璃效果 */
+            -webkit-backdrop-filter: blur(5px); /* Safari 支持 */
         }
         
         .tag:hover {
-            background: #ffcce6;
+            background: rgba(255, 204, 230, 0.8);
             color: #ff3399;
             transform: scale(1.05);
         }
@@ -379,16 +400,20 @@
             color: #ff66a3;
             margin-bottom: 15px;
             padding: 15px;
-            background: linear-gradient(135deg, #ffcce6, #ffb3e6);
+            background: rgba(255, 204, 230, 0.7); /* 半透明背景 */
             border-radius: 15px;
             box-shadow: 0 5px 15px rgba(255, 150, 200, 0.1);
+            backdrop-filter: blur(10px); /* 毛玻璃效果 */
+            -webkit-backdrop-filter: blur(10px); /* Safari 支持 */
         }
         
         .weather {
             padding: 15px;
-            background: #fff5f9;
+            background: rgba(255, 245, 249, 0.7); /* 半透明背景 */
             border-radius: 15px;
             box-shadow: 0 5px 15px rgba(255, 150, 200, 0.1);
+            backdrop-filter: blur(10px); /* 毛玻璃效果 */
+            -webkit-backdrop-filter: blur(10px); /* Safari 支持 */
         }
         
         .weather-info {
@@ -429,15 +454,17 @@
             font-size: 14px;
         }
         
-        /* 页脚样式 */
+        /* 页脚样式 - 添加毛玻璃效果 */
         footer {
-            background: linear-gradient(135deg, #ffb3e6 0%, #ffcce6 100%);
+            background: rgba(255, 179, 230, 0.7); /* 半透明背景 */
             padding: 40px 0;
             border-radius: 30px 30px 0 0;
             text-align: center;
             color: #cc6699;
             margin-top: 50px;
             z-index: 1; /* 确保页脚在樱花之上 */
+            backdrop-filter: blur(10px); /* 毛玻璃效果 */
+            -webkit-backdrop-filter: blur(10px); /* Safari 支持 */
         }
         
         .footer-content {
@@ -468,7 +495,7 @@
             display: inline-block;
             width: 40px;
             height: 40px;
-            background: white;
+            background: rgba(255, 255, 255, 0.8); /* 半透明背景 */
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -476,11 +503,14 @@
             color: #cc6699;
             text-decoration: none;
             transition: all 0.3s ease;
+            backdrop-filter: blur(5px); /* 毛玻璃效果 */
+            -webkit-backdrop-filter: blur(5px); /* Safari 支持 */
         }
         
         .social-link:hover {
             transform: translateY(-5px);
             box-shadow: 0 5px 10px rgba(255, 150, 200, 0.2);
+            background: rgba(255, 255, 255, 0.9);
         }
         
         .copyright {
@@ -490,14 +520,16 @@
             font-size: 14px;
         }
         
-        /* 页面特定样式 */
+        /* 页面特定样式 - 添加毛玻璃效果 */
         .page-header {
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.7); /* 半透明背景 */
             border-radius: 20px;
             padding: 30px;
             margin-bottom: 30px;
             box-shadow: 0 5px 15px rgba(255, 150, 200, 0.1);
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(15px); /* 毛玻璃效果 */
+            -webkit-backdrop-filter: blur(15px); /* Safari 支持 */
+            border: 1px solid rgba(255, 255, 255, 0.3); /* 添加边框增强效果 */
         }
         
         .page-title {
@@ -512,7 +544,7 @@
             font-size: 18px;
         }
         
-        /* 常用网址样式 */
+        /* 常用网址样式 - 添加毛玻璃效果 */
         .websites-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -521,7 +553,7 @@
         }
         
         .website-card {
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.7); /* 半透明背景 */
             border-radius: 15px;
             padding: 25px;
             box-shadow: 0 5px 15px rgba(255, 150, 200, 0.1);
@@ -531,12 +563,15 @@
             display: flex;
             flex-direction: column;
             height: 100%;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(15px); /* 毛玻璃效果 */
+            -webkit-backdrop-filter: blur(15px); /* Safari 支持 */
+            border: 1px solid rgba(255, 255, 255, 0.3); /* 添加边框增强效果 */
         }
         
         .website-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 20px rgba(255, 150, 200, 0.2);
+            background: rgba(255, 255, 255, 0.8); /* 悬停时增加不透明度 */
         }
         
         .website-card::before {
@@ -617,16 +652,25 @@
         }
         
         .skill {
-            background: linear-gradient(135deg, #ffcce6, #ffb3e6);
+            background: rgba(255, 204, 230, 0.7); /* 半透明背景 */
             color: #cc6699;
             padding: 8px 20px;
             border-radius: 20px;
             font-weight: bold;
+            backdrop-filter: blur(5px); /* 毛玻璃效果 */
+            -webkit-backdrop-filter: blur(5px); /* Safari 支持 */
         }
         
         /* 进度条样式 */
         .project-progress {
             margin-top: 20px;
+            background: rgba(255, 255, 255, 0.7); /* 半透明背景 */
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(255, 150, 200, 0.1);
+            backdrop-filter: blur(15px); /* 毛玻璃效果 */
+            -webkit-backdrop-filter: blur(15px); /* Safari 支持 */
+            border: 1px solid rgba(255, 255, 255, 0.3); /* 添加边框增强效果 */
         }
         
         .progress-item {
@@ -651,10 +695,12 @@
         
         .progress-bar {
             height: 10px;
-            background-color: #ffe6f2;
+            background-color: rgba(255, 230, 242, 0.7); /* 半透明背景 */
             border-radius: 5px;
             overflow: hidden;
             position: relative;
+            backdrop-filter: blur(5px); /* 毛玻璃效果 */
+            -webkit-backdrop-filter: blur(5px); /* Safari 支持 */
         }
         
         .progress-fill {
@@ -662,6 +708,406 @@
             background: linear-gradient(90deg, #ff66a3, #ff99cc);
             border-radius: 5px;
             transition: width 0.5s ease;
+        }
+        
+        /* 新增：关于我页面的板块样式 */
+        .about-section {
+            background: rgba(255, 255, 255, 0.7); /* 半透明背景 */
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(255, 150, 200, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(15px); /* 增强毛玻璃效果 */
+            -webkit-backdrop-filter: blur(15px); /* Safari 支持 */
+            border: 1px solid rgba(255, 255, 255, 0.3); /* 添加边框增强效果 */
+        }
+        
+        .about-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 150, 200, 0.2);
+            background: rgba(255, 255, 255, 0.8); /* 悬停时增加不透明度 */
+        }
+        
+        .about-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #ff66a3, #ff99cc);
+        }
+        
+        .about-section h2 {
+            font-family: 'Mochiy Pop One', sans-serif;
+            color: #cc6699;
+            font-size: 24px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px dashed rgba(255, 240, 245, 0.7);
+        }
+        
+        .about-section ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+        
+        .about-section li {
+            margin-bottom: 10px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .about-section li::before {
+            content: "•";
+            color: #ff66a3;
+            font-size: 20px;
+            position: absolute;
+            left: 0;
+            top: -2px;
+        }
+        
+        .about-section strong {
+            color: #ff3399;
+        }
+        
+        /* 新增：我的内容页面网格布局 */
+        .my-content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        /* 修改：关于我页面布局 - 两列布局 */
+        .about-container {
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+        }
+        
+        .about-main {
+            flex: 2;
+        }
+        
+        .about-sidebar {
+            flex: 1;
+        }
+        
+        /* 修改：关于我页面头像和个人标签部分 */
+        .about-avatar-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 15px rgba(255, 150, 200, 0.1);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        /* 修改：我的内容页面全宽布局 */
+        #my-content .blog-posts {
+            width: 100%;
+            max-width: 100%;
+        }
+        
+        #my-content .page-header {
+            width: 100%;
+            max-width: 100%;
+        }
+        
+        #my-content .my-content-grid {
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            width: 100%;
+            max-width: 100%;
+        }
+        
+        /* 搜索框样式 */
+        .search-container {
+            margin: 30px 0;
+            position: relative;
+        }
+        
+        .search-box {
+            display: flex;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 15px 20px;
+            border: none;
+            border-radius: 20px 0 0 20px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            font-family: 'Noto Sans SC', sans-serif;
+            font-size: 16px;
+            color: #7a5a7a;
+            box-shadow: 0 4px 10px rgba(255, 150, 200, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .search-input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 4px 15px rgba(255, 150, 200, 0.2);
+        }
+        
+        .search-button {
+            padding: 15px 25px;
+            background: linear-gradient(135deg, #ff66a3, #ff99cc);
+            color: white;
+            border: none;
+            border-radius: 0 20px 20px 0;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(255, 150, 200, 0.1);
+        }
+        
+        .search-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 102, 163, 0.3);
+        }
+        
+        /* 搜索结果样式 */
+        .search-results {
+            margin-top: 20px;
+            max-width: 600px;
+            margin: 20px auto 0;
+            display: none;
+        }
+        
+        .search-result-item {
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 15px;
+            padding: 15px 20px;
+            margin-bottom: 10px;
+            box-shadow: 0 3px 10px rgba(255, 150, 200, 0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .search-result-item:hover {
+            background: rgba(255, 255, 255, 0.9);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 150, 200, 0.2);
+        }
+        
+        .search-result-title {
+            font-weight: bold;
+            color: #cc6699;
+            margin-bottom: 5px;
+        }
+        
+        .search-result-excerpt {
+            color: #996699;
+            font-size: 14px;
+        }
+        
+        .no-results {
+            text-align: center;
+            color: #cc6699;
+            font-style: italic;
+            margin-top: 20px;
+        }
+        
+        /* 高亮搜索结果 */
+        .highlight {
+            background-color: rgba(255, 204, 230, 0.5);
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+        
+        /* 留言板页面布局 */
+        #guestbook {
+            display: none;
+        }
+        
+        .guestbook-container {
+            display: flex;
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .guestbook-form {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(255, 150, 200, 0.1);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            position: relative;
+        }
+        
+        .guestbook-history {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(255, 150, 200, 0.1);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            max-height: 600px;
+            overflow-y: auto;
+            position: relative;
+        }
+        
+        .guestbook-form::before,
+        .guestbook-history::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #ff66a3, #ff99cc);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #cc6699;
+            font-weight: bold;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            font-family: 'Noto Sans SC', sans-serif;
+            font-size: 16px;
+            color: #7a5a7a;
+            box-shadow: 0 3px 10px rgba(255, 150, 200, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            box-shadow: 0 5px 15px rgba(255, 150, 200, 0.2);
+            background: rgba(255, 255, 255, 0.95);
+        }
+        
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        .submit-btn {
+            display: block;
+            width: 100%;
+            background: linear-gradient(135deg, #ff66a3, #ff99cc);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Noto Sans SC', sans-serif;
+            font-size: 16px;
+        }
+        
+        .submit-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(255, 102, 163, 0.3);
+        }
+        
+        .message-card {
+            background: rgba(255, 245, 249, 0.7);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 10px rgba(255, 150, 200, 0.1);
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .message-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 150, 200, 0.2);
+        }
+        
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px dashed rgba(255, 204, 230, 0.5);
+        }
+        
+        .message-name {
+            font-weight: bold;
+            color: #ff66a3;
+            font-size: 18px;
+        }
+        
+        .message-date {
+            color: #cc99aa;
+            font-size: 14px;
+        }
+        
+        .message-contact {
+            color: #996699;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+        
+        .message-content {
+            color: #7a5a7a;
+            line-height: 1.6;
+        }
+        
+        .empty-message {
+            text-align: center;
+            color: #cc99aa;
+            font-style: italic;
+            padding: 30px 0;
+        }
+        
+        .export-btn {
+            display: inline-block;
+            background: rgba(255, 204, 230, 0.7);
+            color: #cc6699;
+            padding: 10px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+        
+        .export-btn:hover {
+            background: rgba(255, 204, 230, 0.9);
+            transform: scale(1.05);
         }
         
         /* 响应式设计 */
@@ -712,6 +1158,10 @@
                 overflow: hidden;
                 transition: max-height 0.5s ease, opacity 0.5s ease;
                 transform-origin: top;
+                background: rgba(255, 255, 255, 0.8); /* 半透明背景 */
+                border-radius: 15px;
+                backdrop-filter: blur(10px); /* 毛玻璃效果 */
+                -webkit-backdrop-filter: blur(10px); /* Safari 支持 */
             }
             
             nav.active {
@@ -747,6 +1197,9 @@
                 display: block;
                 padding: 12px 15px;
                 font-size: 18px;
+                background: rgba(255, 255, 255, 0.5); /* 半透明背景 */
+                margin: 5px 10px;
+                border-radius: 20px;
             }
             
             .post-header {
@@ -803,6 +1256,42 @@
             
             footer {
                 margin-top: 30px; /* 减少移动端页脚上边距 */
+            }
+            
+            /* 移动端调整我的内容页面布局 */
+            .my-content-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            /* 移动端调整关于我页面布局 */
+            .about-container {
+                flex-direction: column;
+            }
+            
+            .about-avatar-section {
+                padding: 20px;
+            }
+            
+            /* 移动端搜索框样式 */
+            .search-box {
+                flex-direction: column;
+            }
+            
+            .search-input {
+                border-radius: 20px 20px 0 0;
+            }
+            
+            .search-button {
+                border-radius: 0 0 20px 20px;
+            }
+            
+            /* 移动端留言板样式 */
+            .guestbook-container {
+                flex-direction: column;
+            }
+            
+            .guestbook-history {
+                max-height: none;
             }
         }
         
@@ -870,6 +1359,23 @@
             .weather-temp {
                 font-size: 24px;
             }
+            
+            .about-section {
+                padding: 20px;
+            }
+            
+            .about-section h2 {
+                font-size: 20px;
+            }
+            
+            .about-avatar-section {
+                padding: 15px;
+            }
+            
+            .guestbook-form,
+            .guestbook-history {
+                padding: 20px;
+            }
         }
     </style>
 </head>
@@ -893,6 +1399,7 @@
                         <li><a href="#home" class="active">首页</a></li>
                         <li><a href="#my-content">我的内容</a></li>
                         <li><a href="#about">关于我</a></li>
+                        <li><a href="#guestbook">留言板</a></li>
                     </ul>
                 </nav>
             </div>
@@ -935,7 +1442,7 @@
                         <h2 class="post-title">LUCKY OS & Tools 旧版官网</h2>
                         <span class="post-date">2025-07-30</span>
                     </div>
-                    <p class="post-excerpt">之前专门为LUCKY OS & Tools编写的官网，后演变为现在的博客，放着里纪念<</p>
+                    <p class="post-excerpt">之前专门为LUCKY OS & Tools编写的官网，后演变为现在的博客，放着里纪念</p>
                     <a href="LUCKY OS&Tools.html" class="read-more">访问网站</a>
                 </article>
             </div>
@@ -963,6 +1470,7 @@
                         <a href="#" class="tag">游戏</a>
                         <a href="#" class="tag">科技</a>
                         <a href="#" class="tag">暖男</a>
+                        <a href="#" class="tag">男神</a>
                     </div>
                 </div>
             </div>
@@ -974,43 +1482,62 @@
                 <div class="page-header">
                     <h1 class="page-title">我的内容</h1>
                     <p class="page-description">这里是我创作的所有内容，包括技术教程、个人项目和兴趣分享</p>
+                    
+                    <!-- 添加搜索框 -->
+                    <div class="search-container">
+                        <div class="search-box">
+                            <input type="text" id="searchInput" class="search-input" placeholder="在这里搜索内容...">
+                            <button id="searchButton" class="search-button">🔍 搜索</button>
+                        </div>
+                        <div id="searchResults" class="search-results"></div>
+                    </div>
                 </div>
                 
-                <article class="post-card">
-                    <div class="post-header">
-                        <h2 class="post-title">LUCKY OS</h2>
-                        <span class="post-date">2025.07.21---今</span>
-                    </div>
-                    <p class="post-excerpt">基于HyperOS深度优化的ROM，让您的设备焕发新生</p>
-                    <a href="https://www.123865.com/s/FehVVv-0qal" class="read-more">获取LUCKY OS （提取码：Reps）</a>
-                </article>
-                
-                <article class="post-card">
-                    <div class="post-header">
-                        <h2 class="post-title">LUCKY OS Tools</h2>
-                        <span class="post-date">2025.07.21---今</span>
-                    </div>
-                    <p class="post-excerpt">针对于LUCKY OS开发的DNA-Android插件，方便Redmi K60 Pro用户自制ROM，完全开源可二改</p>
-                    <a href="https://www.123865.com/s/FehVVv-uqal" class="read-more">获取LUCKY OS Tools （提取码：FK2e）</a>
-                </article>
-                
-                <article class="post-card">
-                    <div class="post-header">
-                        <h2 class="post-title">Xiaomi HyperOS 移植思路</h2>
-                        <span class="post-date">2025-10-04</span>
-                    </div>
-                    <p class="post-excerpt">手把手教你移植Xiaomi HyperOS 定制专属你的专属ROM系统</p>
-                    <a href="HyperOS移植思路.html" class="read-more">查看教程</a>
-                </article>
-                
-                <article class="post-card">
-                    <div class="post-header">
-                        <h2 class="post-title">LUCKY OS & Tools 旧版官网</h2>
-                        <span class="post-date">2025-07-30</span>
-                    </div>
-                    <p class="post-excerpt">之前专门为LUCKY OS & Tools编写的官网，后演变为现在的博客，放着里纪念</p>
-                    <a href="LUCKY OS&Tools.html" class="read-more">访问网站</a>
-                </article>
+                <div class="my-content-grid">
+                    <article class="post-card" data-search-keywords="LUCKY OS ROM HyperOS 优化">
+                        <div class="post-header">
+                            <h2 class="post-title">LUCKY OS</h2>
+                            <span class="post-date">2025.07.21---今</span>
+                        </div>
+                        <p class="post-excerpt">基于HyperOS深度优化的ROM，让您的设备焕发新生</p>
+                        <a href="https://www.123865.com/s/FehVVv-0qal" class="read-more">获取LUCKY OS （提取码：Reps）</a>
+                    </article>
+                    
+                    <article class="post-card" data-search-keywords="LUCKY OS Tools DNA-Android 插件 ROM 制作 Redmi K60 Pro 开源">
+                        <div class="post-header">
+                            <h2 class="post-title">LUCKY OS Tools</h2>
+                            <span class="post-date">2025.07.21---今</span>
+                        </div>
+                        <p class="post-excerpt">针对于LUCKY OS开发的DNA-Android插件，方便Redmi K60 Pro用户自制ROM，完全开源可二改</p>
+                        <a href="https://www.123865.com/s/FehVVv-uqal" class="read-more">获取LUCKY OS Tools （提取码：FK2e）</a>
+                    </article>
+                    
+                    <article class="post-card" data-search-keywords="Xiaomi HyperOS 移植 教程 ROM 系统">
+                        <div class="post-header">
+                            <h2 class="post-title">Xiaomi HyperOS 移植思路</h2>
+                            <span class="post-date">2025-10-04</span>
+                        </div>
+                        <p class="post-excerpt">手把手教你移植Xiaomi HyperOS 定制专属你的专属ROM系统</p>
+                        <a href="HyperOS移植思路.html" class="read-more">查看教程</a>
+                    </article>
+                    
+                    <article class="post-card" data-search-keywords="LUCKY OS Tools 旧版官网">
+                        <div class="post-header">
+                            <h2 class="post-title">LUCKY OS & Tools 旧版官网</h2>
+                            <span class="post-date">2025-07-30</span>
+                        </div>
+                        <p class="post-excerpt">之前专门为LUCKY OS & Tools编写的官网，后演变为现在的博客，放着里纪念</p>
+                        <a href="LUCKY OS&Tools.html" class="read-more">访问网站</a>
+                    </article>
+                    <article class="post-card" data-search-keywords="Xiaomi HyperOS添加 特性 & 个性功能 修改教程">
+                        <div class="post-header">
+                            <h2 class="post-title">Xiaomi HyperOS添加 特性 & 个性功能 修改教程（待完成）</h2>
+                            <span class="post-date">2025-11-10</span>
+                        </div>
+                        <p class="post-excerpt">这个教程教你如何在你的ROM中添加 新特性 & 个性功能</p>
+                        <a href="*" class="read-more">查看教程</a>
+                    </article>
+                </div>
             </div>
         </div>
         
@@ -1022,70 +1549,146 @@
                     <p class="page-description">更多关于我的信息</p>
                 </div>
                 
-                <div class="about-content">
-                    <div class="about-text">
-                        <h2>个人简介</h2>
-                        <p>你好！我是没有天赋那就反复，一名14岁的初三学生。我对编程和技术充满热情，喜欢各种新奇的技术和工具。</p>
+                <!-- 修改：使用两列布局 -->
+                <div class="about-container">
+                    <div class="about-main">
+                        <div class="about-section">
+                            <h2>个人简介</h2>
+                            <p>Hi！你好！我是没有天赋那就反复，一名14岁的初三学生。我对编程和技术充满热情，喜欢各种新奇的技术和工具。</p>
+                        </div>
                         
-                        <h2>我的兴趣爱好</h2>
-                        <ul>
-                            <li><strong>编程</strong>：目前主要学习C++、Python、HTML和Shell脚本</li>
-                            <li><strong>ROM制作</strong>：对Android系统充满好奇，喜欢研究和制作ROM</li>
-                            <li><strong>音乐</strong>：喜欢听各种类型的音乐，正在学习吉他（虽然还不太熟练）</li>
-                            <li><strong>打瓦</strong>：没事的时候会玩无畏契约，有没有一起玩的？？？</li>
-                        </ul>
+                        <div class="about-section">
+                            <h2>我的爱好</h2>
+                            <ul>
+                                <li><strong>编程</strong>：目前主要学习C++、Python、HTML和Shell脚本</li>
+                                <li><strong>ROM制作</strong>：对Android系统充满好奇，喜欢研究和制作ROM</li>
+                                <li><strong>音乐</strong>：喜欢听各种类型的音乐</li>
+                                <li><strong>吉他</strong>：正在学习吉他（虽然还不太熟练）</li>
+                                <li><strong>打瓦</strong>：没事的时候会玩无畏契约，有没有一起玩的？？？</li>
+                                <li><strong>骑行</strong>：我喜欢自己听着音乐骑车，尤其是去一些从来没去过的人烟稀少的地方</li>
+                            </ul>
+                        </div>
                         
-                        <h2>我的项目</h2>
-                        <ul>
-                            <li><strong>LUCKY OS</strong>：基于HyperOS深度优化的ROM</li>
-                            <li><strong>LUCKY OS Tools</strong>：为LUCKY OS开发的DNA-Android插件</li>
-                            <li><strong>个人博客</strong>：这个网站就是我学习和分享的地方</li>
-                        </ul>
+                        <div class="about-section">
+                            <h2>我的项目</h2>
+                            <ul>
+                                <li><strong>LUCKY OS</strong>：基于HyperOS深度优化的ROM</li>
+                                <li><strong>LUCKY OS Tools</strong>：为LUCKY OS开发的DNA-Android插件</li>
+                                <li><strong>个人博客</strong>：这个网站就是我学习和分享的地方</li>
+                                <li><strong>Xiaomi HyperOS 移植思路</strong>：这个教程帮助你移植Xiaomi HyperOS 定制专属你的专属ROM系统</li>
+                                <li><strong>Xiaomi HyperOS添加 特性 & 个性功能 修改教程</strong>：这个教程教你如何在你的ROM中添加 新特性 & 个性功能</li>
+                            </ul>
+                        </div>
                     </div>
                     
-                    <div class="about-image">
-                        <img src="头像.jpg" alt="我的头像">
-                        <h3>个人标签</h3>
-                        <div class="skills">
-                            <span class="skill">C++</span>
-                            <span class="skill">HTML</span>
-                            <span class="skill">Shell</span>
-                            <span class="skill">ROM制作</span>
-                            <span class="skill">瓦</span>
-                            <span class="skill">篮球</span>
-                            <span class="skill">暖男</span>
+                    <div class="about-sidebar">
+                        <!-- 修改：将头像和个人标签部分移动到侧边 -->
+                        <div class="about-avatar-section">
+                            <img src="头像.jpg" alt="我的头像" class="avatar">
+                            <h3>个人标签</h3>
+                            <div class="skills">
+                                <span class="skill">C++</span>
+                                <span class="skill">HTML</span>
+                                <span class="skill">Shell</span>
+                                <span class="skill">ROM制作</span>
+                                <span class="skill">瓦</span>
+                                <span class="skill">篮球</span>
+                                <span class="skill">暖男</span>
+                                <span class="skill">男神</span>
+                            </div>
+                        </div>
+                        
+                        <!-- 项目进度条 -->
+                        <div class="project-progress">
+                            <h3>项目进度</h3>
+                            <div class="progress-item">
+                                <div class="progress-header">
+                                    <span class="progress-title">LUCKY OS</span>
+                                    <span class="progress-percent">持续更新</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 95%"></div>
+                                </div>
+                            </div>
+                            <div class="progress-item">
+                                <div class="progress-header">
+                                    <span class="progress-title">LUCKY OS Tools</span>
+                                    <span class="progress-percent">持续更新</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 95%"></div>
+                                </div>
+                            </div>
+                            <div class="progress-item">
+                                <div class="progress-header">
+                                    <span class="progress-title">个人博客</span>
+                                    <span class="progress-percent">持续更新</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 80%"></div>
+                                </div>
+                            </div>
+                            <div class="progress-item">
+                                <div class="progress-header">
+                                    <span class="progress-title">Xiaomi HyperOS 移植思路</span>
+                                    <span class="progress-percent">完成</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 100%"></div>
+                                </div>
+                            </div>
+                            <div class="progress-item">
+                                <div class="progress-header">
+                                    <span class="progress-title">Xiaomi HyperOS添加 特性 & 个性功能 修改教程</span>
+                                    <span class="progress-percent">待完成</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 1%"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- 项目进度条 -->
-            <div class="project-progress">
-                <h3>项目进度</h3>
-                <div class="progress-item">
-                    <div class="progress-header">
-                        <span class="progress-title">LUCKY OS</span>
-                        <span class="progress-percent">持续更新</span>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: 95%"></div>
-                    </div>
+        </div>
+        
+        <!-- 新增留言板页面 -->
+        <div class="main-content" id="guestbook">
+            <div class="blog-posts">
+                <div class="page-header">
+                    <h1 class="page-title">留言板</h1>
+                    <p class="page-description">留下你的想法、建议或任何想对我说的话</p>
                 </div>
-                <div class="progress-item">
-                    <div class="progress-header">
-                        <span class="progress-title">LUCKY OS Tools</span>
-                        <span class="progress-percent">持续更新</span>
+                
+                <div class="guestbook-container">
+                    <div class="guestbook-form">
+                        <h3>发表留言</h3>
+                        <form id="messageForm">
+                            <div class="form-group">
+                                <label for="name">昵称</label>
+                                <input type="text" id="name" class="form-control" placeholder="请输入你的昵称" required>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="contact">联系方式（选填）</label>
+                                <input type="text" id="contact" class="form-control" placeholder="邮箱、QQ、微信等">
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="content">留言内容</label>
+                                <textarea id="content" class="form-control" placeholder="请输入你想说的话..." required></textarea>
+                            </div>
+                            
+                            <button type="submit" class="submit-btn">提交留言</button>
+                        </form>
                     </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: 95%"></div>
-                    </div>
-                </div>
-                <div class="progress-item">
-                    <div class="progress-header">
-                        <span class="progress-title">个人博客</span>
-                        <span class="progress-percent">持续更新</span>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: 80%"></div>
+                    
+                    <div class="guestbook-history">
+                        <h3>往期留言</h3>
+                        <div id="messagesList">
+                            <!-- 留言将通过JavaScript动态加载 -->
+                        </div>
+                        <a href="#" id="exportBtn" class="export-btn">导出留言数据</a>
                     </div>
                 </div>
             </div>
@@ -1288,10 +1891,10 @@
             }, (duration + delay) * 1000);
         }
         
-        // 樱花拖尾特效
+        // 樱花拖尾特效 - 减少40%
         function createSakuraTrail(x, y, isFast) {
-            const container = document.getElementById('sakura-container');
-            const trailCount = isFast ? 3 : 5; // 快速移动时生成3个，慢速时生成5个
+            // 减少40%的拖尾数量
+            const trailCount = isFast ? Math.round(3 * 0.6) : Math.round(5 * 0.6);
             
             for (let i = 0; i < trailCount; i++) {
                 const trail = document.createElement('div');
@@ -1392,6 +1995,238 @@
         
         // 页面加载完成后初始化樱花特效
         window.addEventListener('load', initSakura);
+
+        // 搜索功能实现
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('searchInput');
+            const searchButton = document.getElementById('searchButton');
+            const searchResults = document.getElementById('searchResults');
+            const contentCards = document.querySelectorAll('#my-content .post-card');
+            
+            // 搜索功能
+            function performSearch() {
+                const query = searchInput.value.trim().toLowerCase();
+                
+                // 清除之前的高亮
+                clearHighlights();
+                
+                if (query === '') {
+                    searchResults.style.display = 'none';
+                    return;
+                }
+                
+                const results = [];
+                
+                // 搜索所有内容卡片
+                contentCards.forEach(card => {
+                    const title = card.querySelector('.post-title').textContent.toLowerCase();
+                    const excerpt = card.querySelector('.post-excerpt').textContent.toLowerCase();
+                    const keywords = card.getAttribute('data-search-keywords').toLowerCase();
+                    
+                    // 检查是否匹配
+                    if (title.includes(query) || excerpt.includes(query) || keywords.includes(query)) {
+                        results.push(card);
+                        
+                        // 高亮匹配的文本
+                        highlightText(card.querySelector('.post-title'), query);
+                        highlightText(card.querySelector('.post-excerpt'), query);
+                    }
+                });
+                
+                // 显示搜索结果
+                displayResults(results, query);
+            }
+            
+            // 高亮文本
+            function highlightText(element, query) {
+                const text = element.textContent;
+                const regex = new RegExp(`(${query})`, 'gi');
+                const highlightedText = text.replace(regex, '<span class="highlight">$1</span>');
+                element.innerHTML = highlightedText;
+            }
+            
+            // 清除高亮
+            function clearHighlights() {
+                document.querySelectorAll('.highlight').forEach(highlight => {
+                    const parent = highlight.parentNode;
+                    parent.replaceChild(document.createTextNode(highlight.textContent), highlight);
+                    parent.normalize();
+                });
+            }
+            
+            // 显示搜索结果
+            function displayResults(results, query) {
+                searchResults.innerHTML = '';
+                
+                if (results.length === 0) {
+                    searchResults.innerHTML = '<div class="no-results">没有找到匹配的内容</div>';
+                    searchResults.style.display = 'block';
+                    return;
+                }
+                
+                results.forEach(card => {
+                    const title = card.querySelector('.post-title').textContent;
+                    const excerpt = card.querySelector('.post-excerpt').textContent;
+                    
+                    const resultItem = document.createElement('div');
+                    resultItem.className = 'search-result-item';
+                    resultItem.innerHTML = `
+                        <div class="search-result-title">${title}</div>
+                        <div class="search-result-excerpt">${excerpt}</div>
+                    `;
+                    
+                    // 点击搜索结果跳转到对应卡片
+                    resultItem.addEventListener('click', function() {
+                        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        
+                        // 添加临时高亮效果
+                        card.style.boxShadow = '0 0 20px rgba(255, 102, 163, 0.5)';
+                        card.style.transform = 'scale(1.02)';
+                        setTimeout(() => {
+                            card.style.boxShadow = '';
+                            card.style.transform = '';
+                        }, 2000);
+                    });
+                    
+                    searchResults.appendChild(resultItem);
+                });
+                
+                searchResults.style.display = 'block';
+            }
+            
+            // 事件监听
+            searchButton.addEventListener('click', performSearch);
+            searchInput.addEventListener('keyup', function(event) {
+                if (event.key === 'Enter') {
+                    performSearch();
+                }
+            });
+            
+            // 点击页面其他区域关闭搜索结果
+            document.addEventListener('click', function(event) {
+                if (!event.target.closest('.search-container')) {
+                    searchResults.style.display = 'none';
+                }
+            });
+        });
+
+        // 留言板功能
+        document.addEventListener('DOMContentLoaded', function() {
+            // 获取留言板相关元素
+            const messageForm = document.getElementById('messageForm');
+            const messagesList = document.getElementById('messagesList');
+            const exportBtn = document.getElementById('exportBtn');
+            
+            // 初始化留言数据
+            let messages = JSON.parse(localStorage.getItem('guestbookMessages')) || [];
+            
+            // 渲染留言列表
+            function renderMessages() {
+                messagesList.innerHTML = '';
+                
+                if (messages.length === 0) {
+                    messagesList.innerHTML = '<div class="empty-message">暂无留言，快来发表第一条留言吧！</div>';
+                    return;
+                }
+                
+                // 按时间倒序排列（最新的在前）
+                const sortedMessages = [...messages].sort((a, b) => new Date(b.date) - new Date(a.date));
+                
+                sortedMessages.forEach(message => {
+                    const messageCard = document.createElement('div');
+                    messageCard.className = 'message-card';
+                    
+                    const messageDate = new Date(message.date).toLocaleString('zh-CN');
+                    
+                    messageCard.innerHTML = `
+                        <div class="message-header">
+                            <div class="message-name">${escapeHtml(message.name)}</div>
+                            <div class="message-date">${messageDate}</div>
+                        </div>
+                        ${message.contact ? `<div class="message-contact">联系方式: ${escapeHtml(message.contact)}</div>` : ''}
+                        <div class="message-content">${escapeHtml(message.content)}</div>
+                    `;
+                    
+                    messagesList.appendChild(messageCard);
+                });
+            }
+            
+            // 防止XSS攻击的HTML转义函数
+            function escapeHtml(text) {
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+            
+            // 处理表单提交
+            messageForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const name = document.getElementById('name').value.trim();
+                const contact = document.getElementById('contact').value.trim();
+                const content = document.getElementById('content').value.trim();
+                
+                if (!name || !content) {
+                    alert('请填写昵称和留言内容！');
+                    return;
+                }
+                
+                // 创建新留言
+                const newMessage = {
+                    id: Date.now().toString(),
+                    name: name,
+                    contact: contact,
+                    content: content,
+                    date: new Date().toISOString()
+                };
+                
+                // 添加到留言列表
+                messages.push(newMessage);
+                
+                // 保存到localStorage
+                localStorage.setItem('guestbookMessages', JSON.stringify(messages));
+                
+                // 重新渲染留言列表
+                renderMessages();
+                
+                // 重置表单
+                messageForm.reset();
+                
+                // 显示成功提示
+                alert('留言提交成功！');
+            });
+            
+            // 导出留言数据
+            exportBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                if (messages.length === 0) {
+                    alert('暂无留言数据可导出！');
+                    return;
+                }
+                
+                // 创建JSON数据
+                const dataStr = JSON.stringify(messages, null, 2);
+                const dataBlob = new Blob([dataStr], {type: 'application/json'});
+                
+                // 创建下载链接
+                const url = URL.createObjectURL(dataBlob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = '留言箱.json';
+                
+                // 触发下载
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                // 释放URL对象
+                setTimeout(() => URL.revokeObjectURL(url), 100);
+            });
+            
+            // 初始渲染留言列表
+            renderMessages();
+        });
     </script>
 </body>
 </html>
