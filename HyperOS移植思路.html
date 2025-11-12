@@ -11,40 +11,101 @@
     <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-shell-session.min.js"></script>
     
+    <!-- 字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
+    
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            font-family: 'Noto Sans SC', sans-serif;
         }
         
         body {
-            background-color: #f5f7fa;
-            color: #333;
+            background-color: #fff5f9;
+            color: #7a5a7a;
             line-height: 1.6;
+            background-image: url('https://tc.alcy.cc/q/20250908/76459ea004b4ab1e76d87aa0e87c041a.webp');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            position: relative;
+            min-height: 100vh;
             padding: 20px;
+        }
+        
+        #sakura-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        
+        .sakura {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path fill="%23ffcce6" d="M10 0C4.48 0 0 4.48 0 10s4.48 10 10 10 10-4.48 10-10S15.52 0 10 0zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/><path fill="%23ffb3e6" d="M10 2c4.42 0 8 3.58 8 8s-3.58 8-8 8-8-3.58-8-8 3.58-8 8-8z"/><path fill="%23ff99cc" d="M10 4c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6 2.69-6 6-6z"/></svg>');
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.7;
+            z-index: 9999;
+        }
+        
+        .sakura-trail {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 15"><path fill="%23ffcce6" d="M7.5 0C3.36 0 0 3.36 0 7.5S3.36 15 7.5 15 15 11.64 15 7.5 11.64 0 7.5 0zm0 13.5c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/><path fill="%23ffb3e6" d="M7.5 1.5c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6 2.69-6 6-6z"/></svg>');
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.8;
+            z-index: 9999;
+            pointer-events: none;
         }
         
         .container {
             max-width: 1000px;
             margin: 0 auto;
-            background-color: white;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(255, 150, 200, 0.1);
             overflow: hidden;
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #ff66a3, #ff99cc);
         }
         
         header {
-            background: linear-gradient(135deg, #ff6700, #ff3366);
+            background: linear-gradient(135deg, rgba(255, 102, 163, 0.7), rgba(255, 153, 204, 0.7));
             color: white;
             padding: 30px 40px;
             text-align: center;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
         }
         
         h1 {
+            font-family: 'Mochiy Pop One', sans-serif;
             font-size: 2.2rem;
             margin-bottom: 10px;
+            text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.3);
         }
         
         .subtitle {
@@ -57,27 +118,32 @@
         }
         
         h2 {
-            color: #ff6700;
+            color: #cc6699;
             margin: 30px 0 15px;
             padding-bottom: 8px;
-            border-bottom: 2px solid #f0f0f0;
+            border-bottom: 2px dashed rgba(255, 240, 245, 0.7);
+            font-family: 'Mochiy Pop One', sans-serif;
         }
         
         h3 {
-            color: #ff3366;
+            color: #ff66a3;
             margin: 25px 0 12px;
+            font-family: 'Mochiy Pop One', sans-serif;
         }
         
         p {
             margin-bottom: 15px;
+            color: #7a5a7a;
         }
         
         .warning {
-            background-color: #fff8e1;
+            background-color: rgba(255, 248, 225, 0.8);
             border-left: 4px solid #ffc107;
             padding: 15px;
             margin: 20px 0;
             border-radius: 0 4px 4px 0;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
         }
         
         .warning-title {
@@ -95,6 +161,7 @@
             font-size: 0.9rem;
             line-height: 1.5;
             position: relative;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
         }
         
         .code-block pre {
@@ -115,11 +182,19 @@
         }
         
         .step {
-            background-color: #f0f7ff;
+            background-color: rgba(240, 247, 255, 0.8);
             border-radius: 8px;
             padding: 20px;
             margin: 20px 0;
-            border-left: 4px solid #2196f3;
+            border-left: 4px solid rgba(33, 150, 243, 0.7);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .step:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 150, 200, 0.2);
         }
         
         .step-title {
@@ -135,20 +210,23 @@
         
         li {
             margin-bottom: 8px;
+            color: #7a5a7a;
         }
         
         .highlight {
-            background-color: #fff9c4;
+            background-color: rgba(255, 204, 230, 0.5);
             padding: 2px 4px;
             border-radius: 3px;
         }
         
         .note {
-            background-color: #e8f5e9;
+            background-color: rgba(232, 245, 233, 0.8);
             border-left: 4px solid #4caf50;
             padding: 15px;
             margin: 20px 0;
             border-radius: 0 4px 4px 0;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
         }
         
         .note-title {
@@ -159,16 +237,49 @@
         
         .page-break {
             height: 1px;
-            background: linear-gradient(to right, transparent, #ff6700, transparent);
+            background: linear-gradient(to right, transparent, #ff66a3, transparent);
             margin: 30px 0;
         }
         
         footer {
             text-align: center;
             padding: 20px;
-            color: #666;
+            color: #996699;
             font-size: 0.9rem;
-            border-top: 1px solid #eee;
+            border-top: 1px solid rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+        
+        a {
+            color: #ff66a3;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        a:hover {
+            color: #ff3399;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff66a3, #ff99cc);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-align: center;
+            margin: 10px 5px;
+            box-shadow: 0 4px 10px rgba(255, 150, 200, 0.2);
+        }
+        
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 102, 163, 0.3);
+            color: white;
         }
         
         @media (max-width: 768px) {
@@ -195,6 +306,8 @@
     </style>
 </head>
 <body>
+    <div id="sakura-container"></div>
+    
     <div class="container">
         <header>
             <h1>Xiaomi HyperOS 3移植思路</h1>
@@ -549,11 +662,164 @@ vendor_dlkm/etc/build.prop</code></pre>
             <div class="note">
                 <p>本教程到此结束，共2362个字。</p>
             </div>
+            
+            <div style="text-align: center; margin-top: 30px;">
+                <a href="个人博客.html" class="btn">返回博客首页</a>
+                <a href="#" class="btn">查看BUG修复教程（待完成）</a>
+            </div>
         </div>
         
         <footer>
             <p>© 2025 HyperOS移植教程 | 仅供学习交流使用</p>
         </footer>
     </div>
+
+    <script>
+        // 樱花飘落特效
+        function createSakura() {
+            const container = document.getElementById('sakura-container');
+            const sakura = document.createElement('div');
+            sakura.className = 'sakura';
+            
+            const startX = Math.random() * window.innerWidth;
+            const endX = startX + (Math.random() * 200 - 100);
+            
+            const size = 10 + Math.random() * 20;
+            sakura.style.width = `${size}px`;
+            sakura.style.height = `${size}px`;
+            
+            const opacity = 0.4 + Math.random() * 0.6;
+            sakura.style.opacity = opacity;
+            
+            const rotation = Math.random() * 360;
+            sakura.style.transform = `rotate(${rotation}deg)`;
+            
+            const duration = 10 + Math.random() * 20;
+            const delay = Math.random() * 5;
+            
+            sakura.style.left = `${startX}px`;
+            sakura.style.top = `-30px`;
+            
+            container.appendChild(sakura);
+            
+            sakura.animate([
+                { 
+                    transform: `translate(0, 0) rotate(${rotation}deg)`,
+                    opacity: opacity
+                },
+                { 
+                    transform: `translate(${endX - startX}px, ${window.innerHeight + 30}px) rotate(${rotation + 360}deg)`,
+                    opacity: 0
+                }
+            ], {
+                duration: duration * 1000,
+                delay: delay * 1000,
+                easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
+            });
+            
+            setTimeout(() => {
+                if (sakura.parentNode) {
+                    sakura.parentNode.removeChild(sakura);
+                }
+            }, (duration + delay) * 1000);
+        }
+        
+        // 樱花拖尾特效 - 减少频率和数量
+        function createSakuraTrail(x, y, isFast) {
+            // 减少拖尾数量
+            const trailCount = isFast ? 1 : 1;
+            const container = document.getElementById('sakura-container');
+            
+            // 随机决定是否生成拖尾，减少出现频率
+            if (Math.random() < 0.3) {
+                return;
+            }
+            
+            for (let i = 0; i < trailCount; i++) {
+                const trail = document.createElement('div');
+                trail.className = 'sakura-trail';
+                
+                const size = 8 + Math.random() * 12;
+                trail.style.width = `${size}px`;
+                trail.style.height = `${size}px`;
+                
+                const opacity = 0.4 + Math.random() * 0.4;
+                trail.style.opacity = opacity;
+                
+                const rotation = Math.random() * 360;
+                trail.style.transform = `rotate(${rotation}deg)`;
+                
+                trail.style.left = `${x}px`;
+                trail.style.top = `${y}px`;
+                
+                container.appendChild(trail);
+                
+                const offsetX = (Math.random() - 0.5) * (isFast ? 50 : 30);
+                const offsetY = (Math.random() - 0.5) * (isFast ? 50 : 30);
+                const duration = isFast ? 800 : 1500;
+                
+                trail.animate([
+                    { 
+                        transform: `translate(0, 0) rotate(${rotation}deg)`,
+                        opacity: opacity
+                    },
+                    { 
+                        transform: `translate(${offsetX}px, ${offsetY}px) rotate(${rotation + 180}deg)`,
+                        opacity: 0
+                    }
+                ], {
+                    duration: duration,
+                    easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
+                });
+                
+                setTimeout(() => {
+                    if (trail.parentNode) {
+                        trail.parentNode.removeChild(trail);
+                    }
+                }, duration);
+            }
+        }
+        
+        // 初始化樱花飘落
+        function initSakura() {
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    createSakura();
+                }, i * 500);
+            }
+            
+            setInterval(() => {
+                if (Math.random() > 0.3) {
+                    createSakura();
+                }
+            }, 1000);
+            
+            let lastMouseX = 0;
+            let lastMouseY = 0;
+            let lastTime = 0;
+            let lastTrailTime = 0;
+            
+            document.addEventListener('mousemove', (e) => {
+                const currentTime = Date.now();
+                const deltaX = e.clientX - lastMouseX;
+                const deltaY = e.clientY - lastMouseY;
+                const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+                const timeDiff = currentTime - lastTime;
+                
+                const speed = timeDiff > 0 ? distance / timeDiff : 0;
+                
+                if (speed > 0.5 && (currentTime - lastTrailTime) > 100) {
+                    createSakuraTrail(e.clientX, e.clientY, speed > 2);
+                    lastTrailTime = currentTime;
+                }
+                
+                lastMouseX = e.clientX;
+                lastMouseY = e.clientY;
+                lastTime = currentTime;
+            });
+        }
+        
+        window.addEventListener('load', initSakura);
+    </script>
 </body>
 </html>
