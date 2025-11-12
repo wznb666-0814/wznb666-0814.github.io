@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小米/红米手机 ROOT 教程</title>
+    
+    <!-- Prism.js 代码高亮库 -->
+    <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-shell-session.min.js"></script>
+    
+    <!-- 字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Sans SC', sans-serif;
+        }
+        
+        body {
+            background-color: #fff5f9;
+            color: #7a5a7a;
+            line-height: 1.6;
+            background-image: url('https://tc.alcy.cc/q/20250908/76459ea004b4ab1e76d87aa0e87c041a.webp');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            position: relative;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        #sakura-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        
+        .sakura {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path fill="%23ffcce6" d="M10 0C4.48 0 0 4.48 0 10s4.48 10 10 10 10-4.48 10-10S15.52 0 10 0zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/><path fill="%23ffb3e6" d="M10 2c4.42 0 8 3.58 8 8s-3.58 8-8 8-8-3.58-8-8 3.58-8 8-8z"/><path fill="%23ff99cc" d="M10 4c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6 2.69-6 6-6z"/></svg>');
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.7;
+            z-index: 9999;
+        }
+        
+        .sakura-trail {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 15"><path fill="%23ffcce6" d="M7.5 0C3.36 0 0 3.36 0 7.5S3.36 15 7.5 15 15 11.64 15 7.5 11.64 0 7.5 0zm0 13.5c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/><path fill="%23ffb3e6" d="M7.5 1.5c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6 2.69-6 6-6z"/></svg>');
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.8;
+            z-index: 9999;
+            pointer-events: none;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(255, 150, 200, 0.1);
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #ff66a3, #ff99cc);
+        }
+        
+        header {
+            background: linear-gradient(135deg, rgba(255, 102, 163, 0.7), rgba(255, 153, 204, 0.7));
+            color: white;
+            padding: 30px 40px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        
+        h1 {
+            font-family: 'Mochiy Pop One', sans-serif;
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 30px 40px;
+        }
+        
+        h2 {
+            color: #cc6699;
+            margin: 30px 0 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px dashed rgba(255, 240, 245, 0.7);
+            font-family: 'Mochiy Pop One', sans-serif;
+        }
+        
+        h3 {
+            color: #ff66a3;
+            margin: 25px 0 12px;
+            font-family: 'Mochiy Pop One', sans-serif;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            color: #7a5a7a;
+        }
+        
+        .warning {
+            background-color: rgba(255, 248, 225, 0.8);
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 4px 4px 0;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+        
+        .warning-title {
+            font-weight: bold;
+            color: #ff9800;
+            margin-bottom: 8px;
+        }
+        
+        .step {
+            background-color: rgba(240, 247, 255, 0.8);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid rgba(33, 150, 243, 0.7);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .step:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 150, 200, 0.2);
+        }
+        
+        .step-title {
+            font-weight: bold;
+            color: #1976d2;
+            margin-bottom: 10px;
+        }
+        
+        .step-content {
+            color: #7a5a7a;
+        }
+        
+        .cmd-container {
+            margin: 15px 0;
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .cmd-header {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 10px 15px;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .cmd-block {
+            background: #1a202c;
+            color: #e2e8f0;
+            padding: 20px;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+        
+        .cmd-line {
+            margin-bottom: 8px;
+        }
+        
+        .cmd-prompt {
+            color: #68d391;
+        }
+        
+        .cmd-command {
+            color: #e2e8f0;
+        }
+        
+        .cmd-response {
+            color: #a0aec0;
+            margin-left: 20px;
+        }
+        
+        .cmd-success {
+            color: #68d391;
+            font-weight: bold;
+        }
+        
+        .url-box {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(237, 242, 247, 0.8);
+            padding: 8px 15px;
+            border-radius: 6px;
+            margin: 10px 0;
+            border: 1px solid rgba(203, 213, 224, 0.7);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+        
+        .url {
+            color: #2b6cb0;
+            text-decoration: none;
+            font-family: 'Consolas', monospace;
+            font-size: 14px;
+        }
+        
+        .url:hover {
+            color: #2c5282;
+            text-decoration: underline;
+        }
+        
+        .note {
+            background-color: rgba(232, 245, 233, 0.8);
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 4px 4px 0;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+        
+        .note-title {
+            font-weight: bold;
+            color: #2e7d32;
+            margin-bottom: 8px;
+        }
+        
+        .page-break {
+            height: 1px;
+            background: linear-gradient(to right, transparent, #ff66a3, transparent);
+            margin: 30px 0;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #996699;
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+        
+        a {
+            color: #ff66a3;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        a:hover {
+            color: #ff3399;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff66a3, #ff99cc);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-align: center;
+            margin: 10px 5px;
+            box-shadow: 0 4px 10px rgba(255, 150, 200, 0.2);
+        }
+        
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 102, 163, 0.3);
+            color: white;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                border-radius: 8px;
+            }
+            
+            header {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="sakura-container"></div>
+    
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-mobile-alt"></i> 小米/红米手机 ROOT 教程</h1>
+            <p class="subtitle">(适用于 MIUI 5.15.xx - 6.x.x 版本)</p>
+        </header>
+        
+        <div class="content">      
+            <div class="step">
+                <div class="step-title">1. 解锁 Bootloader</div>
+                <div class="step-content">
+                    通过官方渠道申请解锁Bootloader权限，这是ROOT的必要前提条件。
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-title">2. 提取本机 init_boot.img</div>
+                <div class="step-content">
+                    从官方卡刷包或线刷包中提取与您手机系统版本完全匹配的init_boot.img文件。
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-title">3. 手机下载安装 Magisk/KernelSU</div>
+                <div class="step-content">
+                    在手机上安装Magisk或KernelSU等ROOT管理工具（理论上任何ROOT管理器都可以，除了AP）。
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-title">4. 修补 init_boot.img 文件</div>
+                <div class="step-content">
+                    打开Magisk/KernelSU应用，点击"安装" → "选择并修补一个文件" → 选择提取出来的init_boot.img → 开始修补。
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-title">5. 获取修补后的文件</div>
+                <div class="step-content">
+                    修补完成后，生成的文件 <code>magisk_patched-xxx.img</code> 或 <code>ksu_patched-xxx.img</code> 会保存在手机的Download目录中。
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-title">6. 电脑下载ADB工具</div>
+                <div class="step-content">
+                    <div class="url-box">
+                        <i class="fas fa-download"></i>
+                        <a href="https://www.123865.com/s/FehVVv-SEJl" class="url" target="_blank">https://www.123865.com/s/FehVVv-SEJl</a>
+                    </div>
+                    下载后解压到电脑上的任意目录。
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-title">7. 传输文件到电脑</div>
+                <div class="step-content">
+                    手机通过USB连接电脑，开启文件传输模式，进入Download目录，将修补后的<code>magisk_patched-xxx.img</code>文件复制到电脑上的adb-fastboot工具目录。
+                </div>
+            </div>
+            
+            <div class="page-break"></div>
+            
+            <div class="step">
+                <div class="step-title">8. 进入 Bootloader 模式</div>
+                <div class="step-content">
+                    关机后，同时按住音量下键和电源键进入Bootloader模式（fastboot模式）。
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-title">9. 刷入修补后的镜像文件</div>
+                <div class="step-content">
+                    在电脑上打开CMD命令行（或使用解压出来的"CMD命令行.bat"），输入以下刷入命令：
+                    
+                    <div class="note">
+                        <div class="note-title">注意</div>
+                        <p>请确保刷入正确的分区，刷错分区可能导致手机无法启动！</p>
+                    </div>
+                    
+                    <div class="cmd-container">
+                        <div class="cmd-header">
+                            <span><i class="fas fa-terminal"></i> 命令提示符</span>
+                            <span>刷入修补后的init_boot镜像</span>
+                        </div>
+                        <div class="cmd-block">
+                            <div class="cmd-line">
+                                <span class="cmd-prompt">C:\adb-fastboot></span>
+                                <span class="cmd-command">fastboot flash init_boot magisk_patched-28100_huuYD.img</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-title">10. 重启手机完成ROOT</div>
+                <div class="step-content">
+                    当命令提示符显示OKAY表示刷入成功，然后使用<code>fastboot reboot</code>命令重启手机。
+                    
+                    <div class="cmd-container">
+                        <div class="cmd-header">
+                            <span><i class="fas fa-terminal"></i> 命令提示符</span>
+                            <span>完整的刷入过程示例</span>
+                        </div>
+                        <div class="cmd-block">
+                            <div class="cmd-line">
+                                <span class="cmd-prompt">C:\adb-fastboot></span>
+                                <span class="cmd-command">fastboot flash init_boot magisk_patched-28100_huuYD.img</span>
+                            </div>
+                            <div class="cmd-line">
+                                <span class="cmd-response">Sending 'init_boot' (8192 KB)                      </span>
+                                <span class="cmd-success">OKAY</span>
+                                <span class="cmd-response"> [  0.205s]</span>
+                            </div>
+                            <div class="cmd-line">
+                                <span class="cmd-response">Writing 'init_boot'                             </span>
+                                <span class="cmd-success">OKAY</span>
+                                <span class="cmd-response"> [  0.003s]</span>
+                            </div>
+                            <div class="cmd-line">
+                                <span class="cmd-response">Finished. Total time: 0.263s</span>
+                            </div>
+                            <div class="cmd-line">
+                                <br>
+                            </div>
+                            <div class="cmd-line">
+                                <span class="cmd-prompt">C:\adb-fastboot></span>
+                                <span class="cmd-command">fastboot reboot</span>
+                            </div>
+                            <div class="cmd-line">
+                                <span class="cmd-response">Rebooting                                      </span>
+                                <span class="cmd-success">OKAY</span>
+                                <span class="cmd-response"> [  0.001s]</span>
+                            </div>
+                            <div class="cmd-line">
+                                <span class="cmd-response">Finished. Total time: 0.002s</span>
+                            </div>
+                            <div class="cmd-line">
+                                <br>
+                            </div>
+                            <div class="cmd-line">
+                                <span class="cmd-prompt">C:\adb-fastboot></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="warning">
+                <div class="warning-title">重要提示</div>
+                <p>ROOT操作有风险，可能导致设备失去保修，请谨慎操作并确保备份重要数据。</p>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2025 小米/红米手机ROOT教程 | 本教程仅供参考，ROOT操作有风险，请谨慎操作</p>
+        </footer>
+    </div>
+
+    <script>
+        // 樱花飘落特效
+        function createSakura() {
+            const container = document.getElementById('sakura-container');
+            const sakura = document.createElement('div');
+            sakura.className = 'sakura';
+            
+            const startX = Math.random() * window.innerWidth;
+            const endX = startX + (Math.random() * 200 - 100);
+            
+            const size = 10 + Math.random() * 20;
+            sakura.style.width = `${size}px`;
+            sakura.style.height = `${size}px`;
+            
+            const opacity = 0.4 + Math.random() * 0.6;
+            sakura.style.opacity = opacity;
+            
+            const rotation = Math.random() * 360;
+            sakura.style.transform = `rotate(${rotation}deg)`;
+            
+            const duration = 10 + Math.random() * 20;
+            const delay = Math.random() * 5;
+            
+            sakura.style.left = `${startX}px`;
+            sakura.style.top = `-30px`;
+            
+            container.appendChild(sakura);
+            
+            sakura.animate([
+                { 
+                    transform: `translate(0, 0) rotate(${rotation}deg)`,
+                    opacity: opacity
+                },
+                { 
+                    transform: `translate(${endX - startX}px, ${window.innerHeight + 30}px) rotate(${rotation + 360}deg)`,
+                    opacity: 0
+                }
+            ], {
+                duration: duration * 1000,
+                delay: delay * 1000,
+                easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
+            });
+            
+            setTimeout(() => {
+                if (sakura.parentNode) {
+                    sakura.parentNode.removeChild(sakura);
+                }
+            }, (duration + delay) * 1000);
+        }
+        
+        // 樱花拖尾特效 - 减少频率和数量
+        function createSakuraTrail(x, y, isFast) {
+            // 减少拖尾数量
+            const trailCount = isFast ? 1 : 1;
+            const container = document.getElementById('sakura-container');
+            
+            // 随机决定是否生成拖尾，减少出现频率
+            if (Math.random() < 0.3) {
+                return;
+            }
+            
+            for (let i = 0; i < trailCount; i++) {
+                const trail = document.createElement('div');
+                trail.className = 'sakura-trail';
+                
+                const size = 8 + Math.random() * 12;
+                trail.style.width = `${size}px`;
+                trail.style.height = `${size}px`;
+                
+                const opacity = 0.4 + Math.random() * 0.4;
+                trail.style.opacity = opacity;
+                
+                const rotation = Math.random() * 360;
+                trail.style.transform = `rotate(${rotation}deg)`;
+                
+                trail.style.left = `${x}px`;
+                trail.style.top = `${y}px`;
+                
+                container.appendChild(trail);
+                
+                const offsetX = (Math.random() - 0.5) * (isFast ? 50 : 30);
+                const offsetY = (Math.random() - 0.5) * (isFast ? 50 : 30);
+                const duration = isFast ? 800 : 1500;
+                
+                trail.animate([
+                    { 
+                        transform: `translate(0, 0) rotate(${rotation}deg)`,
+                        opacity: opacity
+                    },
+                    { 
+                        transform: `translate(${offsetX}px, ${offsetY}px) rotate(${rotation + 180}deg)`,
+                        opacity: 0
+                    }
+                ], {
+                    duration: duration,
+                    easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
+                });
+                
+                setTimeout(() => {
+                    if (trail.parentNode) {
+                        trail.parentNode.removeChild(trail);
+                    }
+                }, duration);
+            }
+        }
+        
+        // 初始化樱花飘落
+        function initSakura() {
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    createSakura();
+                }, i * 500);
+            }
+            
+            setInterval(() => {
+                if (Math.random() > 0.3) {
+                    createSakura();
+                }
+            }, 1000);
+            
+            let lastMouseX = 0;
+            let lastMouseY = 0;
+            let lastTime = 0;
+            let lastTrailTime = 0;
+            
+            document.addEventListener('mousemove', (e) => {
+                const currentTime = Date.now();
+                const deltaX = e.clientX - lastMouseX;
+                const deltaY = e.clientY - lastMouseY;
+                const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+                const timeDiff = currentTime - lastTime;
+                
+                const speed = timeDiff > 0 ? distance / timeDiff : 0;
+                
+                if (speed > 0.5 && (currentTime - lastTrailTime) > 100) {
+                    createSakuraTrail(e.clientX, e.clientY, speed > 2);
+                    lastTrailTime = currentTime;
+                }
+                
+                lastMouseX = e.clientX;
+                lastMouseY = e.clientY;
+                lastTime = currentTime;
+            });
+        }
+        
+        window.addEventListener('load', initSakura);
+    </script>
+</body>
+</html>
