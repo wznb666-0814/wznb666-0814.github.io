@@ -314,6 +314,115 @@
             color: white;
         }
         
+        /* 右侧导航栏样式 */
+        .toc-sidebar {
+            position: fixed;
+            right: 40px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 25px rgba(255, 150, 200, 0.3);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            z-index: 100;
+            min-width: 220px;
+            transition: all 0.3s ease;
+        }
+        
+        .toc-sidebar:hover {
+            box-shadow: 0 10px 30px rgba(255, 102, 163, 0.4);
+            transform: translateY(-50%) scale(1.02);
+        }
+        
+        .toc-title {
+            font-family: 'Mochiy Pop One', sans-serif;
+            color: #ff66a3;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            text-align: center;
+            padding-bottom: 10px;
+            border-bottom: 2px dashed rgba(255, 102, 163, 0.4);
+        }
+        
+        .toc-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .toc-item {
+            margin-bottom: 12px;
+        }
+        
+        .toc-link {
+            display: block;
+            padding: 10px 15px;
+            background: rgba(255, 240, 245, 0.8);
+            border-radius: 8px;
+            color: #7a5a7a;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
+        
+        .toc-link:hover {
+            background: rgba(255, 102, 163, 0.2);
+            color: #ff3399;
+            transform: translateX(-5px);
+            box-shadow: 0 4px 8px rgba(255, 102, 163, 0.2);
+        }
+        
+        .toc-sublist {
+            list-style: none;
+            margin: 8px 0 0 12px;
+            padding: 0;
+        }
+        
+        .toc-subitem {
+            margin-bottom: 8px;
+        }
+        
+        .toc-sublink {
+            display: block;
+            padding: 8px 12px;
+            background: rgba(255, 250, 252, 0.8);
+            border-radius: 6px;
+            color: #996699;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        
+        .toc-sublink:hover {
+            background: rgba(255, 102, 163, 0.15);
+            color: #ff3399;
+            transform: translateX(-3px);
+        }
+        
+        /* 添加活跃状态样式 */
+        .toc-link.active,
+        .toc-sublink.active {
+            background: rgba(255, 102, 163, 0.25);
+            color: #ff3399;
+            font-weight: bold;
+        }
+        
+        /* 移动端适配 */
+        @media (max-width: 1200px) {
+            .toc-sidebar {
+                position: relative;
+                right: auto;
+                top: auto;
+                transform: none;
+                margin: 30px auto;
+                max-width: 350px;
+            }
+        }
+        
         @media (max-width: 768px) {
             body {
                 padding: 10px;
@@ -334,80 +443,132 @@
             .content {
                 padding: 20px;
             }
+            
+            .toc-sidebar {
+                position: relative;
+                right: auto;
+                top: auto;
+                transform: none;
+                margin: 20px auto;
+                max-width: 100%;
+            }
         }
     </style>
 </head>
 <body>
     <div id="sakura-container"></div>
     
+    <!-- 右侧导航栏 -->
+    <nav class="toc-sidebar">
+        <div class="toc-title">教程导航</div>
+        <ul class="toc-list">
+            <li class="toc-item">
+                <a href="#step1" class="toc-link">1. 解锁 Bootloader</a>
+            </li>
+            <li class="toc-item">
+                <a href="#step2" class="toc-link">2. 提取本机 init_boot.img</a>
+            </li>
+            <li class="toc-item">
+                <a href="#step3" class="toc-link">3. 安装 Magisk/KernelSU</a>
+            </li>
+            <li class="toc-item">
+                <a href="#step4" class="toc-link">4. 修补 init_boot.img 文件</a>
+            </li>
+            <li class="toc-item">
+                <a href="#step5" class="toc-link">5. 获取修补后的文件</a>
+            </li>
+            <li class="toc-item">
+                <a href="#step6" class="toc-link">6. 电脑下载ADB工具</a>
+            </li>
+            <li class="toc-item">
+                <a href="#step7" class="toc-link">7. 传输文件到电脑</a>
+            </li>
+            <li class="toc-item">
+                <a href="#step8" class="toc-link">8. 进入 Bootloader 模式</a>
+            </li>
+            <li class="toc-item">
+                <a href="#step9" class="toc-link">9. 刷入修补后的镜像文件</a>
+            </li>
+            <li class="toc-item">
+                <a href="#step10" class="toc-link">10. 重启手机完成ROOT</a>
+            </li>
+        </ul>
+    </nav>
+    
     <div class="container">
         <header>
-            <h1><i class="fas fa-mobile-alt"></i> 小米/红米手机 ROOT 教程</h1>
+            <h1>小米/红米手机 ROOT 教程</h1>
             <p class="subtitle">(适用于 MIUI 5.15.xx - 6.x.x 版本)</p>
         </header>
         
         <div class="content">      
-            <div class="step">
+            <div class="warning">
+                <div class="warning-title">重要提示</div>
+                <p>ROOT操作有风险，可能导致设备失去保修，请谨慎操作并确保备份重要数据。</p>
+            </div>
+            
+            <h2>ROOT步骤详解</h2>
+            
+            <div class="step" id="step1">
                 <div class="step-title">1. 解锁 Bootloader</div>
                 <div class="step-content">
                     通过官方渠道申请解锁Bootloader权限，这是ROOT的必要前提条件。
                 </div>
             </div>
             
-            <div class="step">
+            <div class="step" id="step2">
                 <div class="step-title">2. 提取本机 init_boot.img</div>
                 <div class="step-content">
                     从官方卡刷包或线刷包中提取与您手机系统版本完全匹配的init_boot.img文件。
                 </div>
             </div>
             
-            <div class="step">
+            <div class="step" id="step3">
                 <div class="step-title">3. 手机下载安装 Magisk/KernelSU</div>
                 <div class="step-content">
                     在手机上安装Magisk或KernelSU等ROOT管理工具（理论上任何ROOT管理器都可以，除了AP）。
                 </div>
             </div>
             
-            <div class="step">
+            <div class="step" id="step4">
                 <div class="step-title">4. 修补 init_boot.img 文件</div>
                 <div class="step-content">
                     打开Magisk/KernelSU应用，点击"安装" → "选择并修补一个文件" → 选择提取出来的init_boot.img → 开始修补。
                 </div>
             </div>
             
-            <div class="step">
+            <div class="step" id="step5">
                 <div class="step-title">5. 获取修补后的文件</div>
                 <div class="step-content">
                     修补完成后，生成的文件 <code>magisk_patched-xxx.img</code> 或 <code>ksu_patched-xxx.img</code> 会保存在手机的Download目录中。
                 </div>
             </div>
             
-            <div class="step">
+            <div class="step" id="step6">
                 <div class="step-title">6. 电脑下载ADB工具</div>
                 <div class="step-content">
                     <div class="url-box">
-                        <i class="fas fa-download"></i>
                         <a href="https://www.123865.com/s/FehVVv-SEJl" class="url" target="_blank">https://www.123865.com/s/FehVVv-SEJl</a>
                     </div>
                     下载后解压到电脑上的任意目录。
                 </div>
             </div>
             
-            <div class="step">
+            <div class="step" id="step7">
                 <div class="step-title">7. 传输文件到电脑</div>
                 <div class="step-content">
                     手机通过USB连接电脑，开启文件传输模式，进入Download目录，将修补后的<code>magisk_patched-xxx.img</code>文件复制到电脑上的adb-fastboot工具目录。
                 </div>
             </div>
             
-            <div class="step">
+            <div class="step" id="step8">
                 <div class="step-title">8. 进入 Bootloader 模式</div>
                 <div class="step-content">
                     关机后，同时按住音量下键和电源键进入Bootloader模式（fastboot模式）。
                 </div>
             </div>
             
-            <div class="step">
+            <div class="step" id="step9">
                 <div class="step-title">9. 刷入修补后的镜像文件</div>
                 <div class="step-content">
                     在电脑上打开CMD命令行（或使用解压出来的"CMD命令行.bat"），输入以下刷入命令：
@@ -419,7 +580,7 @@
                     
                     <div class="cmd-container">
                         <div class="cmd-header">
-                            <span><i class="fas fa-terminal"></i> 命令提示符</span>
+                            <span>命令提示符</span>
                             <span>刷入修补后的init_boot镜像</span>
                         </div>
                         <div class="cmd-block">
@@ -432,14 +593,14 @@
                 </div>
             </div>
             
-            <div class="step">
+            <div class="step" id="step10">
                 <div class="step-title">10. 重启手机完成ROOT</div>
                 <div class="step-content">
                     当命令提示符显示OKAY表示刷入成功，然后使用<code>fastboot reboot</code>命令重启手机。
                     
                     <div class="cmd-container">
                         <div class="cmd-header">
-                            <span><i class="fas fa-terminal"></i> 命令提示符</span>
+                            <span>命令提示符</span>
                             <span>完整的刷入过程示例</span>
                         </div>
                         <div class="cmd-block">
@@ -484,11 +645,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="warning">
-                <div class="warning-title">重要提示</div>
-                <p>ROOT操作有风险，可能导致设备失去保修，请谨慎操作并确保备份重要数据。</p>
             </div>
         </div>
         
@@ -642,7 +798,70 @@
             });
         }
         
-        window.addEventListener('load', initSakura);
+        // 平滑滚动函数
+        function smoothScrollTo(targetId) {
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                const offsetTop = targetElement.offsetTop - 100; // 偏移量，使目标位置在视口上方一点
+                window.scrollTo({
+                    top: offsetTop,
+                    behavior: 'smooth'
+                });
+            }
+        }
+        
+        // 添加导航栏点击事件
+        function setupNavigation() {
+            const navLinks = document.querySelectorAll('.toc-link, .toc-sublink');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    
+                    // 移除所有活跃状态
+                    navLinks.forEach(navLink => navLink.classList.remove('active'));
+                    
+                    // 添加当前活跃状态
+                    this.classList.add('active');
+                    
+                    // 平滑滚动到目标位置
+                    smoothScrollTo(targetId);
+                });
+            });
+            
+            // 监听滚动，更新活跃状态
+            window.addEventListener('scroll', function() {
+                const scrollPosition = window.scrollY + 150;
+                
+                // 获取所有步骤元素
+                const sections = document.querySelectorAll('.step[id]');
+                
+                let currentActiveId = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.offsetHeight;
+                    
+                    if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                        currentActiveId = '#' + section.id;
+                    }
+                });
+                
+                // 更新导航栏活跃状态
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === currentActiveId) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        }
+        
+        window.addEventListener('load', function() {
+            initSakura();
+            setupNavigation();
+        });
     </script>
 </body>
 </html>
