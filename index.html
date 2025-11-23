@@ -13,6 +13,108 @@
             box-sizing: border-box;
         }
         
+        /* 开场动画样式 */
+        #welcome-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #ffcce6, #ff99cc, #ff66a3);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            transition: opacity 1.5s ease, transform 1.5s ease;
+        }
+        
+        .welcome-content {
+            text-align: center;
+            color: white;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1.5s ease forwards 0.5s;
+            width: 90%;
+            max-width: 500px;
+            padding: 20px;
+        }
+        
+        .welcome-logo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 4px solid rgba(255, 255, 255, 0.8);
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(255, 102, 163, 0.4);
+            animation: pulse 2s infinite alternate;
+        }
+        
+        .welcome-title {
+            font-family: 'Mochiy Pop One', sans-serif;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
+        }
+        
+        .welcome-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+        
+        .loading-container {
+            width: 100%;
+            margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .loading-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+        
+        .loading-progress {
+            height: 100%;
+            width: 0%;
+            background: white;
+            border-radius: 3px;
+            transition: width 2s ease;
+        }
+        
+        .loading-text {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes pulse {
+            from {
+                transform: scale(1);
+                box-shadow: 0 10px 30px rgba(255, 102, 163, 0.4);
+            }
+            to {
+                transform: scale(1.05);
+                box-shadow: 0 15px 40px rgba(255, 102, 163, 0.6);
+            }
+        }
+        
         body {
             font-family: 'Noto Sans SC', sans-serif;
             background-color: #fff5f9;
@@ -1066,6 +1168,21 @@
     </style>
 </head>
 <body>
+    <!-- 开场动画 -->
+    <div id="welcome-animation">
+        <div class="welcome-content">
+            <img src="头像.jpg" alt="头像" class="welcome-logo">
+            <h1 class="welcome-title">没有天赋那就反复の小窝</h1>
+            <p class="welcome-subtitle">欢迎来到我的个人博客</p>
+            <div class="loading-container">
+                <div class="loading-bar">
+                    <div class="loading-progress" id="loadingProgress"></div>
+                </div>
+                <div class="loading-text" id="loadingText">正在加载中...</div>
+            </div>
+        </div>
+    </div>
+    
     <div id="sakura-container"></div>
     
     <header>
@@ -1130,7 +1247,7 @@
                 </article>
 
                 <article class="post-card">
-                    <h2 class="post-title">更多内容请转到“我的内容”页面</h2>
+                    <h2 class="post-title">更多内容请转到"我的内容"页面</h2>
                 </article>
             </div>
             
@@ -1396,6 +1513,50 @@
     </footer>
 
     <script>
+        // 开场动画
+        document.addEventListener('DOMContentLoaded', function() {
+            const welcomeAnimation = document.getElementById('welcome-animation');
+            const loadingProgress = document.getElementById('loadingProgress');
+            const loadingText = document.getElementById('loadingText');
+            let progress = 0;
+            
+            // 模拟加载进度
+            const progressInterval = setInterval(() => {
+                progress += Math.random() * 10;
+                if (progress > 100) {
+                    progress = 100;
+                    clearInterval(progressInterval);
+                    
+                    loadingText.textContent = "加载完成！";
+                    
+                    // 加载完成后延迟1秒隐藏动画
+                    setTimeout(() => {
+                        welcomeAnimation.style.opacity = '0';
+                        welcomeAnimation.style.transform = 'scale(1.1)';
+                        
+                        setTimeout(() => {
+                            welcomeAnimation.style.display = 'none';
+                            // 显示主内容
+                            document.getElementById('home').style.display = 'flex';
+                            setTimeout(() => {
+                                document.getElementById('home').classList.add('active');
+                            }, 50);
+                        }, 1500);
+                    }, 500);
+                }
+                loadingProgress.style.width = `${progress}%`;
+                
+                // 更新加载文本
+                if (progress < 30) {
+                    loadingText.textContent = "正在加载中...";
+                } else if (progress < 70) {
+                    loadingText.textContent = "正在初始化页面...";
+                } else {
+                    loadingText.textContent = "即将完成...";
+                }
+            }, 100);
+        });
+
         // 页面切换功能
         document.addEventListener('DOMContentLoaded', function() {
             const navLinks = document.querySelectorAll('nav a');
