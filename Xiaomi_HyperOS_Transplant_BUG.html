@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xiaomi HyperOS 移植思路（BUG修复篇）</title>
+    
+    <!-- Prism.js 代码高亮库 -->
+    <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-shell-session.min.js"></script>
+    
+    <!-- 字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Noto Sans SC', sans-serif;
+        }
+        
+        body {
+            background-color: #fff5f9;
+            color: #7a5a7a;
+            line-height: 1.6;
+            background-image: url('https://tc.alcy.cc/q/20250908/76459ea004b4ab1e76d87aa0e87c041a.webp');
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
+            position: relative;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        #sakura-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+        }
+        
+        .sakura {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path fill="%23ffcce6" d="M10 0C4.48 0 0 4.48 0 10s4.48 10 10 10 10-4.48 10-10S15.52 0 10 0zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/><path fill="%23ffb3e6" d="M10 2c4.42 0 8 3.58 8 8s-3.58 8-8 8-8-3.58-8-8 3.58-8 8-8z"/><path fill="%23ff99cc" d="M10 4c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6 2.69-6 6-6z"/></svg>');
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.7;
+            z-index: 9999;
+        }
+        
+        .sakura-trail {
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 15 15"><path fill="%23ffcce6" d="M7.5 0C3.36 0 0 3.36 0 7.5S3.36 15 7.5 15 15 11.64 15 7.5 11.64 0 7.5 0zm0 13.5c-3.31 0-6-2.69-6-6s2.69-6 6-6 6 2.69 6 6-2.69 6-6 6z"/><path fill="%23ffb3e6" d="M7.5 1.5c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6 2.69-6 6-6z"/></svg>');
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.8;
+            z-index: 9999;
+            pointer-events: none;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(255, 150, 200, 0.1);
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, #ff66a3, #ff99cc);
+        }
+        
+        header {
+            background: linear-gradient(135deg, rgba(255, 102, 163, 0.7), rgba(255, 153, 204, 0.7));
+            color: white;
+            padding: 30px 40px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        
+        h1 {
+            font-family: 'Mochiy Pop One', sans-serif;
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.3);
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .content {
+            padding: 30px 40px;
+        }
+        
+        h2 {
+            color: #cc6699;
+            margin: 30px 0 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px dashed rgba(255, 240, 245, 0.7);
+            font-family: 'Mochiy Pop One', sans-serif;
+        }
+        
+        h3 {
+            color: #ff66a3;
+            margin: 25px 0 12px;
+            font-family: 'Mochiy Pop One', sans-serif;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            color: #7a5a7a;
+        }
+        
+        .warning {
+            background-color: rgba(255, 248, 225, 0.8);
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 4px 4px 0;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+        
+        .warning-title {
+            font-weight: bold;
+            color: #ff9800;
+            margin-bottom: 8px;
+        }
+        
+        .code-block {
+            background-color: #2d2d2d;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            position: relative;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .code-block pre {
+            margin: 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        
+        .code-language {
+            position: absolute;
+            top: 5px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #ccc;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+        
+        .step {
+            background-color: rgba(240, 247, 255, 0.8);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid rgba(33, 150, 243, 0.7);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .step:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 150, 200, 0.2);
+        }
+        
+        .step-title {
+            font-weight: bold;
+            color: #1976d2;
+            margin-bottom: 10px;
+        }
+        
+        ol, ul {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+            color: #7a5a7a;
+        }
+        
+        .highlight {
+            background-color: rgba(255, 204, 230, 0.5);
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+        
+        .note {
+            background-color: rgba(232, 245, 233, 0.8);
+            border-left: 4px solid #4caf50;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 0 4px 4px 0;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+        
+        .note-title {
+            font-weight: bold;
+            color: #2e7d32;
+            margin-bottom: 8px;
+        }
+        
+        .page-break {
+            height: 1px;
+            background: linear-gradient(to right, transparent, #ff66a3, transparent);
+            margin: 30px 0;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #996699;
+            font-size: 0.9rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+        }
+        
+        a {
+            color: #ff66a3;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        a:hover {
+            color: #ff3399;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #ff66a3, #ff99cc);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            text-align: center;
+            margin: 10px 5px;
+            box-shadow: 0 4px 10px rgba(255, 150, 200, 0.2);
+        }
+        
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 102, 163, 0.3);
+            color: white;
+        }
+        
+        .bug-fix {
+            background-color: rgba(255, 240, 245, 0.8);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 25px 0;
+            border-left: 4px solid #ff66a3;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .bug-fix:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 102, 163, 0.2);
+        }
+        
+        .bug-fix-title {
+            font-weight: bold;
+            color: #ff3399;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .bug-fix-title::before {
+            content: "🔧";
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .file-path {
+            background-color: rgba(230, 230, 250, 0.7);
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            margin: 10px 0;
+            display: inline-block;
+            border: 1px solid rgba(200, 200, 220, 0.5);
+        }
+        
+        .download-link {
+            display: inline-block;
+            background-color: rgba(255, 200, 220, 0.7);
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border: 1px solid rgba(255, 150, 200, 0.5);
+            transition: all 0.3s ease;
+        }
+        
+        .download-link:hover {
+            background-color: rgba(255, 180, 210, 0.9);
+            transform: translateY(-2px);
+        }
+        
+        /* 修改后的右侧导航栏样式 - 添加了与主体相同的模糊效果 */
+        .toc-sidebar {
+            position: fixed;
+            right: 40px; /* 向左移动一些 */
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.7); /* 与主体相同的透明度 */
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 8px 25px rgba(255, 150, 200, 0.3);
+            backdrop-filter: blur(15px); /* 与主体相同的模糊强度 */
+            -webkit-backdrop-filter: blur(15px); /* 与主体相同的模糊强度 */
+            border: 1px solid rgba(255, 255, 255, 0.3); /* 与主体相同的边框 */
+            z-index: 100;
+            min-width: 220px; /* 放大一些 */
+            transition: all 0.3s ease;
+        }
+        
+        .toc-sidebar:hover {
+            box-shadow: 0 10px 30px rgba(255, 102, 163, 0.4);
+            transform: translateY(-50%) scale(1.02);
+        }
+        
+        .toc-title {
+            font-family: 'Mochiy Pop One', sans-serif;
+            color: #ff66a3;
+            font-size: 1.2rem; /* 放大一点 */
+            margin-bottom: 15px;
+            text-align: center;
+            padding-bottom: 10px;
+            border-bottom: 2px dashed rgba(255, 102, 163, 0.4);
+        }
+        
+        .toc-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .toc-item {
+            margin-bottom: 12px; /* 增加间距 */
+        }
+        
+        .toc-link {
+            display: block;
+            padding: 10px 15px; /* 增加内边距 */
+            background: rgba(255, 240, 245, 0.8);
+            border-radius: 8px;
+            color: #7a5a7a;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.95rem; /* 稍微放大字体 */
+            font-weight: 500;
+        }
+        
+        .toc-link:hover {
+            background: rgba(255, 102, 163, 0.2);
+            color: #ff3399;
+            transform: translateX(-5px);
+            box-shadow: 0 4px 8px rgba(255, 102, 163, 0.2);
+        }
+        
+        .toc-sublist {
+            list-style: none;
+            margin: 8px 0 0 12px; /* 调整间距 */
+            padding: 0;
+        }
+        
+        .toc-subitem {
+            margin-bottom: 8px; /* 增加间距 */
+        }
+        
+        .toc-sublink {
+            display: block;
+            padding: 8px 12px; /* 增加内边距 */
+            background: rgba(255, 250, 252, 0.8);
+            border-radius: 6px;
+            color: #996699;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 0.9rem; /* 稍微放大字体 */
+        }
+        
+        .toc-sublink:hover {
+            background: rgba(255, 102, 163, 0.15);
+            color: #ff3399;
+            transform: translateX(-3px);
+        }
+        
+        /* 添加活跃状态样式 */
+        .toc-link.active,
+        .toc-sublink.active {
+            background: rgba(255, 102, 163, 0.25);
+            color: #ff3399;
+            font-weight: bold;
+        }
+        
+        /* 移动端适配 */
+        @media (max-width: 1200px) {
+            .toc-sidebar {
+                position: relative;
+                right: auto;
+                top: auto;
+                transform: none;
+                margin: 30px auto;
+                max-width: 350px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                border-radius: 8px;
+            }
+            
+            header {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+            
+            .toc-sidebar {
+                position: relative;
+                right: auto;
+                top: auto;
+                transform: none;
+                margin: 20px auto;
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="sakura-container"></div>
+    
+    <!-- 右侧导航栏 -->
+    <nav class="toc-sidebar">
+        <div class="toc-title">BUG修复导航</div>
+        <ul class="toc-list">
+            <li class="toc-item">
+                <a href="#fix1" class="toc-link">1. 修复炸基带</a>
+            </li>
+            <li class="toc-item">
+                <a href="#fix2" class="toc-link">2. 修复蓝牙弹窗</a>
+            </li>
+            <li class="toc-item">
+                <a href="#fix3" class="toc-link">3. 修复指纹问题</a>
+            </li>
+            <li class="toc-item">
+                <a href="#fix4" class="toc-link">4. 修复蓝牙沉浸声</a>
+            </li>
+            <li class="toc-item">
+                <a href="#fix5" class="toc-link">5. 修复开机卡一屏</a>
+            </li>
+            <li class="toc-item">
+                <a href="#fix6" class="toc-link">6. 修复屏幕DPI</a>
+            </li>
+        </ul>
+    </nav>
+    
+    <div class="container">
+        <header>
+            <h1>Xiaomi HyperOS 移植思路（BUG修复篇）</h1>
+            <p class="subtitle">详细BUG修复教程与操作指南</p>
+        </header>
+        
+        <div class="content">
+            <div class="warning">
+                <div class="warning-title">免责声明</div>
+                <p>本教程所有步骤和操作均由作者实践过后予以发布，不存在损害你的设备的操作，如果你未按照本文教程操作导致的任何损失均于作者无关。</p>
+                <p>作者只是一个初三在校生，技术不是最突出的，玩机和制作ROM & 插件纯属本人爱好，如果你不喜欢请不要喷我。</p>
+            </div>
+            
+            <h2>正片开始</h2>
+            <p>本教程针对Xiaomi HyperOS移植过程中遇到的常见BUG提供修复方案。请根据你遇到的问题选择对应的修复方法。</p>
+            
+            <div class="page-break"></div>
+            
+            <!-- 修复1：炸基带 -->
+            <div class="bug-fix" id="fix1">
+                <div class="bug-fix-title">1. 修复Xiaomi HyperOS3的炸基带</div>
+                <p><strong>操作步骤：</strong></p>
+                <p>将此文件丢到 <span class="file-path">/product/app</span> 目录下</p>
+                <div class="download-link">
+                    <strong>下载链接:</strong> <a href="https://www.123865.com/s/FehVVv-9KBl" target="_blank">https://www.123865.com/s/FehVVv-9KBl</a>
+                </div>
+            </div>
+            
+            <!-- 修复2：蓝牙弹窗 -->
+            <div class="bug-fix" id="fix2">
+                <div class="bug-fix-title">2. 修复蓝牙弹窗、互联互通教程</div>
+                <p><strong>操作步骤：</strong></p>
+                <p>在 <span class="file-path">/system_ext/app</span> 目录内：</p>
+                <ol>
+                    <li>删除整个 <span class="file-path">BluetoothExtension</span> 文件夹</li>
+                    <li>将下载的整个文件夹替换进去（不能选择 "复制并替换" 否则出错！）</li>
+                </ol>
+                <div class="download-link">
+                    <strong>下载链接：</strong> <a href="https://www.123865.com/s/FehVVv-AKBl" target="_blank">https://www.123865.com/s/FehVVv-AKBl</a>
+                </div>
+                <div class="warning">
+                    <div class="warning-title">重要提示</div>
+                    <p>操作时请确保完全删除旧文件夹后再替换新文件夹，不能使用"复制并替换"功能，否则可能导致系统异常。</p>
+                </div>
+            </div>
+            
+            <!-- 修复3：核心破解重启掉指纹 -->
+            <div class="bug-fix" id="fix3">
+                <div class="bug-fix-title">3. 修复核心破解重启掉指纹（仅适用于OS3老版本，新版本不再需要）</div>
+                <p><strong>操作步骤：</strong></p>
+                <p>在 <span class="file-path">/system/system/framework/service.jar</span> 文件里搜索：</p>
+                <div class="code-block">
+                    <span class="code-language">XML</span>
+                    <pre><code class="language-xml">settings_fingerprint.xml success</code></pre>
+                </div>
+                <p>找到下面有一个 <span class="highlight">delete</span> 的行，把它去掉即可。</p>
+                <div class="note">
+                    <div class="note-title">版本说明</div>
+                    <p>此修复仅适用于OS3老版本，新版本HyperOS已修复此问题，无需操作。</p>
+                </div>
+            </div>
+            
+            <!-- 修复4：蓝牙沉浸声无效 -->
+            <div class="bug-fix" id="fix4">
+                <div class="bug-fix-title">4. 修复OS3蓝牙沉浸声无效</div>
+                <p><strong>操作步骤：</strong></p>
+                <p>在ODM的prop配置文件中加入以下代码：</p>
+                <div class="code-block">
+                    <span class="code-language">Properties</span>
+                    <pre><code class="language-properties">ro.audio.stereo_spatialization_enabled=true</code></pre>
+                </div>
+                <p>添加位置：<span class="file-path">/odm/etc/build.prop</span> 或相关prop配置文件</p>
+            </div>
+            
+            <!-- 修复5：开机卡一屏 -->
+            <div class="bug-fix" id="fix5">
+                <div class="bug-fix-title">5. 修复Xiaomi HyperOS3的开机卡一屏</div>
+                <p><strong>操作步骤：</strong></p>
+                <p>在 <span class="file-path">/product/etc/build.prop</span> 中找到：</p>
+                <div class="code-block">
+                    <span class="code-language">Properties</span>
+                    <pre><code class="language-properties">persist.sys.enhance_vkpipelinecache.enable=true</code></pre>
+                </div>
+                <p>将 <span class="highlight">"true"</span> 改为 <span class="highlight">"false"</span>。</p>
+                <div class="note">
+                    <p>此修改适用于6.1以下设备，以上设备可以不修改。</p>
+                </div>
+            </div>
+            
+            <!-- 修复6：屏幕DPI -->
+            <div class="bug-fix" id="fix6">
+                <div class="bug-fix-title">6. 修复屏幕DPI</div>
+                <p><strong>操作步骤：</strong></p>
+                <p>在 <span class="file-path">/product/etc/build.prop</span> 中找到以下两行：</p>
+                <div class="code-block">
+                    <span class="code-language">Properties</span>
+                    <pre><code class="language-properties">ro.sf.lcd_density=xxx
+persist.miui.density_v2=xxx</code></pre>
+                </div>
+                <p>将数值 <span class="highlight">xxx</span> 改为你机型的正确DPI数值。</p>
+                <div class="warning">
+                    <div class="warning-title">DPI数值参考</div>
+                    <p>不同机型的DPI数值不同，请根据你的设备型号查找正确的DPI值。错误的DPI设置可能导致显示异常。</p>
+                </div>
+            </div>
+            
+            <div class="page-break"></div>
+            
+            <div style="text-align: center; margin-top: 30px;">
+                <a href="index.html" class="btn">返回博客主页</a>
+            </div>
+        </div>
+        
+        <footer>
+            <p>© 2025 HyperOS移植教程 | BUG修复篇 | 仅供学习交流使用</p>
+        </footer>
+    </div>
+
+    <script>
+        // 樱花飘落特效
+        function createSakura() {
+            const container = document.getElementById('sakura-container');
+            const sakura = document.createElement('div');
+            sakura.className = 'sakura';
+            
+            const startX = Math.random() * window.innerWidth;
+            const endX = startX + (Math.random() * 200 - 100);
+            
+            const size = 10 + Math.random() * 20;
+            sakura.style.width = `${size}px`;
+            sakura.style.height = `${size}px`;
+            
+            const opacity = 0.4 + Math.random() * 0.6;
+            sakura.style.opacity = opacity;
+            
+            const rotation = Math.random() * 360;
+            sakura.style.transform = `rotate(${rotation}deg)`;
+            
+            const duration = 10 + Math.random() * 20;
+            const delay = Math.random() * 5;
+            
+            sakura.style.left = `${startX}px`;
+            sakura.style.top = `-30px`;
+            
+            container.appendChild(sakura);
+            
+            sakura.animate([
+                { 
+                    transform: `translate(0, 0) rotate(${rotation}deg)`,
+                    opacity: opacity
+                },
+                { 
+                    transform: `translate(${endX - startX}px, ${window.innerHeight + 30}px) rotate(${rotation + 360}deg)`,
+                    opacity: 0
+                }
+            ], {
+                duration: duration * 1000,
+                delay: delay * 1000,
+                easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
+            });
+            
+            setTimeout(() => {
+                if (sakura.parentNode) {
+                    sakura.parentNode.removeChild(sakura);
+                }
+            }, (duration + delay) * 1000);
+        }
+        
+        // 樱花拖尾特效 - 减少频率和数量
+        function createSakuraTrail(x, y, isFast) {
+            // 减少拖尾数量
+            const trailCount = isFast ? 1 : 1;
+            const container = document.getElementById('sakura-container');
+            
+            // 随机决定是否生成拖尾，减少出现频率
+            if (Math.random() < 0.3) {
+                return;
+            }
+            
+            for (let i = 0; i < trailCount; i++) {
+                const trail = document.createElement('div');
+                trail.className = 'sakura-trail';
+                
+                const size = 8 + Math.random() * 12;
+                trail.style.width = `${size}px`;
+                trail.style.height = `${size}px`;
+                
+                const opacity = 0.4 + Math.random() * 0.4;
+                trail.style.opacity = opacity;
+                
+                const rotation = Math.random() * 360;
+                trail.style.transform = `rotate(${rotation}deg)`;
+                
+                trail.style.left = `${x}px`;
+                trail.style.top = `${y}px`;
+                
+                container.appendChild(trail);
+                
+                const offsetX = (Math.random() - 0.5) * (isFast ? 50 : 30);
+                const offsetY = (Math.random() - 0.5) * (isFast ? 50 : 30);
+                const duration = isFast ? 800 : 1500;
+                
+                trail.animate([
+                    { 
+                        transform: `translate(0, 0) rotate(${rotation}deg)`,
+                        opacity: opacity
+                    },
+                    { 
+                        transform: `translate(${offsetX}px, ${offsetY}px) rotate(${rotation + 180}deg)`,
+                        opacity: 0
+                    }
+                ], {
+                    duration: duration,
+                    easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
+                });
+                
+                setTimeout(() => {
+                    if (trail.parentNode) {
+                        trail.parentNode.removeChild(trail);
+                    }
+                }, duration);
+            }
+        }
+        
+        // 初始化樱花飘落
+        function initSakura() {
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    createSakura();
+                }, i * 500);
+            }
+            
+            setInterval(() => {
+                if (Math.random() > 0.3) {
+                    createSakura();
+                }
+            }, 1000);
+            
+            let lastMouseX = 0;
+            let lastMouseY = 0;
+            let lastTime = 0;
+            let lastTrailTime = 0;
+            
+            document.addEventListener('mousemove', (e) => {
+                const currentTime = Date.now();
+                const deltaX = e.clientX - lastMouseX;
+                const deltaY = e.clientY - lastMouseY;
+                const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+                const timeDiff = currentTime - lastTime;
+                
+                const speed = timeDiff > 0 ? distance / timeDiff : 0;
+                
+                if (speed > 0.5 && (currentTime - lastTrailTime) > 100) {
+                    createSakuraTrail(e.clientX, e.clientY, speed > 2);
+                    lastTrailTime = currentTime;
+                }
+                
+                lastMouseX = e.clientX;
+                lastMouseY = e.clientY;
+                lastTime = currentTime;
+            });
+        }
+        
+        // 平滑滚动函数
+        function smoothScrollTo(targetId) {
+            const targetElement = document.querySelector(targetId);
+            if (targetElement) {
+                const offsetTop = targetElement.offsetTop - 100; // 偏移量，使目标位置在视口上方一点
+                window.scrollTo({
+                    top: offsetTop,
+                    behavior: 'smooth'
+                });
+            }
+        }
+        
+        // 添加导航栏点击事件
+        function setupNavigation() {
+            const navLinks = document.querySelectorAll('.toc-link');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href');
+                    
+                    // 移除所有活跃状态
+                    navLinks.forEach(navLink => navLink.classList.remove('active'));
+                    
+                    // 添加当前活跃状态
+                    this.classList.add('active');
+                    
+                    // 平滑滚动到目标位置
+                    smoothScrollTo(targetId);
+                });
+            });
+            
+            // 监听滚动，更新活跃状态
+            window.addEventListener('scroll', function() {
+                const scrollPosition = window.scrollY + 150;
+                
+                // 获取所有章节元素
+                const sections = document.querySelectorAll('.bug-fix');
+                
+                let currentActiveId = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.offsetHeight;
+                    
+                    if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
+                        currentActiveId = '#' + section.id;
+                    }
+                });
+                
+                // 更新导航栏活跃状态
+                navLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === currentActiveId) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+        }
+        
+        window.addEventListener('load', function() {
+            initSakura();
+            setupNavigation();
+        });
+    </script>
+</body>
+</html>
