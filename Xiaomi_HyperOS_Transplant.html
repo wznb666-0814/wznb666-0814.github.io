@@ -15,6 +15,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Mochiy+Pop+One&family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
+        :root {
+            --primary-color: #ff66a3;
+            --secondary-color: #ff99cc;
+            --background-color: #fff5f9;
+            --text-color: #7a5a7a;
+            --text-secondary: #cc6699;
+            --card-bg: rgba(255, 255, 255, 0.7);
+            --card-border: rgba(255, 255, 255, 0.3);
+            --backdrop-blur: 15px;
+            --shadow-color: rgba(255, 150, 200, 0.2);
+            --shadow-hover: rgba(255, 150, 200, 0.3);
+        }
         * {
             margin: 0;
             padding: 0;
@@ -23,8 +35,8 @@
         }
         
         body {
-            background-color: #fff5f9;
-            color: #7a5a7a;
+            background-color: var(--background-color);
+            color: var(--text-color);
             line-height: 1.6;
             background-image: url('https://tc.alcy.cc/q/20250908/76459ea004b4ab1e76d87aa0e87c041a.webp');
             background-size: cover;
@@ -71,15 +83,15 @@
         .container {
             max-width: 1000px;
             margin: 0 auto;
-            background: rgba(255, 255, 255, 0.7);
+            background: var(--card-bg);
             border-radius: 20px;
-            box-shadow: 0 5px 15px rgba(255, 150, 200, 0.1);
+            box-shadow: 0 5px 15px var(--shadow-color);
             overflow: hidden;
             position: relative;
             z-index: 1;
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(var(--backdrop-blur));
+            -webkit-backdrop-filter: blur(var(--backdrop-blur));
+            border: 1px solid var(--card-border);
         }
         
         .container::before {
@@ -89,7 +101,7 @@
             left: 0;
             width: 100%;
             height: 5px;
-            background: linear-gradient(90deg, #ff66a3, #ff99cc);
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
         }
         
         header {
@@ -118,7 +130,7 @@
         }
         
         h2 {
-            color: #cc6699;
+            color: var(--text-secondary);
             margin: 30px 0 15px;
             padding-bottom: 8px;
             border-bottom: 2px dashed rgba(255, 240, 245, 0.7);
@@ -126,14 +138,14 @@
         }
         
         h3 {
-            color: #ff66a3;
+            color: var(--primary-color);
             margin: 25px 0 12px;
             font-family: 'Mochiy Pop One', sans-serif;
         }
         
         p {
             margin-bottom: 15px;
-            color: #7a5a7a;
+            color: var(--text-color);
         }
         
         .warning {
@@ -264,7 +276,7 @@
         
         .btn {
             display: inline-block;
-            background: linear-gradient(135deg, #ff66a3, #ff99cc);
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
             padding: 10px 20px;
             border-radius: 20px;
@@ -273,12 +285,12 @@
             transition: all 0.3s ease;
             text-align: center;
             margin: 10px 5px;
-            box-shadow: 0 4px 10px rgba(255, 150, 200, 0.2);
+            box-shadow: 0 4px 10px var(--shadow-color);
         }
         
         .btn:hover {
             transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(255, 102, 163, 0.3);
+            box-shadow: 0 5px 15px var(--shadow-hover);
             color: white;
         }
         
@@ -288,20 +300,20 @@
             right: 40px; /* 向左移动一些 */
             top: 50%;
             transform: translateY(-50%);
-            background: rgba(255, 255, 255, 0.7); /* 与主体相同的透明度 */
+            background: var(--card-bg); /* 与主体相同的透明度 */
             border-radius: 15px;
             padding: 20px;
-            box-shadow: 0 8px 25px rgba(255, 150, 200, 0.3);
-            backdrop-filter: blur(15px); /* 与主体相同的模糊强度 */
-            -webkit-backdrop-filter: blur(15px); /* 与主体相同的模糊强度 */
-            border: 1px solid rgba(255, 255, 255, 0.3); /* 与主体相同的边框 */
+            box-shadow: 0 8px 25px var(--shadow-hover);
+            backdrop-filter: blur(var(--backdrop-blur)); /* 与主体相同的模糊强度 */
+            -webkit-backdrop-filter: blur(var(--backdrop-blur)); /* 与主体相同的模糊强度 */
+            border: 1px solid var(--card-border); /* 与主体相同的边框 */
             z-index: 100;
             min-width: 220px; /* 放大一些 */
             transition: all 0.3s ease;
         }
         
         .toc-sidebar:hover {
-            box-shadow: 0 10px 30px rgba(255, 102, 163, 0.4);
+            box-shadow: 0 10px 30px var(--shadow-hover);
             transform: translateY(-50%) scale(1.02);
         }
         
@@ -341,7 +353,7 @@
             background: rgba(255, 102, 163, 0.2);
             color: #ff3399;
             transform: translateX(-5px);
-            box-shadow: 0 4px 8px rgba(255, 102, 163, 0.2);
+            box-shadow: 0 4px 8px var(--shadow-color);
         }
         
         .toc-sublist {
@@ -388,6 +400,21 @@
                 transform: none;
                 margin: 30px auto;
                 max-width: 350px;
+            }
+        }
+        
+        @media (max-width: 1024px) {
+            .container {
+                margin: 20px;
+            }
+            
+            .content {
+                padding: 30px;
+            }
+            
+            .toc-sidebar {
+                margin: 25px auto;
+                max-width: 320px;
             }
         }
         
@@ -609,162 +636,9 @@ sleep 1</code></pre>
         </footer>
     </div>
 
+    <script src="shared.js"></script>
     <script>
-        // 樱花飘落特效
-        function createSakura() {
-            const container = document.getElementById('sakura-container');
-            const sakura = document.createElement('div');
-            sakura.className = 'sakura';
-            
-            const startX = Math.random() * window.innerWidth;
-            const endX = startX + (Math.random() * 200 - 100);
-            
-            const size = 10 + Math.random() * 20;
-            sakura.style.width = `${size}px`;
-            sakura.style.height = `${size}px`;
-            
-            const opacity = 0.4 + Math.random() * 0.6;
-            sakura.style.opacity = opacity;
-            
-            const rotation = Math.random() * 360;
-            sakura.style.transform = `rotate(${rotation}deg)`;
-            
-            const duration = 10 + Math.random() * 20;
-            const delay = Math.random() * 5;
-            
-            sakura.style.left = `${startX}px`;
-            sakura.style.top = `-30px`;
-            
-            container.appendChild(sakura);
-            
-            sakura.animate([
-                { 
-                    transform: `translate(0, 0) rotate(${rotation}deg)`,
-                    opacity: opacity
-                },
-                { 
-                    transform: `translate(${endX - startX}px, ${window.innerHeight + 30}px) rotate(${rotation + 360}deg)`,
-                    opacity: 0
-                }
-            ], {
-                duration: duration * 1000,
-                delay: delay * 1000,
-                easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
-            });
-            
-            setTimeout(() => {
-                if (sakura.parentNode) {
-                    sakura.parentNode.removeChild(sakura);
-                }
-            }, (duration + delay) * 1000);
-        }
-        
-        // 樱花拖尾特效 - 减少频率和数量
-        function createSakuraTrail(x, y, isFast) {
-            // 减少拖尾数量
-            const trailCount = isFast ? 1 : 1;
-            const container = document.getElementById('sakura-container');
-            
-            // 随机决定是否生成拖尾，减少出现频率
-            if (Math.random() < 0.3) {
-                return;
-            }
-            
-            for (let i = 0; i < trailCount; i++) {
-                const trail = document.createElement('div');
-                trail.className = 'sakura-trail';
-                
-                const size = 8 + Math.random() * 12;
-                trail.style.width = `${size}px`;
-                trail.style.height = `${size}px`;
-                
-                const opacity = 0.4 + Math.random() * 0.4;
-                trail.style.opacity = opacity;
-                
-                const rotation = Math.random() * 360;
-                trail.style.transform = `rotate(${rotation}deg)`;
-                
-                trail.style.left = `${x}px`;
-                trail.style.top = `${y}px`;
-                
-                container.appendChild(trail);
-                
-                const offsetX = (Math.random() - 0.5) * (isFast ? 50 : 30);
-                const offsetY = (Math.random() - 0.5) * (isFast ? 50 : 30);
-                const duration = isFast ? 800 : 1500;
-                
-                trail.animate([
-                    { 
-                        transform: `translate(0, 0) rotate(${rotation}deg)`,
-                        opacity: opacity
-                    },
-                    { 
-                        transform: `translate(${offsetX}px, ${offsetY}px) rotate(${rotation + 180}deg)`,
-                        opacity: 0
-                    }
-                ], {
-                    duration: duration,
-                    easing: 'cubic-bezier(0.4, 0, 0.2, 1)'
-                });
-                
-                setTimeout(() => {
-                    if (trail.parentNode) {
-                        trail.parentNode.removeChild(trail);
-                    }
-                }, duration);
-            }
-        }
-        
-        // 初始化樱花飘落
-        function initSakura() {
-            for (let i = 0; i < 20; i++) {
-                setTimeout(() => {
-                    createSakura();
-                }, i * 500);
-            }
-            
-            setInterval(() => {
-                if (Math.random() > 0.3) {
-                    createSakura();
-                }
-            }, 1000);
-            
-            let lastMouseX = 0;
-            let lastMouseY = 0;
-            let lastTime = 0;
-            let lastTrailTime = 0;
-            
-            document.addEventListener('mousemove', (e) => {
-                const currentTime = Date.now();
-                const deltaX = e.clientX - lastMouseX;
-                const deltaY = e.clientY - lastMouseY;
-                const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-                const timeDiff = currentTime - lastTime;
-                
-                const speed = timeDiff > 0 ? distance / timeDiff : 0;
-                
-                if (speed > 0.5 && (currentTime - lastTrailTime) > 100) {
-                    createSakuraTrail(e.clientX, e.clientY, speed > 2);
-                    lastTrailTime = currentTime;
-                }
-                
-                lastMouseX = e.clientX;
-                lastMouseY = e.clientY;
-                lastTime = currentTime;
-            });
-        }
-        
-        // 平滑滚动函数
-        function smoothScrollTo(targetId) {
-            const targetElement = document.querySelector(targetId);
-            if (targetElement) {
-                const offsetTop = targetElement.offsetTop - 100; // 偏移量，使目标位置在视口上方一点
-                window.scrollTo({
-                    top: offsetTop,
-                    behavior: 'smooth'
-                });
-            }
-        }
+
         
         // 添加导航栏点击事件
         function setupNavigation() {
@@ -815,7 +689,6 @@ sleep 1</code></pre>
         }
         
         window.addEventListener('load', function() {
-            initSakura();
             setupNavigation();
         });
     </script>
