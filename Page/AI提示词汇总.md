@@ -1,4 +1,4 @@
- ---
+---
 title: AI提示词汇总
 published: 2026-02-10
 description: 本笔记汇总了我常用的部分AI提示词，帮助你更准确的使用AI生成准确的内容
