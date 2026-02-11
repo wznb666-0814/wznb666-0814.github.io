@@ -8,31 +8,13 @@ const POST_FILES = [
     'HyperOS移植思路.md',
     'HyperOS移植思路——BUG修复与个性化修改篇.md',
     'AI提示词汇总.md',
-    'ROM和插件获取.md',
-    'hello-world.md',
-    'Mizuki-master博客文章编写模板.md',
-    'example.md',
-    '我的账号 & 密码.md'
+    'ROM和插件获取.md'
 ];
 
 // “一些真心话”列表配置
 const TRUTH_FILES = [
-    'first-truth.md',
-    'about-dreams.md'
 ];
 
-// 默认封面图
-const DEFAULT_COVER = 'Image/1.webp';
-
-// Banner 轮播图配置 (图片需存放在 Image 文件夹中)
-const BANNER_IMAGES = [
-    'Image/1.webp',
-    'Image/2.webp',
-    'Image/3.webp',
-    'Image/4.webp',
-    'Image/5.webp',
-    'Image/6.webp'
-];
 
 let allPosts = []; // 存储所有加载的文章数据
 let allTruths = []; // 存储所有加载的真心话数据
@@ -47,7 +29,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // --- Banner 轮播逻辑 ---
     if (banner) {
-        let currentImgIndex = 0;
+        let currentImgIndex = Math.floor(Math.random() * BANNER_IMAGES.length);
+        banner.style.backgroundImage = `url('${BANNER_IMAGES[currentImgIndex]}')`;
         
         // 预加载图片
         BANNER_IMAGES.forEach(src => {
@@ -94,7 +77,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             card.className = 'post-card animate-slide-up';
             card.style.animationDelay = `${index * 0.1}s`;
             
-            const coverImg = meta.image || DEFAULT_COVER;
+            const coverImg = meta.image || getRandomCover();
             const dirParam = directory === 'Page' ? '' : `&dir=${directory}`;
 
             card.innerHTML = `
@@ -136,15 +119,23 @@ document.addEventListener('DOMContentLoaded', async () => {
         // 渲染“一些真心话”页面的列表
         renderPosts(allTruths, wordsListContainer);
 
-        // 在首页渲染所有文章 (默认显示)
-        renderPosts(allPosts, postListContainer);
+        // 首页默认显示搜索提示，而不是所有文章
+        if (postListContainer) {
+            postListContainer.innerHTML = `
+                <div class="loading">
+                    <i class="fas fa-search" style="font-size: 2rem; color: var(--accent-color); margin-bottom: 1rem; opacity: 0.5;"></i>
+                    <p>请输入关键词搜索文章或真心话...</p>
+                </div>
+            `;
+        }
 
         // 如果 URL 中有搜索参数，则在首页渲染搜索结果
         const urlParams = new URLSearchParams(window.location.search);
         const query = urlParams.get('q');
-        if (query) {
+        if (query && postListContainer) {
             searchInput.value = query;
-            const filtered = filterPosts(allPosts, query);
+            const combined = [...allPosts, ...allTruths];
+            const filtered = filterPosts(combined, query);
             renderPosts(filtered, postListContainer);
         }
     }
@@ -182,13 +173,15 @@ document.addEventListener('DOMContentLoaded', async () => {
                 postListContainer.innerHTML = `
                     <div class="loading">
                         <i class="fas fa-search" style="font-size: 2rem; color: var(--accent-color); margin-bottom: 1rem; opacity: 0.5;"></i>
-                        <p>请搜索文章...</p>
+                        <p>请输入关键词搜索文章或真心话...</p>
                     </div>
                 `;
                 return;
             }
 
-            const filtered = filterPosts(allPosts, searchTerm);
+            // 同时搜索文章和真心话
+            const combined = [...allPosts, ...allTruths];
+            const filtered = filterPosts(combined, searchTerm);
             renderPosts(filtered, postListContainer);
         });
     }

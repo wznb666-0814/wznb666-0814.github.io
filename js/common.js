@@ -1,3 +1,19 @@
+// 全局配置
+const BANNER_IMAGES = [
+    'Image/1.webp',
+    'Image/2.webp',
+    'Image/3.webp',
+    'Image/4.webp',
+    'Image/5.webp',
+    'Image/6.webp'
+];
+
+// 获取随机封面图
+function getRandomCover() {
+    const randomIndex = Math.floor(Math.random() * BANNER_IMAGES.length);
+    return BANNER_IMAGES[randomIndex];
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     // 基础 UI 元素
     const themeToggle = document.getElementById('theme-toggle');
@@ -177,25 +193,80 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const response = await fetch('https://v1.hitokoto.cn/?c=i&c=k');
             const data = await response.json();
-            quoteText.innerText = data.hitokoto;
-            quoteAuthor.innerText = `—— ${data.from_who || data.from || '未知'}`;
+            typeWriter(quoteText, data.hitokoto, () => {
+                quoteAuthor.innerText = `—— ${data.from_who || data.from || '未知'}`;
+                quoteAuthor.style.opacity = '1';
+            });
         } catch (error) {
             console.error('获取每日一句失败:', error);
-            quoteText.innerText = '温柔地对待世界，世界也会温柔待你。';
-            quoteAuthor.innerText = '—— Repea';
+            const defaultText = '温柔地对待世界，世界也会温柔待你。';
+            typeWriter(quoteText, defaultText, () => {
+                quoteAuthor.innerText = '—— Repea';
+                quoteAuthor.style.opacity = '1';
+            });
         }
+    }
+
+    function typeWriter(element, text, callback, speed = 80) {
+        element.innerHTML = '';
+        let i = 0;
+        
+        function type() {
+            if (i < text.length) {
+                const char = text.charAt(i);
+                const span = document.createElement('span');
+                span.innerText = char;
+                span.className = 'typing-char';
+                element.appendChild(span);
+                
+                i++;
+                // 模拟更自然的打字节奏
+                const randomSpeed = speed + (Math.random() * 40 - 20);
+                setTimeout(type, randomSpeed);
+            } else if (callback) {
+                callback();
+            }
+        }
+        type();
     }
     updateDailyQuote();
 
-    // 7. SPA 路由逻辑
+    // 7. SPA 路由逻辑与进度条
+    const progressBar = document.createElement('div');
+    progressBar.className = 'top-progress-bar';
+    document.body.appendChild(progressBar);
+
+    function showProgressBar() {
+        progressBar.style.width = '0%';
+        progressBar.style.display = 'block';
+        progressBar.style.opacity = '1';
+        
+        // 模拟进度
+        setTimeout(() => {
+            progressBar.style.width = '70%';
+        }, 50);
+    }
+
+    function hideProgressBar() {
+        progressBar.style.width = '100%';
+        setTimeout(() => {
+            progressBar.style.opacity = '0';
+            setTimeout(() => {
+                progressBar.style.display = 'none';
+                progressBar.style.width = '0%';
+            }, 300);
+        }, 200);
+    }
+
     function handleRoute() {
         const fullHash = window.location.hash || '#home';
-        // 解析 hash 和参数，例如 #post?file=xxx
         const [hash, queryString] = fullHash.split('?');
         const targetId = hash.substring(1);
         const targetPage = document.getElementById(targetId);
 
         if (targetPage) {
+            showProgressBar();
+
             // 更新导航激活状态
             updateActiveLinks(hash);
             
@@ -205,9 +276,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 currentPage.classList.remove('active');
                 currentPage.classList.add('leaving');
                 
+                // 等待退出动画完成的一部分再显示新页面，创造重叠感
                 setTimeout(() => {
                     currentPage.classList.remove('leaving');
-                }, 500);
+                }, 600); // 与 CSS 动画时间匹配
             }
             
             targetPage.classList.add('active');
@@ -219,8 +291,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 const fileName = params.get('file');
                 const directory = params.get('dir') || 'Page';
                 if (fileName) {
-                    loadPostDetail(fileName, directory);
+                    loadPostDetail(fileName, directory).then(() => {
+                        hideProgressBar();
+                    });
+                } else {
+                    hideProgressBar();
                 }
+            } else {
+                // 非详情页，稍微延迟后关闭进度条
+                setTimeout(hideProgressBar, 300);
             }
         }
     }
@@ -249,7 +328,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (meta.image) {
                     postBanner.style.backgroundImage = `url('${meta.image}')`;
                 } else {
-                    postBanner.style.backgroundImage = "url('Image/1.webp')";
+                    postBanner.style.backgroundImage = `url('${getRandomCover()}')`;
                 }
 
                 // 处理代码高亮
@@ -324,6 +403,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function generateTOC(container) {
+        // 在生成新目录前，清理可能存在的旧目录，防止 SPA 路由切换时重复出现
+        const existingTOC = container.parentElement.querySelector('.post-toc');
+        if (existingTOC) {
+            existingTOC.remove();
+        }
+
         const headings = container.querySelectorAll('h1, h2, h3');
         if (headings.length < 2) return;
 
@@ -334,27 +419,62 @@ document.addEventListener('DOMContentLoaded', () => {
         tocContainer.appendChild(tocTitle);
 
         const tocList = document.createElement('ul');
+        const tocItems = [];
+
         headings.forEach((heading, index) => {
             const id = `heading-${index}`;
             heading.id = id;
             
             const li = document.createElement('li');
             li.className = `toc-item toc-${heading.tagName.toLowerCase()}`;
-            li.innerHTML = `<a href="#${id}">${heading.innerText}</a>`;
+            const link = document.createElement('a');
+            link.href = `#${id}`;
+            link.innerText = heading.innerText;
+            li.appendChild(link);
             
-            li.querySelector('a').addEventListener('click', (e) => {
+            link.addEventListener('click', (e) => {
                 e.preventDefault();
-                heading.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                const offsetTop = heading.getBoundingClientRect().top + window.pageYOffset - 90;
+                window.scrollTo({ top: offsetTop, behavior: 'smooth' });
             });
 
             tocList.appendChild(li);
+            tocItems.push({ heading, li });
         });
 
         tocContainer.appendChild(tocList);
         
-        // 插入到内容之前或侧边 (根据布局决定)
+        // 插入到内容之前
         const article = container.parentElement;
         article.insertBefore(tocContainer, container);
+
+        // Scroll Spy 逻辑
+        const handleScrollSpy = () => {
+            if (!document.body.contains(tocContainer)) {
+                window.removeEventListener('scroll', handleScrollSpy);
+                return;
+            }
+
+            let activeIndex = -1;
+            const scrollPos = window.scrollY + 120;
+
+            tocItems.forEach((item, index) => {
+                if (scrollPos >= item.heading.offsetTop) {
+                    activeIndex = index;
+                }
+            });
+
+            tocItems.forEach((item, index) => {
+                if (index === activeIndex) {
+                    item.li.classList.add('active');
+                } else {
+                    item.li.classList.remove('active');
+                }
+            });
+        };
+
+        window.addEventListener('scroll', handleScrollSpy);
+        handleScrollSpy();
     }
 
     function updateActiveLinks(hash) {
