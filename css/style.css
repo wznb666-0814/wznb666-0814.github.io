@@ -994,6 +994,61 @@ ul {
     animation: char-appear 0.3s ease forwards;
 }
 
+/* 响应式适配 */
+@media (max-width: 768px) {
+    .music-player {
+        width: 60px;
+        height: 60px;
+        left: 20px;
+        bottom: 20px;
+        border-radius: 50%;
+        cursor: pointer;
+        padding: 0;
+    }
+
+    .music-player-inner {
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        justify-content: center;
+    }
+
+    .music-cover {
+        width: 60px;
+        height: 60px;
+        margin-right: 0;
+        border: none;
+    }
+
+    .music-details {
+        display: none;
+    }
+
+    /* 展开状态 */
+    .music-player.expanded {
+        width: 280px;
+        height: auto;
+        border-radius: 20px;
+        padding: 15px;
+    }
+
+    .music-player.expanded .music-player-inner {
+        padding: 0;
+        justify-content: flex-start;
+    }
+
+    .music-player.expanded .music-cover {
+        width: 80px;
+        height: 80px;
+        margin-right: 15px;
+        border: 3px solid #1a1a1a;
+    }
+
+    .music-player.expanded .music-details {
+        display: block;
+    }
+}
+
 @keyframes char-appear {
     to {
         opacity: 1;

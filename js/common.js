@@ -125,11 +125,35 @@ document.addEventListener('DOMContentLoaded', () => {
         loadTrack(currentTrack);
 
         // 播放/暂停
-        musicToggle.addEventListener('click', togglePlay);
+        musicToggle.addEventListener('click', (e) => {
+            e.stopPropagation(); // 防止触发播放器展开/收起
+            togglePlay();
+        });
 
         // 上一首/下一首
-        musicPrev.addEventListener('click', () => changeTrack(-1));
-        musicNext.addEventListener('click', () => changeTrack(1));
+        musicPrev.addEventListener('click', (e) => {
+            e.stopPropagation();
+            changeTrack(-1);
+        });
+        musicNext.addEventListener('click', (e) => {
+            e.stopPropagation();
+            changeTrack(1);
+        });
+
+        // 移动端展开/收起逻辑
+        musicPlayer.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768) {
+                musicPlayer.classList.add('expanded');
+                e.stopPropagation();
+            }
+        });
+
+        // 点击外部收起
+        document.addEventListener('click', () => {
+            if (window.innerWidth <= 768) {
+                musicPlayer.classList.remove('expanded');
+            }
+        });
 
         // 进度条更新
         bgMusic.addEventListener('timeupdate', () => {
@@ -139,10 +163,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 点击进度条跳转
         musicProgressContainer.addEventListener('click', (e) => {
+            e.stopPropagation();
             const width = musicProgressContainer.clientWidth;
             const clickX = e.offsetX;
             const duration = bgMusic.duration;
-            bgMusic.currentTime = (clickX / width) * duration;
+            if (duration) {
+                bgMusic.currentTime = (clickX / width) * duration;
+            }
         });
 
         // 自动播放下一首
@@ -153,13 +180,27 @@ document.addEventListener('DOMContentLoaded', () => {
         const track = playlist[index];
         const [name, artist] = track.file.replace(/\.(flac|mp3|wav)$/, '').split(' - ');
         
-        bgMusic.src = `Music/${encodeURIComponent(track.file)}`;
+        // 修复 GitHub Pages 路径问题
+        // 获取当前页面的基础路径，确保在子目录下也能正确找到 Music 文件夹
+        const getBasePath = () => {
+            const path = window.location.pathname;
+            // 如果是以 .html 结尾，说明是在某个页面上
+            if (path.includes('.html')) {
+                return path.substring(0, path.lastIndexOf('/') + 1);
+            }
+            // 如果不是以 / 结尾，补上 /
+            return path.endsWith('/') ? path : path + '/';
+        };
+        
+        const musicPath = `${getBasePath()}Music/${encodeURIComponent(track.file)}`;
+        bgMusic.src = musicPath;
+        
         musicName.innerText = name;
         musicArtist.innerText = artist || '未知艺术家';
         musicCoverImg.src = track.cover || 'Image/1.webp';
         
         if (!bgMusic.paused) {
-            bgMusic.play();
+            bgMusic.play().catch(err => console.log("播放失败:", err));
         }
     }
 
