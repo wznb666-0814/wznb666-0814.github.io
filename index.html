@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Repeaの博客</title>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- 网页图标 -->
+    <link rel="icon" href="头像.png" type="image/png">
+    <!-- Font Awesome 图标 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Highlight.js 样式 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github.min.css">
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <header class="header">
+        <nav class="nav-container">
+            <div class="logo">
+                <a href="#home">Repea</a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home" class="active"><i class="fas fa-home"></i> 首页</a></li>
+                <li><a href="#articles"><i class="fas fa-book"></i> 文章</a></li>
+                <li><a href="#words"><i class="fas fa-heart"></i> 一些真心话</a></li>
+                <li><a href="#about"><i class="fas fa-user"></i> 关于</a></li>
+            </ul>
+            <div class="nav-right">
+                <div class="color-picker-container">
+                    <button id="color-picker-btn" title="调色盘"><i class="fas fa-palette"></i></button>
+                    <div class="color-slider-wrapper">
+                        <input type="range" id="hue-slider" min="0" max="360" value="200">
+                    </div>
+                </div>
+                <button id="theme-toggle" title="切换主题"><i class="fas fa-moon"></i></button>
+                <button id="mobile-menu-toggle" title="菜单"><i class="fas fa-bars"></i></button>
+            </div>
+        </nav>
+        <!-- 移动端侧边栏 -->
+        <div class="mobile-sidebar">
+            <ul class="mobile-nav-links">
+                <li><a href="#home" class="active"><i class="fas fa-home"></i> 首页</a></li>
+                <li><a href="#articles"><i class="fas fa-book"></i> 文章</a></li>
+                <li><a href="#words"><i class="fas fa-heart"></i> 一些真心话</a></li>
+                <li><a href="#about"><i class="fas fa-user"></i> 关于</a></li>
+            </ul>
+        </div>
+        <div class="sidebar-overlay"></div>
+    </header>
+
+    <div id="page-container">
+        <!-- 首页视图 -->
+        <div id="home" class="page-view">
+            <section class="banner">
+                <div class="banner-content">
+                    <h1 class="banner-title">Repeaの博客</h1>
+                    <p class="banner-subtitle">记录生活的点滴，分享美好的瞬间！</p>
+                </div>
+                <div class="wave-container">
+                    <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                    viewBox="0 24 150 28" preserveAspectRatio="none" shape-rendering="auto">
+                        <defs>
+                            <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z" />
+                        </defs>
+                        <g class="parallax">
+                            <use xlink:href="#gentle-wave" x="48" y="0" fill="rgba(255,255,255,0.7" />
+                            <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.5)" />
+                            <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.3)" />
+                            <use xlink:href="#gentle-wave" x="48" y="7" fill="#f9f7f2" />
+                        </g>
+                    </svg>
+                </div>
+            </section>
+
+            <main class="container">
+                <!-- 每日一句 -->
+                <section class="daily-quote animate-slide-up">
+                    <div id="quote-container">
+                        <p class="quote-text" id="quote-text">正在加载每日一句...</p>
+                        <p class="quote-author" id="quote-author"></p>
+                    </div>
+                </section>
+
+                <section class="stat-cards">
+                    <div class="stat-card">
+                        <i class="fas fa-book"></i>
+                        <div class="stat-content">
+                            <span class="stat-count" id="count-posts">0</span>
+                            <span class="stat-label">文章数</span>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fas fa-heart"></i>
+                        <div class="stat-content">
+                            <span class="stat-count" id="count-truths">0</span>
+                            <span class="stat-label">真心话数</span>
+                        </div>
+                    </div>
+                    <div class="stat-card search-card">
+                        <i class="fas fa-search"></i>
+                        <div class="stat-content">
+                            <input type="text" id="search-input" placeholder="输入关键词搜索文章...">
+                        </div>
+                    </div>
+                </section>
+
+                <section class="post-list" id="post-list">
+                    <div class="loading">
+                        <i class="fas fa-search" style="font-size: 2rem; color: var(--accent-color); margin-bottom: 1rem; opacity: 0.5;"></i>
+                        <p>请搜索文章...</p>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <!-- 文章视图 -->
+        <div id="articles" class="page-view">
+            <section class="banner small-banner">
+                <div class="banner-content">
+                    <h1 class="banner-title">文章合集</h1>
+                    <p class="banner-subtitle">文字的沉淀与思想的记录</p>
+                </div>
+            </section>
+            <main class="container">
+                <section class="post-list" id="articles-post-list">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <p>正在加载文章...</p>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <!-- 真心话视图 -->
+        <div id="words" class="page-view">
+            <section class="banner small-banner">
+                <div class="banner-content">
+                    <h1 class="banner-title">一些真心话</h1>
+                    <p class="banner-subtitle">坦诚相待，记录此刻的真实</p>
+                </div>
+            </section>
+            <main class="container">
+                <section class="post-list" id="words-post-list">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <p>正在加载内容...</p>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <!-- 关于视图 -->
+        <div id="about" class="page-view">
+            <section class="banner small-banner">
+                <div class="banner-content">
+                    <h1 class="banner-title">关于我</h1>
+                    <p class="banner-subtitle">很高兴遇见你！</p>
+                </div>
+            </section>
+            <main class="container">
+                <div class="about-container">
+                    <div class="about-card animate-slide-up">
+                        <div class="about-header">
+                            <div class="about-avatar" style="background-image: url('头像.png')"></div>
+                            <div class="about-info">
+                                <h2>Repea</h2>
+                                <p>探索者 / 开发者 / 梦想家</p>
+                            </div>
+                        </div>
+                        <div class="about-content">
+                            <h3>👋 你好！</h3>
+                            <p>欢迎来到我的个人博客。我是一个热爱探索新技术的开发者，喜欢在这个小小的数字角落记录我的学习心得和生活点滴。</p>
+                            <h3>🚀 关于本站</h3>
+                            <p>本博客采用纯静态架构构建，不依赖任何后端框架或数据库。通过 Markdown 驱动内容，致力于提供最纯粹的阅读体验。</p>
+                            <h3>📫 联系我</h3>
+                            <div class="social-links">
+                                <a href="#"><i class="fab fa-github"></i> GitHub</a>
+                                <a href="#"><i class="fab fa-twitter"></i> Twitter</a>
+                                <a href="#"><i class="fas fa-envelope"></i> Email</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- 文章详情视图 -->
+        <div id="post" class="page-view">
+            <section class="banner small-banner" id="post-banner">
+                <div class="banner-content">
+                    <h1 class="banner-title" id="post-title">正在加载...</h1>
+                    <div class="post-meta" id="post-meta">
+                        <span id="post-date"></span>
+                        <span id="post-category"></span>
+                    </div>
+                </div>
+            </section>
+            <main class="container">
+                <article class="post-detail-content">
+                    <div id="post-content" class="markdown-body">
+                        <!-- 内容由 JS 动态注入 -->
+                    </div>
+                </article>
+                <div class="post-footer">
+                    <a href="#home" class="back-btn"><i class="fas fa-arrow-left"></i> 返回首页</a>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2026 Repea's Blog. Powered by Pure HTML/CSS/JS.</p>
+        <p>温柔地对待世界，世界也会温柔待你。</p>
+    </footer>
+
+    <button id="back-to-top" title="回到顶部"><i class="fas fa-arrow-up"></i></button>
+
+    <!-- 音乐播放器 -->
+    <div class="music-player" id="music-player">
+        <div class="music-player-inner">
+            <div class="music-cover" id="music-cover">
+                <img src="Image/1.webp" alt="Cover" id="music-cover-img">
+            </div>
+            <div class="music-details">
+                <div class="music-title" id="music-name">正在加载...</div>
+                <div class="music-artist" id="music-artist">未知艺术家</div>
+                <div class="music-progress-container" id="music-progress-container">
+                    <div class="music-progress" id="music-progress"></div>
+                </div>
+                <div class="music-controls">
+                    <button id="music-prev" title="上一首"><i class="fas fa-step-backward"></i></button>
+                    <button id="music-toggle" class="music-play-btn-inline" title="播放/暂停"><i class="fas fa-play"></i></button>
+                    <button id="music-next" title="下一首"><i class="fas fa-step-forward"></i></button>
+                </div>
+            </div>
+        </div>
+        <audio id="bg-music"></audio>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
+    <script src="js/markdown.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
