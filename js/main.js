@@ -114,19 +114,18 @@ document.addEventListener('DOMContentLoaded', async () => {
         updateStats(posts, truths);
         
         // 渲染“文章”页面的列表
-        renderPosts(allPosts, articlesListContainer);
-        
+        const sortedPosts = [...allPosts].sort((a, b) => {
+            return new Date(b.meta.date) - new Date(a.meta.date);
+        });
+        renderPosts(sortedPosts, articlesListContainer);
+
         // 渲染“一些真心话”页面的列表
         renderPosts(allTruths, wordsListContainer);
 
-        // 首页默认显示搜索提示，而不是所有文章
+        // 首页默认显示所有文章
         if (postListContainer) {
-            postListContainer.innerHTML = `
-                <div class="loading">
-                    <i class="fas fa-search" style="font-size: 2rem; color: var(--accent-color); margin-bottom: 1rem; opacity: 0.5;"></i>
-                    <p>请输入关键词搜索文章或真心话...</p>
-                </div>
-            `;
+            const combined = [...sortedPosts, ...allTruths];
+            renderPosts(combined, postListContainer);
         }
 
         // 如果 URL 中有搜索参数，则在首页渲染搜索结果
@@ -135,6 +134,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (query && postListContainer) {
             searchInput.value = query;
             const combined = [...allPosts, ...allTruths];
+            if (!query) {
+                // 如果搜索为空，渲染排序后的所有文章
+                const sortedPosts = [...allPosts].sort((a, b) => {
+                    return new Date(b.meta.date) - new Date(a.meta.date);
+                });
+                renderPosts([...sortedPosts, ...allTruths], postListContainer);
+                return;
+            }
             const filtered = filterPosts(combined, query);
             renderPosts(filtered, postListContainer);
         }
@@ -166,22 +173,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     // 搜索功能
     if (searchInput) {
         searchInput.addEventListener('input', (e) => {
-            const searchTerm = e.target.value.toLowerCase().trim();
+            const query = e.target.value.trim();
+            const combined = [...allPosts, ...allTruths];
             
-            if (searchTerm === '') {
-                // 如果搜索框为空，显示提示文字
-                postListContainer.innerHTML = `
-                    <div class="loading">
-                        <i class="fas fa-search" style="font-size: 2rem; color: var(--accent-color); margin-bottom: 1rem; opacity: 0.5;"></i>
-                        <p>请输入关键词搜索文章或真心话...</p>
-                    </div>
-                `;
+            if (!query) {
+                // 如果清空搜索，显示所有文章
+                const sortedPosts = [...allPosts].sort((a, b) => {
+                    return new Date(b.meta.date) - new Date(a.meta.date);
+                });
+                renderPosts([...sortedPosts, ...allTruths], postListContainer);
                 return;
             }
-
-            // 同时搜索文章和真心话
-            const combined = [...allPosts, ...allTruths];
-            const filtered = filterPosts(combined, searchTerm);
+            
+            const filtered = filterPosts(combined, query);
             renderPosts(filtered, postListContainer);
         });
     }
