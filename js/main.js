@@ -19,6 +19,17 @@ const TRUTH_FILES = [
 let allPosts = []; // 存储所有加载的文章数据
 let allTruths = []; // 存储所有加载的真心话数据
 
+// 防抖函数
+function debounce(func, delay) {
+    let debounceTimer;
+    return function() {
+        const context = this;
+        const args = arguments;
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(() => func.apply(context, args), delay);
+    }
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
     const postListContainer = document.getElementById('post-list');
     const articlesListContainer = document.getElementById('articles-post-list');
@@ -32,16 +43,21 @@ document.addEventListener('DOMContentLoaded', async () => {
         let currentImgIndex = Math.floor(Math.random() * BANNER_IMAGES.length);
         banner.style.backgroundImage = `url('${BANNER_IMAGES[currentImgIndex]}')`;
         
-        // 预加载图片
-        BANNER_IMAGES.forEach(src => {
+        // 优化：按需预加载下一张图片，避免一次性加载所有大图导致页面卡顿
+        const preloadImage = (index) => {
             const img = new Image();
-            img.src = src;
-        });
+            img.src = BANNER_IMAGES[index];
+        };
+
+        // 预加载下一张
+        preloadImage((currentImgIndex + 1) % BANNER_IMAGES.length);
 
         setInterval(() => {
             currentImgIndex = (currentImgIndex + 1) % BANNER_IMAGES.length;
             banner.style.backgroundImage = `url('${BANNER_IMAGES[currentImgIndex]}')`;
-        }, 5000); // 每 5 秒切换一次
+            // 切换后预加载再下一张
+            preloadImage((currentImgIndex + 1) % BANNER_IMAGES.length);
+        }, 8000); // 延长切换时间到 8 秒，减少重绘频率
     }
 
     // --- 加载文章列表 ---
@@ -80,8 +96,18 @@ document.addEventListener('DOMContentLoaded', async () => {
             const coverImg = meta.image || getRandomCover();
             const dirParam = directory === 'Page' ? '' : `&dir=${directory}`;
 
+            // 使用 loading="lazy" 优化图片加载
+            // 注意：背景图无法直接使用 loading="lazy"，这里改为 img 标签或保持背景图但接受其限制
+            // 为了保持现有样式，我们保留背景图，但可以考虑后续优化。
+            // 实际上，列表页的图片如果改成 img 标签配合 object-fit: cover 会更有利于 SEO 和 lazy loading。
+            // 但为了不大幅破坏样式，这里我们先保持原样，但可以尝试为 banner 图片添加预加载优化（已在 common.js 中有部分体现）
+            // 修正：这里是 innerHTML 插入，我们可以尝试用 img 标签替换背景图 div，或者只是不做变动。
+            // 既然用户要求流畅度，我们可以把 div background-image 改成 img 标签
+            
             card.innerHTML = `
-                <div class="post-card-img" style="background-image: url('${coverImg}')"></div>
+                <div class="post-card-img-wrapper">
+                    <img src="${coverImg}" alt="${meta.title}" loading="lazy" class="post-card-img-element">
+                </div>
                 <div class="post-card-content">
                     <div class="post-card-meta">
                         <span><i class="far fa-calendar-alt"></i> ${meta.date || '未知日期'}</span>
@@ -167,7 +193,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // 搜索功能
     if (searchInput) {
-        searchInput.addEventListener('input', (e) => {
+        searchInput.addEventListener('input', debounce((e) => {
             const query = e.target.value.trim();
             const combined = [...allPosts, ...allTruths];
             
@@ -184,6 +210,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             
             const filtered = filterPosts(combined, query);
             renderPosts(filtered, postListContainer);
-        });
+        }, 300)); // 300ms 防抖
     }
 });

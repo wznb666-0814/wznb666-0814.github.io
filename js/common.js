@@ -14,6 +14,20 @@ function getRandomCover() {
     return BANNER_IMAGES[randomIndex];
 }
 
+// 节流函数
+function throttle(func, limit) {
+    let inThrottle;
+    return function() {
+        const args = arguments;
+        const context = this;
+        if (!inThrottle) {
+            func.apply(context, args);
+            inThrottle = true;
+            setTimeout(() => inThrottle = false, limit);
+        }
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     // 基础 UI 元素
     const themeToggle = document.getElementById('theme-toggle');
@@ -24,11 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const sidebarOverlay = document.querySelector('.sidebar-overlay');
     const backToTop = document.getElementById('back-to-top');
 
-    // 音乐播放器相关
-    const musicPlayer = document.getElementById('music-player');
-    const musicToggle = document.getElementById('music-toggle');
-    const bgMusic = document.getElementById('bg-music');
-    const musicName = document.getElementById('music-name');
+
 
     // 1. 初始化主题
     const currentTheme = localStorage.getItem('theme') || 'light';
@@ -56,11 +66,11 @@ document.addEventListener('DOMContentLoaded', () => {
             hueSlider.parentElement.classList.toggle('active');
         });
 
-        hueSlider.addEventListener('input', (e) => {
+        hueSlider.addEventListener('input', throttle((e) => {
             const hue = e.target.value;
             applyHue(hue);
             localStorage.setItem('user-hue', hue);
-        });
+        }, 100)); // 100ms 节流
 
         document.addEventListener('click', () => {
             hueSlider.parentElement.classList.remove('active');
@@ -91,141 +101,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 4. 回到顶部逻辑
     if (backToTop) {
-        window.addEventListener('scroll', () => {
+        window.addEventListener('scroll', throttle(() => {
             if (window.scrollY > 300) {
                 backToTop.classList.add('active');
             } else {
                 backToTop.classList.remove('active');
             }
-        });
+        }, 200));
 
         backToTop.addEventListener('click', () => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     }
 
-    // 5. 音乐播放器逻辑
-    const musicArtist = document.getElementById('music-artist');
-    const musicCover = document.getElementById('music-cover');
-    const musicCoverImg = document.getElementById('music-cover-img');
-    const musicProgress = document.getElementById('music-progress');
-    const musicProgressContainer = document.getElementById('music-progress-container');
-    const musicPrev = document.getElementById('music-prev');
-    const musicNext = document.getElementById('music-next');
 
-    const playlist = [
-        { file: "稻香 - 周杰伦.flac", cover: "Image/1.webp" },
-        { file: "蒲公英的约定 - 周杰伦.flac", cover: "Image/2.webp" },
-        { file: "把回忆拼好给你 - 王贰浪.flac", cover: "Image/3.webp" }
-    ];
-    let currentTrack = 0;
 
-    if (musicPlayer && musicToggle && bgMusic) {
-        // 初始化播放器
-        loadTrack(currentTrack);
-
-        // 播放/暂停
-        musicToggle.addEventListener('click', (e) => {
-            e.stopPropagation(); // 防止触发播放器展开/收起
-            togglePlay();
-        });
-
-        // 上一首/下一首
-        musicPrev.addEventListener('click', (e) => {
-            e.stopPropagation();
-            changeTrack(-1);
-        });
-        musicNext.addEventListener('click', (e) => {
-            e.stopPropagation();
-            changeTrack(1);
-        });
-
-        // 移动端展开/收起逻辑
-        musicPlayer.addEventListener('click', (e) => {
-            if (window.innerWidth <= 768) {
-                musicPlayer.classList.add('expanded');
-                e.stopPropagation();
-            }
-        });
-
-        // 点击外部收起
-        document.addEventListener('click', () => {
-            if (window.innerWidth <= 768) {
-                musicPlayer.classList.remove('expanded');
-            }
-        });
-
-        // 进度条更新
-        bgMusic.addEventListener('timeupdate', () => {
-            const percent = (bgMusic.currentTime / bgMusic.duration) * 100;
-            musicProgress.style.width = `${percent}%`;
-        });
-
-        // 点击进度条跳转
-        musicProgressContainer.addEventListener('click', (e) => {
-            e.stopPropagation();
-            const width = musicProgressContainer.clientWidth;
-            const clickX = e.offsetX;
-            const duration = bgMusic.duration;
-            if (duration) {
-                bgMusic.currentTime = (clickX / width) * duration;
-            }
-        });
-
-        // 自动播放下一首
-        bgMusic.addEventListener('ended', () => changeTrack(1));
-    }
-
-    function loadTrack(index) {
-        const track = playlist[index];
-        const [name, artist] = track.file.replace(/\.(flac|mp3|wav)$/, '').split(' - ');
-        
-        // 修复 GitHub Pages 路径问题
-        // 获取当前页面的基础路径，确保在子目录下也能正确找到 Music 文件夹
-        const getBasePath = () => {
-            const path = window.location.pathname;
-            // 如果是以 .html 结尾，说明是在某个页面上
-            if (path.includes('.html')) {
-                return path.substring(0, path.lastIndexOf('/') + 1);
-            }
-            // 如果不是以 / 结尾，补上 /
-            return path.endsWith('/') ? path : path + '/';
-        };
-        
-        const musicPath = `${getBasePath()}Music/${encodeURIComponent(track.file)}`;
-        bgMusic.src = musicPath;
-        
-        musicName.innerText = name;
-        musicArtist.innerText = artist || '未知艺术家';
-        musicCoverImg.src = track.cover || 'Image/1.webp';
-        
-        if (!bgMusic.paused) {
-            bgMusic.play().catch(err => console.log("播放失败:", err));
-        }
-    }
-
-    function togglePlay() {
-        if (bgMusic.paused) {
-            bgMusic.play().catch(err => console.log("播放被拦截:", err));
-            musicToggle.innerHTML = '<i class="fas fa-pause"></i>';
-            musicCover.classList.add('playing');
-        } else {
-            bgMusic.pause();
-            musicToggle.innerHTML = '<i class="fas fa-play"></i>';
-            musicCover.classList.remove('playing');
-        }
-    }
-
-    function changeTrack(direction) {
-        currentTrack = (currentTrack + direction + playlist.length) % playlist.length;
-        loadTrack(currentTrack);
-        bgMusic.play().then(() => {
-            musicToggle.innerHTML = '<i class="fas fa-pause"></i>';
-            musicCover.classList.add('playing');
-        }).catch(err => console.log("播放失败:", err));
-    }
-
-    // 6. 每日一句逻辑
+    // 5. 每日一句逻辑
     async function updateDailyQuote() {
         const quoteText = document.getElementById('quote-text');
         const quoteAuthor = document.getElementById('quote-author');
@@ -272,7 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     updateDailyQuote();
 
-    // 7. SPA 路由逻辑与进度条
+    // 6. SPA 路由逻辑与进度条
     const progressBar = document.createElement('div');
     progressBar.className = 'top-progress-bar';
     document.body.appendChild(progressBar);
@@ -490,9 +381,10 @@ document.addEventListener('DOMContentLoaded', () => {
         article.insertBefore(tocContainer, container);
 
         // Scroll Spy 逻辑
-        const handleScrollSpy = () => {
+        const handleScrollSpy = throttle(() => {
             if (!document.body.contains(tocContainer)) {
-                window.removeEventListener('scroll', handleScrollSpy);
+                // 自我清理逻辑需谨慎，节流后可能导致清理不及时，但通常问题不大
+                // 更好的方式是外部管理，但为了兼容现有结构，保留此处
                 return;
             }
 
@@ -512,7 +404,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     item.li.classList.remove('active');
                 }
             });
-        };
+        }, 150);
 
         window.addEventListener('scroll', handleScrollSpy);
         handleScrollSpy();

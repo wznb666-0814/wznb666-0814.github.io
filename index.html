@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Repeaの博客</title>
+    <!-- 性能优化：预连接 CDN -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://v1.hitokoto.cn">
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    
     <!-- 引入样式 -->
     <link rel="stylesheet" href="css/style.css">
     <!-- 网页图标 -->
@@ -217,27 +224,7 @@
 
     <button id="back-to-top" title="回到顶部"><i class="fas fa-arrow-up"></i></button>
 
-    <!-- 音乐播放器 -->
-    <div class="music-player" id="music-player">
-        <div class="music-player-inner">
-            <div class="music-cover" id="music-cover">
-                <img src="Image/1.webp" alt="Cover" id="music-cover-img">
-            </div>
-            <div class="music-details">
-                <div class="music-title" id="music-name">正在加载...</div>
-                <div class="music-artist" id="music-artist">未知艺术家</div>
-                <div class="music-progress-container" id="music-progress-container">
-                    <div class="music-progress" id="music-progress"></div>
-                </div>
-                <div class="music-controls">
-                    <button id="music-prev" title="上一首"><i class="fas fa-step-backward"></i></button>
-                    <button id="music-toggle" class="music-play-btn-inline" title="播放/暂停"><i class="fas fa-play"></i></button>
-                    <button id="music-next" title="下一首"><i class="fas fa-step-forward"></i></button>
-                </div>
-            </div>
-        </div>
-        <audio id="bg-music"></audio>
-    </div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/highlight.min.js"></script>
